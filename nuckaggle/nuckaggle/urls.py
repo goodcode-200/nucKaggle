@@ -16,7 +16,14 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.conf.urls import include
+from . import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    #url(r'^kaggle/',include('kaggle.urls')),
+    url(r'^login/',views.user_login,name='login'),
+    url(r'^$',views.home,name='home'),
+    url(r'^register/',views.register,name='register'), 
+    url(r'^logout/',views.user_logout,name='logout'), 
 ]
