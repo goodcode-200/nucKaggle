@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title>队伍创建</title>
+	</head>
+	<body>
+		<div>
+			<h1>队伍创建</h1>
+			<p>登录网站并报名参赛后,本页面将创建以本人为队长的队伍</p>
+		</div>
+		<div>
+			<form action="{% url 'create_team' %}" method="POST">
+                {% csrf_token %}
+                <span>队伍名：</span>
+                <input type='text' name='队伍名'><br>
+                <input type='submit' value='创建队伍'>
+			</form>
+		</div>
+	</body>
+</html>
+

@@ -44,13 +44,14 @@
 					<ul class="nav1">
 						<li><a href="#home" class="scroll">首页</a></li>
 						<li><a href="#about" class="scroll">关于</a></li>
-						<li><a href="#team" class="scroll">队伍</a></li>
+						<li><a href="{% url 'enter_com' %}">报名参赛</a></li>
+						<li><a href="{% url 'team' %}">队伍</a></li>
 						{% if username %}
 						<li><p>{{username}}</p></li>
 						<li><a href="{% url 'logout' %}">登出</a></li>
 						{% else %}
-						<li><a href="login" class="login">登录</a></li>
-						<li><a href="register" class="sign up">注册</a></li>
+						<li><a href="account/login" class="login">登录</a></li>
+						<li><a href="account/register" class="sign up">注册</a></li>
 						{% endif %}
 					</ul>
 					<script> 
