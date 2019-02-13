@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  web:
+    image: django:1.9.1-python3
+    ports:
+      - 8000:8000
+    volumes:
+      - ./nuckaggle:/usr/src/nuckaggle
+    command:
+    - /bin/sh
+    - -c
+    - |
+      python manage.py makemigrations
+      python manage.py migrate
+      python /usr/src/nuckaggle/manage.py runserver 0.0.0.0:8000
