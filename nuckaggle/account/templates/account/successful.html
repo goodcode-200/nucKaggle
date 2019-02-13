@@ -1,10 +1,14 @@
-<html>
-	<head>
-	<title>successful</title>
-	</head>
-	<body>
-		<h1>Successful</h1>
-		<h3>参赛成员：{{userprofile_name}}</h3><br>
-		<h3>成功加入了&nbsp队伍：{{team}}</h3>
-	</body>
-</html>
+{% extends 'bar.html' %}
+
+{% block title %}
+successful
+{% endblock %}
+
+{% block content %}
+	<h1>Successful</h1>
+	<h3>参赛成员：{{userprofile_name}}</h3><br>
+	<h3>成功加入了&nbsp队伍：{{team}}</h3>
+{% endblock %}
+
+{% block team_act %}active{% endblock %}
+		

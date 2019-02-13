@@ -1,8 +1,10 @@
-<html>
-	<head>
-		<title>请求处理</title>
-	</head>
-	<body>
+{% extends 'bar.html' %}
+
+{% block title %}
+	请求处理
+{% endblock %}
+
+{% block content %}
 	{% if status == '队长' %}
 		<h1>您是{{status}}</h1>
 		<div>
@@ -61,5 +63,6 @@
 			</ul>
 		</div>
 	{% endif %}
-	</body>
-</html>
+{% endblock %}
+
+{% block team_act %}active{% endblock %}

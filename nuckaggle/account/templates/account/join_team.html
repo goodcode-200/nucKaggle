@@ -1,26 +1,31 @@
-<html>
-	<head>
-	<title>加入队伍</title>
-	</head>
-	<body>
-		<div>
-			<h1>加入队伍</h1>
-		</div>
-		<h3>队伍列表</h3>
-		<div>
-			<ul>
-				{% for team in teams %}
-				
-				<li>
-				队名：{{team.team_name}}<br>
-				队长：{{team.captain}}<br>
-				<a href="{% url 'join_req' team.pk send_by_team %}"><botton>发出加入申请</botton></a>
-				<br>
-				<br>
-				</li>
-				
-				{% endfor %}
-			</ul>
-		</div>
-	</body>
-</html>
+{% extends 'bar.html' %}
+
+{% block title %}
+加入队伍
+{% endblock %}
+
+{% block content %}
+	<div>
+		<h1>加入队伍</h1>
+	</div>
+	<h3>队伍列表</h3>
+	<div>
+		<ul>
+			{% for team in teams %}
+			
+			<li>
+			队名：{{team.team_name}}<br>
+			队长：{{team.captain}}<br>
+			<a href="{% url 'join_req' team.pk send_by_team %}"><botton>发出加入申请</botton></a>
+			<br>
+			<br>
+			</li>
+			
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}
+
+{% block team_act %}active{% endblock %}
+
+

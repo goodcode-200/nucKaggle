@@ -1,12 +1,16 @@
-<html>
-	<head>
-	<title>入队请求</title>
-	</head>
-	<body>
-		<div>
+{% extends 'bar.html' %}
+
+{% block title %}
+入队请求
+{% endblock %}
+
+{% block content %}
+	<div>
 		<h1>入队请求</h1>
-		</div>
-		<h2>您已成功向 &nbsp&nbsp 队伍：{{team_name}} &nbsp&nbsp 发送了入队请求 </h2>
-		<h2>请耐心等待队长同意</h2>
-	</body>
-</html>
+	</div>
+	<h2>您已成功向 &nbsp&nbsp 队伍：{{team_name}} &nbsp&nbsp 发送了入队请求 </h2>
+	<h2>请耐心等待队长同意</h2>
+{% endblock %}
+
+{% block team_act %}active{% endblock %}
+

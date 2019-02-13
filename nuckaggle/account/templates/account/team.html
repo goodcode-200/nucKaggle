@@ -1,34 +1,50 @@
-<html>
-	<head>
-		<title>队伍</title>
-	</head>
-	<body>
-		<nav>
+{% extends 'bar.html' %}
+
+{% block title %}
+队伍
+{% endblock %}
+
+{% block head_extends %}
+<style>
+#cmd_list{
+	list-style-type: none;
+}
+#cmd_list li{
+	width:120px;
+	height:80px;
+	margin:3px;
+	background:red;
+	display:inline-block;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+	<div>
+		<ul id="cmd_list">
+		<li><button><a href="{% url 'create_team' %}">创建队伍</a></button></li>
+		<li><button><a href="{% url 'join_team' %}">加入队伍</a></button></li>
+		<li><button><a href="{% url 'req_deal' %}">请求处理</a></button></li>
+		</ul>
+	</div>
+	<div>
+		<h3>队伍列表</h3>
+		<ul>
+			{% for team in teams %}
+			<li>
 			<div>
-				<h1>队伍</h1>
-				<ul>
-					<li><a href="{% url 'home' %}">首页</a></li>
-					<li><a href="{% url 'create_team' %}">创建队伍</a></li>
-					<li><a href="{% url 'join_team' %}">加入队伍</a></li>
-					<li><a href="{% url 'req_deal' %}">请求处理</a></li>
-				</ul>
+			队名：{{team.team_name}}<br>
+			队长：{{team.captain}}<br>
+			提交次数：{{team.sub_num}}<br>
+			最高分：{{team.max_score}}
 			</div>
-		</nav>
-		<div>
-			<h3>队伍列表</h3>
-			<ul>
-				{% for team in teams %}
-				<li>
-				<div>
-				队名：{{team.team_name}}<br>
-				队长：{{team.captain}}<br>
-				提交次数：{{team.sub_num}}<br>
-				最高分：{{team.max_score}}
-				</div>
-				<br>
-				</li>
-				{% endfor %}
-			</ul>
-		</div>
-	</body>
-</html>
+			<br>
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}
+
+{% block team_act %}
+active
+{% endblock %}

@@ -1,9 +1,11 @@
-<html>
-	<head>
-		<title>报名比赛</title>
-	</head>
-	<body>
-		<div>
+{% extends 'bar.html' %}
+
+{% block title %}
+报名比赛
+{% endblock %}
+
+{% block content %}
+	<div>
 			<h1>报名比赛</h1>
 		</div>
 		<div>
@@ -44,5 +46,7 @@
 				</ul>
 			</div>
 		</div>
-	</body>
-</html>
+{% endblock %}
+
+{% block enter_com_act %}active{% endblock %}
+
