@@ -5,7 +5,56 @@
 {% endblock %}
 
 {% block content %}
+	<h2>本站注册信息：</h2>
+	<div>
+		<ul>
+			<li>昵称：{{}}</li>
+			<li>邮箱：{{}}</li>
+		</ul>
+		<button>修改</button>
+	</div>
 	
+	<h2>报名参赛信息：</h2>
+	<div>
+		{% if has_enter %}
+		<ul>
+			<li>姓名：{{}}</li>
+			<li>性别：{{}}</li>
+			<li>学校：{{}}</li>
+			<li>学号：{{}}</li>
+			<li>联系电话：{{}}</li>
+		</ul>
+		<button>修改</button>
+		{% else %}
+		<h5>未报名参赛</h5>
+		{% endif %}
+	</div>
+
+	<h2>队伍：</h2>
+	<div>
+		{% if has_team %}
+		<ul>
+			<li>队伍号：{{}}</li>
+			<li>队伍名：{{}}</li>
+			<li>队长昵称：{{}}</li>
+			<li>队伍人数：{{}}</li>
+			<li>队伍成员：{{}}
+				<ul>
+					{% for i in __ %}
+					<li>{{}}</li>
+					{% endfor %}
+				</ul>
+			</li>
+			<li>提交次数：{{}}</li>
+			<li>最新提交分数：{{}}</li>
+			<li>最高分:{{}}</li>
+			<li>最高分日期：{{}}</li>
+		</ul>
+		<button>修改</button>
+		{% else %}
+		<h5>尚未组队或加入队伍</h5>
+		{% endif %}
+	</div>
 {% endblock %}
 
 {% block per_center_act %}active{% endblock %}
