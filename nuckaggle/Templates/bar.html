@@ -29,7 +29,7 @@
                         <li class="{% block enter_com_act %}{% endblock %}"><a href="{% url 'enter_com' %}">报名参赛</a></li>
 						<li class="{% block team_act %}{% endblock %}"><a href="{% url 'team' %}">队伍</a></li>
 						{% if request.user.username %}
-						<li><a href="">{{request.user.username}}</a></li>
+						<li><a class="{% block per_center_act %}{% endblock %}" href="">{{request.user.username}}/个人中心</a></li>
 						<li><a href="{% url 'logout' %}">登出</a></li>
 						{% else %}
 						<li><a href="{% url 'login' %}" class="login">登录</a></li>
