@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^invite/(\d+)/(\d)/(\d+)/$',invite,name='invite'),
     url(r'^reqdeal/',req_deal,name='req_deal'),
     url(r'^agree/(\d+)/(\d+)/(\d+)$',agree,name='agree'),
+    url(r'^personcenter',person_center,name="person_center"),
 ]

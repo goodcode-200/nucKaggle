@@ -382,4 +382,6 @@ def agree(request,team_id,userprofile_id,team_req_pk):
         context["redirect_to"] = referer
         return render(request,'account/error.html',context)
 
- 
+def person_center(request):
+    context = {}
+    return render(request,'account/person_center.html',context)
