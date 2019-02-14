@@ -55,6 +55,44 @@
 		<h5>尚未组队或加入队伍</h5>
 		{% endif %}
 	</div>
+
+	<h2>请求：</h2>
+	<div>
+		{% if has_request %}
+			<h5>队伍发出：</h5>
+			{% for i in team_invite %}
+			<p>队长({{i.team.captain.username}})代表队伍({{i.team.team_name}})向您发出了入队请求,待同意</p>
+			{% empty %}
+			<p>----暂无----</p>
+			{% endfor %}
+
+			<h5>参赛人员入队请求：</h5>
+			{% for i in person_apply %}
+			<p>您向队伍({{i.team.team_name}})发送了入队请求,待该队队长同意</p>
+			{% empty %}
+			<p>----暂无----</p>
+			{% endfor %}
+		{% else %}
+			{% if is_captain %}
+				<h3>您是队长</h3>
+				<h5>队伍发出：</h5>
+				{% for i in team_invite %}
+				<p>您代表队伍({{i.team.team_name}})向参赛人员({{i.userprofile.user.username}})发送了入队请求，待同意</p>
+				{% empty %}
+				<p>----暂无----</p>
+				{% endfor %}
+
+				<h5>参赛人员入队请求：</h5>
+				{% for i in person_apply %}
+				<p>参赛人员({{i.userprofile.user.username}})向您所在队伍({{i.team.team_name}})发送了入队请求,待您同意</p>
+				{% empty %}
+				<p>----暂无----</p>
+				{% endfor %}
+			{% else %}
+			<h5>暂没有和您相关的队伍请求</h5>
+			{% endif %}
+		{% endif %}
+	</div>
 {% endblock %}
 
 {% block per_center_act %}active{% endblock %}

@@ -194,7 +194,7 @@ def join_req(request,team_pk,send_by_team):
         context["redirect_to"] = referer
         return render(request,'account/error.html',context)
     ##判断在邀请的同时对方是否也在申请你的队伍
-    uespro = UserProfile.filter(user = request.user)
+    uespro = UserProfile.objects.filter(user = request.user)
     team_reqe1 = TeamRequest.objects.filter(userprofile=uespro[0],team=te,tag=True)
     if team_reqe1:  #对方也在邀请你
         te_re = team_reqe1[0]
@@ -386,9 +386,11 @@ def person_center(request):
     context = {}
     if(request.user.is_authenticated()):   #如果登录
         user = request.user
-        up = UserProfile.objects.get(user=user)
-        if up:
+        useprof = UserProfile.objects.filter(user=user)  #
+        if useprof:
+            up = useprof[0]
             uc = UserCompetition.objects.get(userprofile=up)
+            teamrequest = TeamRequest.objects.filter(userprofile=up)
             context["has_enter"] = True
             context["userprofile"] = up
             if uc:
@@ -400,6 +402,37 @@ def person_center(request):
                 context["member"] = member_list
             else:
                 context["has_team"] = False
+            if teamrequest:
+                context["has_request"] = True
+                team_invite = []
+                person_apply = []
+                for i in teamrequest:
+                    if i.tag:
+                        team_invite.append(i)
+                    else:
+                        person_apply.append(i)
+                context["team_invite"] = team_invite
+                context["person_apply"] = person_apply
+            else:
+                context["has_request"] = False
+
+            #在这里判断该用户是否是队长：
+            team_list = Team.objects.filter(captain = user)
+            if team_list:
+                context["is_captain"] = True
+                t = team_list[0]
+                tr = TeamRequest.objects.filter(team=t)
+                team_invite = []
+                person_apply = []
+                for i in tr:
+                    if i.tag:
+                        team_invite.append(i)
+                    else:
+                        person_apply.append(i)
+                context["team_invite"] = team_invite
+                context["person_apply"] = person_apply
+            else:
+                context["is_captain"] = False
         else:
             context["has_enter"] = False
             context["has_team"] = False
