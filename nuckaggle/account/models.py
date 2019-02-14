@@ -8,7 +8,7 @@ class Team(models.Model):
     team_name = models.CharField("队名", max_length=20)
 
     captain = models.OneToOneField(User)   #一对一关系，一个队伍只有一个队长
-    peo_num = models.CharField("人数", max_length=20,default=1)
+    peo_num = models.IntegerField("人数",default=1)
     sub_num = models.IntegerField("提交次数",default=0)
     max_score = models.IntegerField("最高分",default=0)
     last_score = models.IntegerField("最新分数",default=0)

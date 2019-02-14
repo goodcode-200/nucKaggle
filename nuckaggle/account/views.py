@@ -180,22 +180,21 @@ def join_req(request,team_pk,send_by_team):
     team = Team.objects.filter(pk=team_pk)
     te = team[0]
 
-    req = TeamRequest.objects.filter(userprofile=up)
+    req = TeamRequest.objects.filter(userprofile=up,team=te,tag=False)
     if req:     ###如果此请求对象已经创建,此行避免报错
         context['type'] = '已发送入队请求'
         context['message'] = '您已经发送过入队请求,无法再申请加入队伍,请前往个人中心查看'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
         return render(request,'account/error.html',context)
-    if int(te.peo_num)==5:
+    if te.peo_num==5:
         context['type'] = '人数超限'
         context['message'] = '您申请加入的队伍的队伍成员已达五人,无法再申请加入队伍'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
         return render(request,'account/error.html',context)
-    ##判断在邀请的同时对方是否也在申请你的队伍
-    uespro = UserProfile.objects.filter(user = request.user)
-    team_reqe1 = TeamRequest.objects.filter(userprofile=uespro[0],team=te,tag=True)
+    ##判断在申请加入同时,队伍方是否也在邀请你
+    team_reqe1 = TeamRequest.objects.filter(userprofile=up,team=te,tag=True)
     if team_reqe1:  #对方也在邀请你
         te_re = team_reqe1[0]
 
@@ -203,9 +202,9 @@ def join_req(request,team_pk,send_by_team):
         uc.userprofile = te_re.userprofile
         uc.team = te_re.team
         uc.save()
-        num = int(tm.peo_num)
-        num += 1
-        tm.peo_num = num    #成功加入队伍，队伍人数计数加一
+
+        te.peo_num += 1
+        te.save()         #成功加入队伍，队伍人数计数加一
 
         #清除 请求 数据表
         te_re.delete()
@@ -242,9 +241,9 @@ def invite(request,user_id,send_by_team,userprofile_id):
             return render(request,'account/error.html',context)
         else:
             tm = team[0]
-            if int(tm.peo_num)<5:
+            if tm.peo_num<5:
                 ##判断在邀请的同时对方是否也在申请你的队伍 
-                team_reqe1 = TeamRequest.objects.filter(userprofile_id=userprofile_id,team=team[0],tag=False)
+                team_reqe1 = TeamRequest.objects.filter(userprofile_id=userprofile_id,team=tm,tag=False)
                 if team_reqe1:  #对方也在邀请你
                     te_re = team_reqe1[0]
 
@@ -252,9 +251,9 @@ def invite(request,user_id,send_by_team,userprofile_id):
                     uc.userprofile = te_re.userprofile
                     uc.team = te_re.team
                     uc.save()
-                    num = int(tm.peo_num)
-                    num += 1
-                    tm.peo_num = num    #成功加入队伍，队伍人数计数加一
+
+                    tm.peo_num += 1 
+                    tm.save()          #成功加入队伍，队伍人数计数加一
 
                     #清除 请求 数据表_____________
                     te_re.delete()
@@ -362,14 +361,15 @@ def agree(request,team_id,userprofile_id,team_req_pk):
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
         return render(request,'account/error.html',context)
-    if int(te.peo_num)<5: #看看队伍人数是否超过人数5人 
+    if te.peo_num<5: #看看队伍人数是否超过人数5人 
         usercompetition = UserCompetition()
         usercompetition.team_id = team_id
         usercompetition.userprofile_id = userprofile_id
         usercompetition.save()
-        num = int(te.peo_num)
-        num += 1
-        te.peo_num = num  #成员数计数加一
+
+        te.peo_num += 1  #成员数计数加一
+        te.save()
+
         team_req = TeamRequest.objects.filter(id=team_req_pk)
         tr = team_req[0]
         tr.delete()       #清除请求数据表
