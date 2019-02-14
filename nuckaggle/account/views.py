@@ -384,4 +384,30 @@ def agree(request,team_id,userprofile_id,team_req_pk):
 
 def person_center(request):
     context = {}
+    if(request.user.is_authenticated()):   #如果登录
+        user = request.user
+        up = UserProfile.objects.get(user=user)
+        if up:
+            uc = UserCompetition.objects.get(userprofile=up)
+            context["has_enter"] = True
+            context["userprofile"] = up
+            if uc:
+                team = uc.team
+                member_list = UserCompetition.objects.filter(team=team)
+                context["has_team"] = True
+                context["usercompetition"] = uc
+                context["team"] = team
+                context["member"] = member_list
+            else:
+                context["has_team"] = False
+        else:
+            context["has_enter"] = False
+            context["has_team"] = False
+        context["user"] = user
+    else:
+        context['type'] = '未登录'
+        context['message'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
+        referer = request.META.get('HTTP_REFERER')
+        context["redirect_to"] = referer
+        return render(request,'account/error.html',context)
     return render(request,'account/person_center.html',context)

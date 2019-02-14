@@ -8,8 +8,8 @@
 	<h2>本站注册信息：</h2>
 	<div>
 		<ul>
-			<li>昵称：{{}}</li>
-			<li>邮箱：{{}}</li>
+			<li>昵称：{{user.username}}</li>
+			<li>邮箱：{{user.email}}</li>
 		</ul>
 		<button>修改</button>
 	</div>
@@ -18,11 +18,11 @@
 	<div>
 		{% if has_enter %}
 		<ul>
-			<li>姓名：{{}}</li>
-			<li>性别：{{}}</li>
-			<li>学校：{{}}</li>
-			<li>学号：{{}}</li>
-			<li>联系电话：{{}}</li>
+			<li>姓名：{{userprofile.name}}</li>
+			<li>性别：{{userprofile.sex}}</li>
+			<li>学校：{{userprofile.college}}</li>
+			<li>学号：{{userprofile.student_id}}</li>
+			<li>联系电话：{{userprofile.phone}}</li>
 		</ul>
 		<button>修改</button>
 		{% else %}
@@ -34,21 +34,21 @@
 	<div>
 		{% if has_team %}
 		<ul>
-			<li>队伍号：{{}}</li>
-			<li>队伍名：{{}}</li>
-			<li>队长昵称：{{}}</li>
-			<li>队伍人数：{{}}</li>
-			<li>队伍成员：{{}}
+			<li>队伍号：{{team.id}}</li>
+			<li>队伍名：{{team.team_name}}</li>
+			<li>队长昵称：{{team.captain.username}}</li>
+			<li>队伍人数：{{team.peo_num}}</li>
+			<li>队伍成员：
 				<ul>
-					{% for i in __ %}
-					<li>{{}}</li>
+					{% for i in member %}
+					<li>{{i.userprofile.user.username}}</li>
 					{% endfor %}
 				</ul>
 			</li>
-			<li>提交次数：{{}}</li>
-			<li>最新提交分数：{{}}</li>
-			<li>最高分:{{}}</li>
-			<li>最高分日期：{{}}</li>
+			<li>提交次数：{{team.sub_num}}</li>
+			<li>最新提交分数：{{team.last_score}}</li>
+			<li>最高分:{{team.max_score}}</li>
+			<li>最高分日期：{{team.ma_sc_dat}}</li>
 		</ul>
 		<button>修改</button>
 		{% else %}
