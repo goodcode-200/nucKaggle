@@ -389,11 +389,12 @@ def person_center(request):
         useprof = UserProfile.objects.filter(user=user)  #
         if useprof:
             up = useprof[0]
-            uc = UserCompetition.objects.get(userprofile=up)
+            uc_list = UserCompetition.objects.filter(userprofile=up)
             teamrequest = TeamRequest.objects.filter(userprofile=up)
             context["has_enter"] = True
             context["userprofile"] = up
-            if uc:
+            if uc_list:
+                uc = uc_list[0]
                 team = uc.team
                 member_list = UserCompetition.objects.filter(team=team)
                 context["has_team"] = True
