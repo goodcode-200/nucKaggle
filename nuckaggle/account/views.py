@@ -449,11 +449,35 @@ def person_center(request):
 def confirm(request,tag):
     context = {}
     if request.method == 'POST':
-        pass
+        get_name = request.user.username
+        get_password = request.POST.get('password')
+        user = authenticate(username=get_name, password=get_password)
+        if user is not None:
+            request.sesson["confirm"] = True
+            if tag=='1':
+                url = r'/account/alter1submit'
+                return HttpResponseRedirect(url)
+            elif tag=='2':
+                url = r'/account/alter2submit'
+                return HttpResponseRedirect(url)
+        else:
+            context['type'] = '密码错误'
+            context['message'] = '请返回后重新输入密码验证'
+            referer = request.META.get('HTTP_REFERER')
+            context["redirect_to"] = referer
+            return render(request,'account/error.html',context)
+    user = request.user
+    context["user"] = user
     return render(request,'account/confirm.html',context)
 
 def alter1_submit(request):  
     context = {}
+    if not confirm:
+        context['type'] = '非正常访问'
+        context['message'] = '请返回后输入密码验证'
+        referer = request.META.get('HTTP_REFERER')
+        context["redirect_to"] = referer
+        return render(request,'account/error.html',context)
     if request.method == 'POST':
         pass
     return render(request,'account/alter1_submit.html',context)  #此页面必须经过confirm验证后访问
