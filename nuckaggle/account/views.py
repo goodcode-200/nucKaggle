@@ -571,3 +571,50 @@ def give_up_alter(request):
 def captain_trans(request):
     return render(request,'account/captain_trans.html')
 
+def del_ordisteam(request):
+    context = {}
+    user = request.user
+    if(request.user.is_authenticated()):
+        userprofile = UserProfile.objects.filter(user=request.user) #如果存在，则是一个对象的列表
+        if userprofile:
+            up = userprofile[0]
+            usercompe = UserCompetition.objects.filter(userprofile=userprofile)
+            if usercompe:
+                context["has_team"] = True
+                uc = usercompe[0]
+                context["usercompetition"] = uc
+                team = Team.objects.filter(captain=user)
+                if team:
+                    context["is_captain"] = True
+                    te = team[0]
+                    context["team"] = te
+                else:
+                    context["is_captain"] = False
+            else:
+                context["has_team"] = False
+                context["is_captain"] = False
+        else:
+            context['type'] = '未报名参赛'
+            context['message'] = '登录本网站,报名参赛后并组队后才能进入本页面'
+            referer = request.META.get('HTTP_REFERER')
+            context["redirect_to"] = referer
+            return render(request,'account/error.html',context)
+    else:
+        context['type'] = '未登录'
+        context['message'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
+        referer = request.META.get('HTTP_REFERER')
+        context["redirect_to"] = referer
+        return render(request,'account/error.html',context)
+    return render(request,'account/del_ordisteam.html',context)
+
+def dis_enter_team(request,team_id,tag):
+    if tag == '1':  #队长解除队伍
+        team = Team.objects.get(pk = team_id)
+        team.delete()
+    elif tag == '2':
+        userprofile = UserProfile.objects.get(user=request.user)
+        uc = UserCompetition.objects.get(userprofile=userprofile)
+        uc.delete()
+    return render(request,'account/back_success.html')
+
+

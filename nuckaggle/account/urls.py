@@ -19,4 +19,6 @@ urlpatterns = [
     url(r'^alter2submit',alter2_submit,name="alter2_submit"),
     url(r'^give_up_alter',give_up_alter,name="give_up_alter"),
     url(r'^captaintrans',captain_trans,name="captain_trans"),
+    url(r'^delordisteam',del_ordisteam,name="del_ordisteam"),
+    url(r'^disenterteam/(\d+)/(\d+)',dis_enter_team,name="dis_enter_team"),
 ]

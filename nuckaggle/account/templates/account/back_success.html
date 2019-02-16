@@ -1,0 +1,14 @@
+{% extends 'bar.html' %}
+
+{% block title %}
+successful
+{% endblock %}
+
+{% block content %}
+	<h1>Successful</h1>
+	<h3>参赛成员：{{userprofile_name}}</h3><br>
+	<p>成功退出队伍或(队长成功删除队伍)</p>
+{% endblock %}
+
+{% block team_act %}active{% endblock %}
+		
