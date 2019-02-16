@@ -539,7 +539,26 @@ def alter2_submit(request):
             context["redirect_to"] = referer
             return render(request,'account/error.html',context)
     if request.method == 'POST':
-        pass
+        name = request.POST.get('name').strip()
+        school = request.POST.get('school').strip()
+        student_id = request.POST.get('student_id').strip()
+        phone = request.POST.get('phone').strip()
+        sex = request.POST.get('sex').strip()     ###好像只有phone是不可能重复的，留个疑问？？？？
+        up = UserProfile.objects.get(user_id = request.user.id)
+        up.student_id = student_id
+        up.name = name
+        up.college = school
+        up.phone = phone
+        up.sex = sex
+        up.save()
+        conf = Confirm.objects.filter(user=request.user)
+        con = conf[0]
+        con.confirm_or_not = False
+        con.save()
+        url = r'/account/personcenter'
+        return HttpResponseRedirect(url)
+    userprofile = UserProfile.objects.get(user = request.user)
+    context["userprofile"] = userprofile
     return render(request,'account/alter2_submit.html',context)  #此页面必须经过confirm验证后访问
 
 def give_up_alter(request):
