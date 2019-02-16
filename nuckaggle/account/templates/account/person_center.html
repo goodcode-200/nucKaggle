@@ -50,7 +50,7 @@
 			<li>最高分:{{team.max_score}}</li>
 			<li>最高分日期：{{team.ma_sc_dat}}</li>
 		</ul>
-		<button>修改</button>
+		<button><a href="{% url 'team' %}">修改</a></button>
 		{% else %}
 		<h5>尚未组队或加入队伍</h5>
 		{% endif %}
@@ -92,7 +92,10 @@
 			<h5>暂没有和您相关的队伍请求</h5>
 			{% endif %}
 		{% endif %}
+		<button><a href="{% url 'req_deal' %}">请求处理</a></button>
 	</div>
+	<br>
+	<br>
 {% endblock %}
 
 {% block per_center_act %}active{% endblock %}
