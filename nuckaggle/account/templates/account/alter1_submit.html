@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>注册信息修改</title>
+	</head>
+	<body>
+		<h2>注册信息修改：</h2>
+		<form action="" method="post"> 
+			<i class="fa fa-user-o" aria-hidden="true"></i>
+			<input class="text" type="text" name="Username" placeholder="用户呢称" required="">
+			<input class="text email" type="email" name="email" placeholder="Email" required="">
+			<input class="text" type="password" name="password" placeholder="Password" required="">
+			{% csrf_token %}
+			<input class="text w3lpass" type="password" name="password" placeholder="Confirm Password" required="">
+			<input type="submit" value="保存修改">
+		</form>
+		<button><a href="{% url 'person_center' %}">放弃修改</a></button>
+	</body>
+</html>

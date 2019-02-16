@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>身份验证</title>
+	</head>
+	<body>
+		<h2 style="text-align:center">身份验证</h2>
+		<p style="text-align:center">您的昵称是({{}}),请提供您的密码：</p>
+		<form action="" method="post"> 
+			<input type="password" name="password">
+			{% csrf_token %}
+			<input type="submit" value="验证">
+		</form>
+		<button><a href="{% url 'person_center' %}">放弃修改</a></button>
+	</body>
+</html>
