@@ -568,4 +568,6 @@ def give_up_alter(request):
     url = r'/account/personcenter'
     return HttpResponseRedirect(url)
 
+def captain_trans(request):
+    return render(request,'account/captain_trans.html')
 
