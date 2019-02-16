@@ -17,4 +17,5 @@ urlpatterns = [
     url(r'^confirm/(\d+)',confirm,name="confirm"),
     url(r'^alter1submit',alter1_submit,name="alter1_submit"),
     url(r'^alter2submit',alter2_submit,name="alter2_submit"),
+    url(r'^give_up_alter',give_up_alter,name="give_up_alter"),
 ]

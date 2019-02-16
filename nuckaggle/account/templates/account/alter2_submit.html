@@ -4,6 +4,14 @@
 	<title>参赛信息修改</title>
 	</head>
 	<body>
+	<h2>原信息：</h2>
+	<div>
+	<p>姓名：{{}}</p>
+	<p>学校：{{}}</p>
+	<p>学号：{{}}</p>
+	<p>联系电话：{{}}</p>
+	<p>性别：{{}}</p>
+	</div>
 	<h2>参赛信息修改：</h2>
 	<form action="{% url 'enter_com' %}" method="POST">
         {% csrf_token %}
@@ -26,6 +34,6 @@
 		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <input type='submit' value='保存修改'>
 	</form>
-	<button><a href="{% url 'person_center' %}">放弃修改</a></button>
+	<button><a href="{% url 'give_up_alter' %}">放弃修改</a></button>
 	</body>
 </html>

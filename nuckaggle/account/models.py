@@ -57,3 +57,5 @@ class TeamRequest(models.Model):             #存放队伍邀请信息并使用
 class Confirm(models.Model):    #修改个人信息时用于身份验证
     confirm_or_not = models.BooleanField("是否验证过身份",default=False)
     user = models.OneToOneField(User)
+    class Meta:
+        verbose_name_plural = '修改个人信息时的身份验证'

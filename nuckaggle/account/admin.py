@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserProfile,Team,TeamRequest,UserCompetition
+from .models import UserProfile,Team,TeamRequest,UserCompetition,Confirm
 
 
 # Register your models here.
@@ -18,3 +18,7 @@ class UserCompetitionAdmin(admin.ModelAdmin):
 @admin.register(TeamRequest)
 class TeamRequestAdmin(admin.ModelAdmin):
 	list_display = ('id','team','userprofile','tag')
+
+@admin.register(Confirm)
+class ConfirmAdmin(admin.ModelAdmin):
+	list_display = ('id','confirm_or_not','user')

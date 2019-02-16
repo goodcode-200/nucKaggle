@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
-from .models import UserProfile,Team,UserCompetition,TeamRequest
+from .models import UserProfile,Team,UserCompetition,TeamRequest,Confirm
 
 # Create your views here.
 
@@ -453,7 +453,16 @@ def confirm(request,tag):
         get_password = request.POST.get('password')
         user = authenticate(username=get_name, password=get_password)
         if user is not None:
-            request.sesson["confirm"] = True
+            cfm = Confirm.objects.filter(user=request.user)
+            if cfm:
+                cf = cfm[0]
+                cf.confirm_or_not = True
+                cf.save()
+            else:
+                cf = Confirm()
+                cf.confirm_or_not = True
+                cf.user = request.user
+                cf.save()
             if tag=='1':
                 url = r'/account/alter1submit'
                 return HttpResponseRedirect(url)
@@ -470,20 +479,74 @@ def confirm(request,tag):
     context["user"] = user
     return render(request,'account/confirm.html',context)
 
-def alter1_submit(request):  
+def alter1_submit(request):     ##验证完信息修改后不保存修改也不点击放弃修改,直接退出,confirm将会置True,账号将失去修改保护
     context = {}
-    if not confirm:
+    conf = Confirm.objects.filter(user=request.user)
+    if not conf:
         context['type'] = '非正常访问'
-        context['message'] = '请返回后输入密码验证'
+        context['message'] = '您在个人中心点击修改,密码验证后您才有权修改'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
         return render(request,'account/error.html',context)
+    else:
+        con = conf[0]
+        if con.confirm_or_not==False:
+            context['type'] = '非正常访问'
+            context['message'] = '您在个人中心点击修改,密码验证后您才有权修改'
+            referer = request.META.get('HTTP_REFERER')
+            context["redirect_to"] = referer
+            return render(request,'account/error.html',context)
     if request.method == 'POST':
-        pass
+        name = request.POST.get('Username').strip()
+        usr = User.objects.filter(username=name)
+        if usr and usr[0]!= request.user:
+            context['type'] = '此用户名已存在'
+            context['message'] = '请返回后另选用户名修改并保存'
+            referer = request.META.get('HTTP_REFERER')
+            context["redirect_to"] = referer
+            return render(request,'account/error.html',context)
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+        u = User.objects.get(username__exact=request.user.username)
+        u.set_password(password)
+        u.username = name
+        u.email = email
+        u.save()
+        con = conf[0]
+        con.confirm_or_not = False
+        con.save()
+        url = r'/account/login'
+        return HttpResponseRedirect(url)
+    user = request.user
+    context["user"] = user
     return render(request,'account/alter1_submit.html',context)  #此页面必须经过confirm验证后访问
 
 def alter2_submit(request):
     context = {}
+    conf = Confirm.objects.filter(user=request.user)
+    if not conf:
+        context['type'] = '非正常访问'
+        context['message'] = '您在个人中心点击修改,密码验证后您才有权修改'
+        referer = request.META.get('HTTP_REFERER')
+        context["redirect_to"] = referer
+        return render(request,'account/error.html',context)
+    else:
+        con = conf[0]
+        if con.confirm_or_not==False:
+            context['type'] = '非正常访问'
+            context['message'] = '您在个人中心点击修改,密码验证后您才有权修改'
+            referer = request.META.get('HTTP_REFERER')
+            context["redirect_to"] = referer
+            return render(request,'account/error.html',context)
     if request.method == 'POST':
         pass
     return render(request,'account/alter2_submit.html',context)  #此页面必须经过confirm验证后访问
+
+def give_up_alter(request):
+    con = Confirm.objects.get(user=request.user)
+    con.confirm_or_not = False
+    con.save()
+    url = r'/account/personcenter'
+    return HttpResponseRedirect(url)
+
+
