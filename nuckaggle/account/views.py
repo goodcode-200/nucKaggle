@@ -445,3 +445,21 @@ def person_center(request):
         context["redirect_to"] = referer
         return render(request,'account/error.html',context)
     return render(request,'account/person_center.html',context)
+
+def confirm(request,tag):
+    context = {}
+    if request.method == 'POST':
+        pass
+    return render(request,'account/confirm.html',context)
+
+def alter1_submit(request):  
+    context = {}
+    if request.method == 'POST':
+        pass
+    return render(request,'account/alter1_submit.html',context)  #此页面必须经过confirm验证后访问
+
+def alter2_submit(request):
+    context = {}
+    if request.method == 'POST':
+        pass
+    return render(request,'account/alter2_submit.html',context)  #此页面必须经过confirm验证后访问
