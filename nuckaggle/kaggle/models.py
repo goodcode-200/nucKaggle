@@ -1,26 +1,32 @@
 from django.db import models
 from django.contrib.auth.models import User
+from account.models import Team
 # Create your models here.
 
-class File(models.Model):
-    file_id = models.CharField("文件ID", primary_key=True, max_length=20)
-    submitter_id = models.CharField("提交人ID", max_length=20)
-    status = models.BooleanField()
-    file_score = models.FloatField()
+#题目
+class ComQuestion(models.Model):
+	title = models.CharField("题目标题",max_length=25)
+	content = models.TextField("题目内容",max_length=1500)
+	def __str__(self):
+		return str(self.title)
+	class Meta:
+		verbose_name_plural = '竞赛题目'
 
-    def __str__(self):
-        return str(self.file_id)
+#队伍提交文件(索引模型)
+class SubmitFile(models.Model):  #把id作为文件名存储和调用应该不会出错
+	#file_id 就是默认 的 自增型的主键
+	team = models.ForeignKey(Team)
+	comquestion = models.ForeignKey(ComQuestion)
+	score = models.IntegerField("文件得分",default=0)
+	submit_time = models.DateTimeField(auto_now_add=True)
+	status = models.BooleanField("系统计算过得分",default=False)
+	class Meta:
+		verbose_name_plural = '队伍提交的文件'
 
-
-class TeamSubmit(models.Model):
-    file_id = models.CharField("文件ID", max_length=20)
-    team_id = models.CharField("队伍ID", max_length=20)
-
-
-class TeamComposition(models.Model):
-    student_id = models.CharField("学号", max_length=9)
-    team_id = models.CharField("队伍ID",  max_length=20)
-
-
-
-
+#赛题对应数据源文件（索引模型）
+class SourceFile(models.Model):  #把id作为文件名存储和调用应该不会出错
+	# file_id is id which has been given
+	comquestion = models.ForeignKey(ComQuestion)
+	file_called_name = models.CharField("页面显示文件名",max_length=30)
+	class Meta:
+		verbose_name_plural = '赛题对应源文件'

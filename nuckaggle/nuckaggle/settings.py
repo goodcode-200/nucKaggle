@@ -127,3 +127,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,'static'),
 ]
+
+#比赛所用csv文件地址
+MEDIA_URL = '/file/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'file')
