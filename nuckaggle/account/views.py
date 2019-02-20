@@ -614,6 +614,9 @@ def dis_enter_team(request,team_id,tag):
     elif tag == '2':
         userprofile = UserProfile.objects.get(user=request.user)
         uc = UserCompetition.objects.get(userprofile=userprofile)
+        te = uc.team
+        te.peo_num = te.peo_num - 1
+        te.save()
         uc.delete()
     return render(request,'account/back_success.html')
 
