@@ -22,3 +22,19 @@ def home(request):
 	cq = ComQuestion.objects.all()
 	context["questions"] = cq
 	return render(request,'kaggle/home.html',context)
+
+def race_detail(request,cq_id):
+	context = {}
+	cq = ComQuestion.objects.get(pk=cq_id)
+	cq_list = ComQuestion.objects.all()
+	for i in cq_list:
+		if i.id > int(cq_id):
+			context["next_comquestion"] = i
+			break
+	rev_cq_list = list(reversed(cq_list))
+	for i in rev_cq_list:
+		if i.id < int(cq_id):
+			context["previous_comquestion"] = i
+			break
+	context["comquestion"] = cq
+	return render(request,'kaggle/race_detail.html',context)

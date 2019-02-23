@@ -1,0 +1,38 @@
+{% extends 'kaggle/bar.html' %}
+
+{% block title %}
+题目详情
+{% endblock %}
+
+{% block content %}
+<div class='container'>
+    <div class='row'>
+        <div class='col-xs-10 col-xs-offset-1'>
+            <h3>{{comquestion.title}}</h3>
+            <hr>
+            <p style="text-indent: 2em;">{{comquestion.content|safe}}</p>
+
+            <div style='margin-top: 1em'>
+                <button><a href="#">下载原始数据</a></button>
+                <button><a href="#">上传你处理后的文件</a></button>
+            </div>
+            
+            <div style='margin-top: 1em'>
+                <p>
+                    {% if previous_comquestion %}
+                        上一赛题：<a href="{% url 'race_detail' previous_comquestion.pk %}">{{previous_comquestion.title}}</a><br>
+                    {% else %}
+                        上一赛题：没有了<br>
+                    {% endif %}
+                    
+                    {% if next_comquestion %}
+                        下一赛题：<a href="{% url 'race_detail' next_comquestion.pk %}">{{next_comquestion.title}}</a>
+                    {% else %}
+                        下一赛题：没有了
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

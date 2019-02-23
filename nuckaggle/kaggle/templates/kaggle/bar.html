@@ -25,7 +25,7 @@
                 <div id='navbar-collapse' class='collapse navbar-collapse'>
                     <ul class='nav navbar-nav'>
                         <li>
-                            <a href="{% url 'home' %}">首页</a></li>
+                            <a href="{% url 'kaggle_home' %}">比赛首页</a></li>
 						<li><a href="{% url 'person_center' %}">{{request.user.username}}/个人中心</a></li>
                         {% block bar_extends %}{% endblock %}
                     </ul>

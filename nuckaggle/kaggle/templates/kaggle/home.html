@@ -6,7 +6,7 @@
 
 {% block content %}
 	{% for i in questions %}
-	<h2><a href="{% url '' i.pk %}">{{i.title}}</a></h2>
+	<h2><a href="{% url 'race_detail' i.pk %}">{{i.title}}</a></h2>
 	<p>{{i.content|safe|striptags|truncatechars:120}}</p>
 	{% empty %}
 	---比赛方暂未发布比赛，敬请期待---
