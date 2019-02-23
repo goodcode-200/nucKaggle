@@ -1,0 +1,14 @@
+{% extends 'kaggle/bar.html' %}
+
+{% block title %}
+比赛首页
+{% endblock %}
+
+{% block content %}
+	{% for i in questions %}
+	<h2><a href="{% url '' i.pk %}">{{i.title}}</a></h2>
+	<p>{{i.content|safe|striptags|truncatechars:120}}</p>
+	{% empty %}
+	---比赛方暂未发布比赛，敬请期待---
+	{% endfor %}
+{% endblock %}
