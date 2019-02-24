@@ -13,8 +13,9 @@ class ComQuestion(models.Model):
 		verbose_name_plural = '竞赛题目'
 
 #队伍提交文件(索引模型)
-class SubmitFile(models.Model):  #把id作为文件名存储和调用应该不会出错
+class SubmitFile(models.Model):
 	#file_id 就是默认 的 自增型的主键
+	submitfile = models.FileField(upload_to="submit/%Y/%m/%d",default="submit/default.png")
 	team = models.ForeignKey(Team)
 	comquestion = models.ForeignKey(ComQuestion)
 	score = models.IntegerField("文件得分",default=0)
@@ -24,7 +25,7 @@ class SubmitFile(models.Model):  #把id作为文件名存储和调用应该不�
 		verbose_name_plural = '队伍提交的文件'
 
 #赛题对应数据源文件（索引模型）
-class SourceFile(models.Model):  #把id作为文件名存储和调用应该不会出错
+class SourceFile(models.Model):
 	# file_id is id which has been given
 	comquestion = models.ForeignKey(ComQuestion)
 	file_called_name = models.CharField("页面显示文件名",max_length=30)

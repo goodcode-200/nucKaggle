@@ -1,6 +1,9 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from .models import ComQuestion
-from account.models import UserProfile
+from account.models import UserProfile,Team
+from .models import ComQuestion,SubmitFile
+from .forms import UploadFileForm
+
 
 # Create your views here.
 def home(request):
@@ -38,3 +41,36 @@ def race_detail(request,cq_id):
 			break
 	context["comquestion"] = cq
 	return render(request,'kaggle/race_detail.html',context)
+
+def upload_file(request,cq_id):	
+	context = {}
+	user = request.user
+	team = Team.objects.filter(captain=user)
+	if request.method == 'POST':
+		form = UploadFileForm(request.POST,request.FILES)
+		if form.is_valid():
+			te = team[0]
+			comquestion = ComQuestion.objects.get(pk=cq_id)
+			sf = SubmitFile()
+			sf.team = te
+			sf.comquestion = comquestion
+			sf.submitfile = request.FILES["file"]
+			sf.save()
+			context["team"] = te
+			return render(request,"kaggle/successful.html",context)
+		else:
+			context['type'] = '未选择文件或其他'
+			context['message'] = '请选择文件后再提交'
+			referer = request.META.get('HTTP_REFERER')
+			context["redirect_to"] = referer
+			return render(request,'account/error.html',context)
+	else:
+		if not team:
+			context['type'] = '无提交权限'
+			context['message'] = '您并非队长，无权提交结果文件'
+			referer = request.META.get('HTTP_REFERER')
+			context["redirect_to"] = referer
+			return render(request,'account/error.html',context)
+		form = UploadFileForm()
+		context["form"] = form
+	return render(request, 'kaggle/upload_file.html',context)

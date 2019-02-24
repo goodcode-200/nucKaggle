@@ -129,5 +129,5 @@ STATICFILES_DIRS = [
 ]
 
 #比赛所用csv文件地址
-MEDIA_URL = '/file/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'file')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'kaggle','media')

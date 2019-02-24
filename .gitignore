@@ -10,5 +10,8 @@
 #编辑器产生的文件
 .idea/
 
+#上传或下载到根目录中media文件夹中的文件
+nuckaggle/kaggle/media/
+
 
 
