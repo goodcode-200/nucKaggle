@@ -13,7 +13,7 @@
             <p style="text-indent: 2em;">{{comquestion.content|safe}}</p>
 
             <div style='margin-top: 1em'>
-                <button><a href="#">下载原始数据</a></button>
+                <button><a href="{% url 'dlsf' comquestion.id%}">下载原始数据</a></button>
                 <button><a href="{% url 'upload_file' comquestion.id %}">上传你处理过的文件</a></button>
             </div>
             

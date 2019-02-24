@@ -1,8 +1,12 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from account.models import UserProfile,Team
-from .models import ComQuestion,SubmitFile
+from .models import ComQuestion,SubmitFile,SourceFile
 from .forms import UploadFileForm
+#from nuckaggle.settings import MEDIA_ROOT
+from django.http import FileResponse,Http404
+from django.utils.http import urlquote
+import os
 
 
 # Create your views here.
@@ -74,3 +78,23 @@ def upload_file(request,cq_id):
 		form = UploadFileForm()
 		context["form"] = form
 	return render(request, 'kaggle/upload_file.html',context)
+
+def dlsf(request,cq_id):
+	context = {}
+	sf = SourceFile.objects.filter(comquestion_id = cq_id)
+	comquestion = ComQuestion.objects.get(pk = cq_id)
+	context["source_list"] = sf
+	context["comquestion"] = comquestion
+	return render(request,'kaggle/dlsf.html',context)
+
+def dl_action(request,sour_id):
+	sf = SourceFile.objects.get(pk = sour_id)
+	file = sf.sourcefile
+	file_name = sf.file_called_name
+	try:
+		response =FileResponse(file)  
+		response['content_type'] = "application/octet-stream"    
+		response['Content-Disposition'] = 'attachment;filename=' + urlquote(file_name)  
+		return response
+	except Exception:
+		raise Http404

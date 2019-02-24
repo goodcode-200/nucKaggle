@@ -27,7 +27,8 @@ class SubmitFile(models.Model):
 #赛题对应数据源文件（索引模型）
 class SourceFile(models.Model):
 	# file_id is id which has been given
+	sourcefile = models.FileField(upload_to="source/",default="source/default.png")
 	comquestion = models.ForeignKey(ComQuestion)
-	file_called_name = models.CharField("页面显示文件名",max_length=30)
+	file_called_name = models.CharField("页面显示文件名(文件名+扩展名)",max_length=30)
 	class Meta:
 		verbose_name_plural = '赛题对应源文件'

@@ -1,0 +1,22 @@
+{% extends 'kaggle/bar.html' %}
+
+{% block title %}
+下载源文件
+{% endblock %}
+
+{% block content %}
+<div>
+<h1>赛题：<a href="{% url 'race_detail' comquestion.id %}">（{{comquestion.title}}）</a></h1>
+</div>
+
+<div>
+	<h2>对应源文件：</h2>
+	<ul>
+		{% for i in source_list %}
+		<li>{{i.file_called_name}}<a href="{% url 'dl_action' i.id %}"><button>下载</button></a></li>
+		{% empty %}
+		----管理员暂未发布源文件，敬请期待----
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %}
