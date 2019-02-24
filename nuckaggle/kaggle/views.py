@@ -60,6 +60,8 @@ def upload_file(request,cq_id):
 			sf.comquestion = comquestion
 			sf.submitfile = request.FILES["file"]
 			sf.save()
+			te.sub_num += 1  #提交次数加一
+			te.save()
 			context["team"] = te
 			return render(request,"kaggle/successful.html",context)
 		else:
