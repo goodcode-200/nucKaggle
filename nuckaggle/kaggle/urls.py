@@ -11,4 +11,5 @@ urlpatterns = [
     #下面那一行,可以让浏览器输入source文件的服务器存储地址即可见
     url(r'^media/source/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT},name="media"), 
     url(r'^dlaction/(\d+)/$', dl_action, name='dl_action'),
+    url(r'^about',about,name='about'),
 ]

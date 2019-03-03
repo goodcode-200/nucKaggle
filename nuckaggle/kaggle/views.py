@@ -104,6 +104,9 @@ def dl_action(request,sour_id):
 	except Exception:
 		raise Http404
 
+def about(request):
+	return render(request,'kaggle/aboutKaggle.html')
+
 
 try:  
 	# 实例化调度器

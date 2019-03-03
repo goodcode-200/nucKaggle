@@ -43,7 +43,7 @@
 				<span class="menu"><img src="/static/images/menu.png" alt="" /></span>
 					<ul class="nav1">
 						<li><a href="admin">超管通道</a></li>
-						<li><a href="#about" class="scroll">关于</a></li>
+						<li><a href="{% url 'about' %}">关于</a></li>
 						<li><a href="{% url 'enter_com' %}">报名参赛</a></li>
 						<li><a href="{% url 'team' %}">队伍</a></li>
 						{% if username %}
