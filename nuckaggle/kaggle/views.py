@@ -56,19 +56,29 @@ def upload_file(request,cq_id):
 	if request.method == 'POST':
 		form = UploadFileForm(request.POST,request.FILES)
 		if form.is_valid():
-			te = team[0]
-			comquestion = ComQuestion.objects.get(pk=cq_id)
-			sf = SubmitFile()
-			sf.team = te
-			sf.comquestion = comquestion
-			sf.submitfile = request.FILES["file"]
-			sf.save()
-			te.sub_num += 1  #提交次数加一
-			te.save()
-			context["team"] = te
-			return render(request,"kaggle/successful.html",context)
+			name = request.FILES["file"].name
+			index = name.index('.')
+			exte = name[index+1::]
+			if exte=="csv":   #只接受*.csv文件的上传，否则就页面拦截
+				te = team[0]
+				comquestion = ComQuestion.objects.get(pk=cq_id)
+				sf = SubmitFile()
+				sf.team = te
+				sf.comquestion = comquestion
+				sf.submitfile = request.FILES["file"]
+				sf.save()
+				te.sub_num += 1  #提交次数加一
+				te.save()
+				context["team"] = te
+				return render(request,"kaggle/successful.html",context)
+			else:
+				context['type'] = '文件类型错误'
+				context['message'] = '请选择正确类型（*.csv）的文件后再提交'
+				referer = request.META.get('HTTP_REFERER')
+				context["redirect_to"] = referer
+				return render(request,'account/error.html',context)
 		else:
-			context['type'] = '未选择文件或其他'
+			context['type'] = '未选择文件'
 			context['message'] = '请选择文件后再提交'
 			referer = request.META.get('HTTP_REFERER')
 			context["redirect_to"] = referer
