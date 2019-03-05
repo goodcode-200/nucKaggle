@@ -117,6 +117,12 @@ def dl_action(request,sour_id):
 def about(request):
 	return render(request,'kaggle/aboutKaggle.html')
 
+def team_list(request):
+	context = {}
+	team_list = Team.objects.all()
+	#team_list.sort(key = lambda obj:obj.max_score,reverse = True)
+	context["team_list"] = team_list
+	return render(request,'kaggle/team_list.html',context)
 
 try:  
 	# 实例化调度器

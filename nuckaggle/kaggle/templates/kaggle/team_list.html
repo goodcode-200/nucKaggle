@@ -1,0 +1,16 @@
+{% extends 'kaggle/bar.html' %}
+
+{% block title %}
+赛事榜单
+{% endblock %}
+
+{% block content %}
+	<ul>
+		<队伍id>----<队名>----<队伍分数>
+		{% for i in team_list %}
+		<li>{{i.id}}----{{i.team_name}}----{{i.max_score}}</li>
+		{% empty %}
+		---暂无队伍参赛---
+		{% endfor %}
+	</ul>
+{% endblock %}
