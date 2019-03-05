@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
+
 
 # Create your models here.
 class Team(models.Model):
@@ -10,9 +10,7 @@ class Team(models.Model):
     captain = models.OneToOneField(User)   #一对一关系，一个队伍只有一个队长
     peo_num = models.IntegerField("人数",default=1)
     sub_num = models.IntegerField("提交次数",default=0)
-    max_score = models.IntegerField("最高分",default=0)
-    last_score = models.IntegerField("最新分数",default=0)
-    ma_sc_dat = models.DateField("最高分日期",null=False,default=timezone.now)
+    max_score = models.FloatField("最高分",default=0)
 
     def __str__(self):
         return str(self.team_name)

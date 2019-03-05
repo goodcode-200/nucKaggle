@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from account.models import UserProfile,Team
-from .models import ComQuestion,SubmitFile,SourceFile
+from .models import ComQuestion,SubmitFile,SourceFile,StdAnswer,ScoreComq
 from .forms import UploadFileForm
 #from nuckaggle.settings import MEDIA_ROOT
 from django.http import FileResponse,Http404
@@ -10,6 +10,8 @@ import os
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
+import pandas as pd
+from datetime import datetime
 
 
 # Create your views here.
@@ -131,12 +133,54 @@ try:
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	# 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
 	# ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-	#@register_job(scheduler,'interval',seconds=4)
-	@register_job(scheduler, 'cron', day_of_week='mon-fri', hour='9', minute='30', second='10',id='task_time')
+	@register_job(scheduler,'interval',seconds=60)
+	#@register_job(scheduler, 'cron', day_of_week='mon-fri', hour='9', minute='30', second='10',id='task_time')
 	def test_job():
-	   t_now = time.localtime()
-	   print(t_now,"\n","测试成功，加油")
-
+		submit_list = SubmitFile.objects.filter(status = False)
+		for i  in submit_list:
+			cq = i.comquestion
+			stdanswer = StdAnswer.objects.filter(comquestion = cq)
+			if(stdanswer):  #如果提交的文件对应有标准答案，一般是有的
+				stda = stdanswer[0]
+				sf = i.submitfile
+				d1 = pd.read_csv(stda.stdanswer) #读取标准答案
+				d2 = pd.read_csv(sf)     #读取提交的答案
+				z = list(d1[:]["Label"])
+				v = list(d2[:]["Label"])
+				num = 0
+				try:
+					for j in range(len(z)):
+						if z[j] == v[j]:
+							num += 1
+					i.message ="正常读取文件"
+				except:
+					i.message = "系统核算分数时出现问题,请提交正确格式的文件"
+				i.score = (num/len(z))*10
+				i.status = True
+				i.save()
+				print(i)
+				scorecom = ScoreComq.objects.filter(comquestion_id = i.comquestion_id,team_id = i.team_id)
+				if scorecom:
+					sc = scorecom[0]
+				else:
+					sc = ScoreComq()
+					sc.comquestion_id = i.comquestion_id
+					sc.team_id = i.team_id
+				sc.last_score = i.score
+				if(i.score > sc.max_score):
+					sc.max_score = i.score
+					sc.ma_sc_dat =datetime.now()
+				sc.save()
+		team = Team.objects.all()
+		if team:
+			for i in team:
+				sum = 0
+				sc = ScoreComq.objects.filter(team = i)
+				if sc:
+					for j in sc:
+						sum += j.max_score
+				i.max_score = sum
+				i.save()
 	# 监控任务
 	register_events(scheduler)
 	# 调度器开始

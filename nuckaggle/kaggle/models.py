@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from account.models import Team
+from django.utils import timezone
 # Create your models here.
 
 #题目
@@ -18,9 +19,10 @@ class SubmitFile(models.Model):
 	submitfile = models.FileField(upload_to="submit/%Y/%m/%d",default="submit/default.png")
 	team = models.ForeignKey(Team)
 	comquestion = models.ForeignKey(ComQuestion)
-	score = models.IntegerField("文件得分",default=0)
+	score = models.FloatField("文件得分",default=0)
 	submit_time = models.DateTimeField(auto_now_add=True)
 	status = models.BooleanField("系统计算过得分",default=False)
+	message = models.CharField("队伍提交文件的反馈信息",default="系统暂未读取",max_length=30)
 	class Meta:
 		verbose_name_plural = '队伍提交的文件'
 
@@ -35,6 +37,13 @@ class SourceFile(models.Model):
 
 class StdAnswer(models.Model):  #标准答案的文件
 	stdanswer = models.FileField(upload_to="stdAnswer/",default="stdAnswer/default.png")
-	comquestion = models.ForeignKey(ComQuestion)
+	comquestion = models.OneToOneField(ComQuestion)
 	class Meta:
 		verbose_name_plural = '赛题用于核验分数的正确答案'
+
+class ScoreComq(models.Model): #对应于每道题的分数
+	comquestion = models.ForeignKey(ComQuestion)
+	team = models.ForeignKey(Team)
+	max_score = models.FloatField("最高分",default=0)
+	last_score = models.FloatField("最新分数",default=0)
+	ma_sc_dat = models.DateField("最高分日期",null=False,default=timezone.now)

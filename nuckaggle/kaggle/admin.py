@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ComQuestion,SubmitFile,SourceFile,StdAnswer
+from .models import ComQuestion,SubmitFile,SourceFile,StdAnswer,ScoreComq
 # Register your models here.
 
 @admin.register(ComQuestion)
@@ -17,3 +17,7 @@ class SourceFileAdmin(admin.ModelAdmin):
 @admin.register(StdAnswer)
 class StdAnswerAdmin(admin.ModelAdmin):
 	list_display = ('id','stdanswer','comquestion')
+
+@admin.register(ScoreComq)
+class ScoreComqAdmin(admin.ModelAdmin):
+	list_display = ('id','comquestion','team','max_score','last_score','ma_sc_dat')
