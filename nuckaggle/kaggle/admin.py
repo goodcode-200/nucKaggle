@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ComQuestion,SubmitFile,SourceFile
+from .models import ComQuestion,SubmitFile,SourceFile,StdAnswer
 # Register your models here.
 
 @admin.register(ComQuestion)
@@ -13,3 +13,7 @@ class SubmitFileAdmin(admin.ModelAdmin):
 @admin.register(SourceFile)
 class SourceFileAdmin(admin.ModelAdmin):
 	list_display = ('id','comquestion','file_called_name')
+
+@admin.register(StdAnswer)
+class StdAnswerAdmin(admin.ModelAdmin):
+	list_display = ('id','stdanswer','comquestion')

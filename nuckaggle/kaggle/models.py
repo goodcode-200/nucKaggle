@@ -32,3 +32,9 @@ class SourceFile(models.Model):
 	file_called_name = models.CharField("页面显示文件名(文件名+扩展名)",max_length=30)
 	class Meta:
 		verbose_name_plural = '赛题对应源文件'
+
+class StdAnswer(models.Model):  #标准答案的文件
+	stdanswer = models.FileField(upload_to="stdAnswer/",default="stdAnswer/default.png")
+	comquestion = models.ForeignKey(ComQuestion)
+	class Meta:
+		verbose_name_plural = '赛题用于核验分数的正确答案'
