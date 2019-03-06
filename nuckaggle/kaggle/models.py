@@ -47,3 +47,5 @@ class ScoreComq(models.Model): #对应于每道题的分数
 	max_score = models.FloatField("最高分",default=0)
 	last_score = models.FloatField("最新分数",default=0)
 	ma_sc_dat = models.DateField("最高分日期",null=False,default=timezone.now)
+	class Meta:
+		verbose_name_plural = '某个队伍对应于某道题的分数'

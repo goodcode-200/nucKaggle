@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from account.models import UserProfile,Team
+from account.models import UserProfile,Team,UserCompetition
 from .models import ComQuestion,SubmitFile,SourceFile,StdAnswer,ScoreComq
 from .forms import UploadFileForm
 #from nuckaggle.settings import MEDIA_ROOT
@@ -37,6 +37,19 @@ def home(request):
 
 def race_detail(request,cq_id):
 	context = {}
+	user = request.user
+	userprofile = UserProfile.objects.filter(user = user)
+	has_team = False
+	if userprofile:
+		up = userprofile[0]
+		usercompetition = UserCompetition.objects.filter(userprofile = up)
+		if usercompetition:
+			has_team = True
+			uc = usercompetition[0]
+			team = uc.team
+			submitfile = SubmitFile.objects.filter(team = team,comquestion_id = cq_id)
+			context["team"] = team
+			context["submitfile"] = submitfile
 	cq = ComQuestion.objects.get(pk=cq_id)
 	cq_list = ComQuestion.objects.all()
 	for i in cq_list:
@@ -49,6 +62,7 @@ def race_detail(request,cq_id):
 			context["previous_comquestion"] = i
 			break
 	context["comquestion"] = cq
+	context["has_team"] = has_team
 	return render(request,'kaggle/race_detail.html',context)
 
 def upload_file(request,cq_id):	
@@ -72,6 +86,7 @@ def upload_file(request,cq_id):
 				te.sub_num += 1  #提交次数加一
 				te.save()
 				context["team"] = te
+				context["comquestion"] = comquestion
 				return render(request,"kaggle/successful.html",context)
 			else:
 				context['type'] = '文件类型错误'
@@ -94,6 +109,8 @@ def upload_file(request,cq_id):
 			return render(request,'account/error.html',context)
 		form = UploadFileForm()
 		context["form"] = form
+		comquestion = ComQuestion.objects.get(pk=cq_id)
+		context["comquestion"] = comquestion
 	return render(request, 'kaggle/upload_file.html',context)
 
 def dlsf(request,cq_id):
@@ -133,8 +150,9 @@ try:
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	# 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
 	# ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-	@register_job(scheduler,'interval',seconds=60)
-	#@register_job(scheduler, 'cron', day_of_week='mon-fri', hour='9', minute='30', second='10',id='task_time')
+	#@register_job(scheduler,'interval',seconds=60)
+	#设计为每天的23:30：10执行提交文件的核查分数操作
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
 	def test_job():
 		submit_list = SubmitFile.objects.filter(status = False)
 		for i  in submit_list:

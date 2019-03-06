@@ -32,6 +32,32 @@
                     {% endif %}
                 </p>
             </div>
+
+            <div>
+                <h2>队伍提交历史</h2>
+                <div>
+                    {% if has_team %}
+                        <h4>队伍名称：{{team.team_name}}</h4>
+                        <ul>
+                        {% for i in submitfile %}
+                            <li>
+                                <ul>
+                                    <li>提交时间：{{i.submit_time}}</li>
+                                    <li>是否由系统计算过得分：{{i.status}}</li>
+                                    <li>提交得分：{{i.score}}</li>
+                                    <li>系统核查分数时留下信息：{{i.message}}</li>
+                                </ul>
+                            </li>
+                            <br>
+                        {% empty %}
+                            <p>--您的队伍暂无对该题目的提交信息--</p>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>没有和您关联的队伍信息,所以没有队伍的提交历史，或您未登录</p>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </div>

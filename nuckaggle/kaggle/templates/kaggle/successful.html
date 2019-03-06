@@ -8,4 +8,5 @@ successful
 	<h1>Successful</h1>
 	<h3>队长（{{team.captain}}）代表队伍（{{team}}）</h3><br>
 	<h3>成功提交了一次结果文件,请耐心等待系统审阅</h3>
+	<h3>对应赛题<a href="{% url 'race_detail' comquestion.id %}">{{comquestion.title}}</a></h3>
 {% endblock %}

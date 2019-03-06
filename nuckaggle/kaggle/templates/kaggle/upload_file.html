@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block content %}
+<h3>提交对应赛题<a href="{% url 'race_detail' comquestion.id %}">{{comquestion.title}}</a></h3>
 <h4>请严格按照源文件sample_submission.csv的格式提交</h4>
 <form action="" enctype="multipart/form-data" method="post">
    {% csrf_token %}
