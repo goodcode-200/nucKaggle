@@ -103,6 +103,13 @@ def enter_com(request):
     context = {}
     if request.method == 'POST':
         if(request.user.is_authenticated()):
+            userprofile = UserProfile.objects.filter(user = request.user)
+            if userprofile:
+                context['type'] = '您已经创建过参赛信息'
+                context['message'] = '您已经创建过参赛信息，如需修改请到个人中心'
+                referer = request.META.get('HTTP_REFERER')
+                context["redirect_to"] = referer
+                return render(request,'account/error.html',context)
             name = request.POST.get('name').strip()
             school = request.POST.get('school').strip()
             student_id = request.POST.get('student_id').strip()
@@ -372,6 +379,14 @@ def agree(request,team_id,userprofile_id,team_req_pk):
 
         team_req = TeamRequest.objects.filter(id=team_req_pk)
         tr = team_req[0]
+        if(tr.tag):
+            trade = False
+        else:
+            trade = True
+        tere = TeamRequest.objects.filter(team = te,userprofile_id = userprofile_id,tag=trade)
+        if tere:
+            tere_obj = tere[0]
+            tere_obj.delete()
         tr.delete()       #清除请求数据表
         url = r'/account/reqdeal'
         return HttpResponseRedirect(url)
