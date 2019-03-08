@@ -151,9 +151,9 @@ try:
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	# 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
 	# ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-	@register_job(scheduler,'interval',seconds=60)
+	#@register_job(scheduler,'interval',seconds=60)
 	#设计为每天的23:30：10执行提交文件的核查分数操作
-	#@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
 	def test_job():
 		submit_list = SubmitFile.objects.filter(status = False)
 		for i  in submit_list:
