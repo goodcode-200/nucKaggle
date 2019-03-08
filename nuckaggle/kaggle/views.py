@@ -10,8 +10,9 @@ import os
 import time
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
-import pandas as pd
+import csv
 from datetime import datetime
+from nuckaggle.settings import MEDIA_ROOT
 
 
 # Create your views here.
@@ -150,9 +151,9 @@ try:
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	# 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
 	# ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-	#@register_job(scheduler,'interval',seconds=60)
+	@register_job(scheduler,'interval',seconds=60)
 	#设计为每天的23:30：10执行提交文件的核查分数操作
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
+	#@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
 	def test_job():
 		submit_list = SubmitFile.objects.filter(status = False)
 		for i  in submit_list:
@@ -161,22 +162,25 @@ try:
 			if(stdanswer):  #如果提交的文件对应有标准答案，一般是有的
 				stda = stdanswer[0]
 				sf = i.submitfile
-				d1 = pd.read_csv(stda.stdanswer) #读取标准答案
-				d2 = pd.read_csv(sf)     #读取提交的答案
-				z = list(d1[:]["Label"])
-				v = list(d2[:]["Label"])
+				csv1_path = MEDIA_ROOT + stda.stdanswer.url.replace("/","\\").replace("\\media","")
+				csv2_path = MEDIA_ROOT + sf.url.replace("/","\\").replace("\\media","")
+				csv1 = open(csv1_path,"r") #读取标准答案
+				csv2 = open(csv2_path,"r")  #读取提交的答案
+				list_dict_reader1 = list(csv.DictReader(csv1))
+				list_dict_reader2 = list(csv.DictReader(csv2))
 				num = 0
 				try:
-					for j in range(len(z)):
-						if z[j] == v[j]:
+					for j in range(len(list_dict_reader1)): #以标准答案的长度为准
+						if list_dict_reader1[j]["Label"] == list_dict_reader2[j]["Label"]:
 							num += 1
 					i.message ="正常读取文件"
 				except:
 					i.message = "系统核算分数时出现问题,请提交正确格式的文件"
-				i.score = (num/len(z))*10
+				csv1.close()
+				csv2.close()
+				i.score = (num/len(list_dict_reader1))*10
 				i.status = True
 				i.save()
-				print(i)
 				scorecom = ScoreComq.objects.filter(comquestion_id = i.comquestion_id,team_id = i.team_id)
 				if scorecom:
 					sc = scorecom[0]
