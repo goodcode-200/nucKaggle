@@ -235,6 +235,12 @@ def join_req(request,team_pk,send_by_team):
 
 def invite(request,user_id,send_by_team,userprofile_id):
     context = {}
+    if not request.user.is_authenticated():
+        context['type'] = '未登录'
+        context['message'] = '您未登录,请登录后再执行此操作（若您是队长）'
+        referer = request.META.get('HTTP_REFERER')
+        context["redirect_to"] = referer
+        return render(request,'account/error.html',context)
     ##判断此用户是否是队长
     team = Team.objects.filter(captain=request.user)
     if team:  #是队长
