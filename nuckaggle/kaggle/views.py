@@ -34,8 +34,6 @@ def home(request):
 		return render(request,'account/error.html',context)
 	cq = ComQuestion.objects.all()
 	context["questions"] = cq
-	context["MEDIA_ROOT"] = str(MEDIA_ROOT)
-	print(MEDIA_ROOT)
 	return render(request,'kaggle/home.html',context)
 
 def race_detail(request,cq_id):
@@ -153,9 +151,9 @@ try:
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	# 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
 	# ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-	@register_job(scheduler,'interval',seconds=60)
+	#@register_job(scheduler,'interval',seconds=60)
 	#设计为每天的23:30：10执行提交文件的核查分数操作
-	#@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
 	def test_job():
 		submit_list = SubmitFile.objects.filter(status = False)
 		for i  in submit_list:
@@ -166,8 +164,6 @@ try:
 				sf = i.submitfile
 				csv1_path = os.path.join(MEDIA_ROOT,stda.stdanswer.url.replace("/media/",""))
 				csv2_path = os.path.join(MEDIA_ROOT,sf.url.replace("/media/",""))
-				print(csv1_path)
-				print(csv2_path)
 				csv1 = open(csv1_path,"r") #读取标准答案
 				csv2 = open(csv2_path,"r")  #读取提交的答案
 				list_dict_reader1 = list(csv.DictReader(csv1))
