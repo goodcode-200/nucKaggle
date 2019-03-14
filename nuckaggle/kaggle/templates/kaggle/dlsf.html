@@ -14,6 +14,7 @@
 	<ul>
 		{% for i in source_list %}
 		<li>{{i.file_called_name}}<a href="{% url 'dl_action' i.id %}"><button>下载</button></a></li>
+		<h1>{{i.sourcefile.url}}</h1>
 		{% empty %}
 		----管理员暂未发布源文件，敬请期待----
 		{% endfor %}

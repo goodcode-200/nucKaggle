@@ -11,6 +11,8 @@
 	{% empty %}
 	---比赛方暂未发布比赛，敬请期待---
 	{% endfor %}
+	{#  纯粹为了服务器端的测试  #}
+	<p>这个服务器的文件根目录为:{{MEDIA_ROOT}}</p>
 {% endblock %}
 
 {% block kaggle_home_act %}active{% endblock %}

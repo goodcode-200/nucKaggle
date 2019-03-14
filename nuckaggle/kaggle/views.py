@@ -34,6 +34,8 @@ def home(request):
 		return render(request,'account/error.html',context)
 	cq = ComQuestion.objects.all()
 	context["questions"] = cq
+	context["MEDIA_ROOT"] = str(MEDIA_ROOT)
+	print(MEDIA_ROOT)
 	return render(request,'kaggle/home.html',context)
 
 def race_detail(request,cq_id):
