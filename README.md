@@ -1,3 +1,2 @@
-# nuckaggle
-123456
+﻿# nuckaggle
 本项目用于搭建比赛平台
