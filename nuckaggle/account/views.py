@@ -8,6 +8,7 @@ from .models import UserProfile,Team,UserCompetition,TeamRequest,Confirm
 
 def user_login(request):
     context = {}
+    context['statu'] = 0
     if request.method == 'POST':
         get_name = request.POST.get('username').strip()
         get_password = request.POST.get('password')
@@ -24,7 +25,9 @@ def user_login(request):
         context['type']="登录"
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        context['statu'] = 1
+        context['error'] = "用户名或者密码错误"
+        return render(request,'account/login.html',context)
     return render(request,'account/login.html')
 
 
