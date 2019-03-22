@@ -18,8 +18,18 @@
 	{% else %}
 		<h1>您还没有队伍,请返回队伍页面创建或加入队伍</h1>
 	{% endif%}
+
 {% endblock %}
 
 {% block team_act %}
 active
+<script>
+        a={{ statu }};
+        if (a==1)
+        {
+            alert('\n\n     {{ error }}\n\n');
+        }
+</script>
+
 {% endblock %}
+

@@ -12,6 +12,13 @@
    {{form}}
    <input type="submit" value="上传"/>
 </form>
+<script>
+        a={{ statu }};
+        if (a==1)
+        {
+            alert('\n\n     {{ error }}\n\n');
+        }
+</script>
 {% endblock %}
 
 {% block kaggle_home_act %}active{% endblock %}

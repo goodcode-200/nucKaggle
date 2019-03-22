@@ -63,6 +63,18 @@
 			</ul>
 		</div>
 	{% endif %}
+<script>
+        a={{ statu }};
+        if (a==1)
+        {
+            alert('\n\n{{ error }}\n\n');
+        }
+        if (a==2)
+		{
+		    alert('\n\n{{ error}}\n\n');
+		}
+    </script>
 {% endblock %}
 
 {% block team_act %}active{% endblock %}
+

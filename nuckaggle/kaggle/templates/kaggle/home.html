@@ -11,6 +11,13 @@
 	{% empty %}
 	---比赛方暂未发布比赛，敬请期待---
 	{% endfor %}
+<script>
+        a={{ statu }};
+        if (a==1)
+        {
+            alert('\n\n     {{ error }}\n\n');
+        }
+</script>
 {% endblock %}
 
 {% block kaggle_home_act %}active{% endblock %}

@@ -33,15 +33,18 @@ def user_login(request):
 
 def register(request):
     context={}
+    context['statu'] = 0
     if request.method == 'POST':
         name = request.POST.get('Username').strip()
         u = User.objects.filter(username=name)
         if u:
             context['type'] = '注册'
             context['message'] = '该名字已被使用'
+            context['statu'] = 1
+            context['error'] = '该名字已被使用'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/register.html',context)
         password = request.POST.get('password')
         email = request.POST.get('email')
         user = User.objects.create_user(name, email, password)
@@ -61,8 +64,10 @@ def team(request):
     context["teams"] = teams
     return render(request,'account/team.html',context)
 
+
 def create_team(request):
     context = {}
+    context['statu'] = 0
     if request.method == "POST":
         if(request.user.is_authenticated()):
             userprofile = UserProfile.objects.filter(user=request.user) #如果存在，则是一个对象的列表
@@ -73,9 +78,11 @@ def create_team(request):
                 if (i or j):
                     context['type'] = '创建队伍'
                     context['message'] = '该队伍名字已被使用或您已创建过队伍,请更改队名或查找队伍'
+                    context['statu'] = 1
+                    context['error'] = '该队伍名字已被使用或您已创建过队伍,请更改队名或查找队伍'
                     referer = request.META.get('HTTP_REFERER')
                     context["redirect_to"] = referer
-                    return render(request,'account/error.html',context)
+                    return render(request,'account/create_team.html',context)
                 team = Team()
                 team.team_name = team_name
                 team.captain = request.user
@@ -90,29 +97,36 @@ def create_team(request):
                 return HttpResponseRedirect(url)
             else:
                 context['type'] = '未报名参赛'
+                context['statu'] = 1
                 context['message'] = '登录本网站,报名参赛后才能创建队伍'
+                context['error'] = '登录本网站,报名参赛后才能创建队伍'
                 referer = request.META.get('HTTP_REFERER')
                 context["redirect_to"] = referer
-                return render(request,'account/error.html',context)
+                return render(request,'account/create_team.html',context)
         else:
             context['type'] = '未登录'
+            context['statu'] = 1
             context['message'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
+            context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/create_team.html',context)
     return render(request,'account/create_team.html')
 
 def enter_com(request):
     context = {}
+    context['statu'] = 0
     if request.method == 'POST':
         if(request.user.is_authenticated()):
             userprofile = UserProfile.objects.filter(user = request.user)
             if userprofile:
                 context['type'] = '您已经创建过参赛信息'
+                context['statu'] = 1
+                context['error'] = '您已经创建过参赛信息，如需修改请到个人中心'
                 context['message'] = '您已经创建过参赛信息，如需修改请到个人中心'
                 referer = request.META.get('HTTP_REFERER')
                 context["redirect_to"] = referer
-                return render(request,'account/error.html',context)
+                return render(request,'account/enter_com.html',context)
             name = request.POST.get('name').strip()
             school = request.POST.get('school').strip()
             student_id = request.POST.get('student_id').strip()
@@ -134,10 +148,12 @@ def enter_com(request):
             return HttpResponseRedirect(url)
         else:
             context['type'] = '未登录'
+            context['statu'] = 1
+            context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
             context['message'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/enter_com.html',context)
     competitors = UserProfile.objects.all()
     context["competitors"] = competitors
     context["send_by_team"] = 1
@@ -145,6 +161,7 @@ def enter_com(request):
 
 def join_team(request):
     context = {}
+    context['statu'] = 0
     if(request.user.is_authenticated()):   #如果登录
         userprofile = UserProfile.objects.filter(user=request.user)
         if userprofile:                    #如果报名参赛
@@ -155,26 +172,31 @@ def join_team(request):
                 context["teams"] = teams
             else:
                 context['type'] = '队长已加入队伍'
-                context['message'] = '您已经是队长,请在报名参赛页面邀请队员加入队伍'
+                context['statu'] = 1
+                context['error'] = '您已经是队长,请在报名参赛页面邀请队员加入队伍'
                 referer = request.META.get('HTTP_REFERER')
                 context["redirect_to"] = referer
-                return render(request,'account/error.html',context)
+                return render(request,'account/join_team.html',context)
         else:
             context['type'] = '未报名参赛'
-            context['message'] = '登录本网站,报名参赛后才能加入队伍'
+            context['statu'] = 1
+            context['error'] = '登录本网站,报名参赛后才能加入队伍'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/join_team.html',context)
     else:
         context['type'] = '未登录'
-        context['message'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
+        context['statu'] = 1
+        context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/join_team.html',context)
     return render(request,'account/join_team.html',context)
+
 
 def join_req(request,team_pk,send_by_team):
     context = {}
+    context['statu'] = 0
 
     #判断此用户是否已经加入队伍
     userprofile = UserProfile.objects.filter(user=request.user)
@@ -182,10 +204,11 @@ def join_req(request,team_pk,send_by_team):
     user_com = UserCompetition.objects.filter(userprofile=up)
     if user_com:
         context['type'] = '已加入队伍'
-        context['message'] = '您已经加入队伍,无法再申请加入队伍,请前往个人中心查看'
+        context['statu'] = 1
+        context['error'] = '您已经加入队伍,无法再申请加入队伍,请前往个人中心查看'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/join_req.html',context)
 
     team = Team.objects.filter(pk=team_pk)
     te = team[0]
@@ -193,16 +216,18 @@ def join_req(request,team_pk,send_by_team):
     req = TeamRequest.objects.filter(userprofile=up,team=te,tag=False)
     if req:     ###如果此请求对象已经创建,此行避免报错
         context['type'] = '已发送入队请求'
-        context['message'] = '您已经发送过入队请求,无法再申请加入队伍,请前往个人中心查看'
+        context['statu'] = 1
+        context['error'] = '您已经发送过入队请求,无法再申请加入队伍,请前往个人中心查看'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/join_req.html',context)
     if te.peo_num==5:
         context['type'] = '人数超限'
-        context['message'] = '您申请加入的队伍的队伍成员已达五人,无法再申请加入队伍'
+        context['statu'] = 1
+        context['error'] = '您申请加入的队伍的队伍成员已达五人,无法再申请加入队伍'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/join_req.html',context)
     ##判断在申请加入同时,队伍方是否也在邀请你
     team_reqe1 = TeamRequest.objects.filter(userprofile=up,team=te,tag=True)
     if team_reqe1:  #对方也在邀请你
@@ -238,12 +263,14 @@ def join_req(request,team_pk,send_by_team):
 
 def invite(request,user_id,send_by_team,userprofile_id):
     context = {}
+    context['statu'] = 0
     if not request.user.is_authenticated():
         context['type'] = '未登录'
-        context['message'] = '您未登录,请登录后再执行此操作（若您是队长）'
+        context['statu'] = 1
+        context['error'] = '您未登录,请登录后再执行此操作（若您是队长）'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/invite.html',context)
     ##判断此用户是否是队长
     team = Team.objects.filter(captain=request.user)
     if team:  #是队长
@@ -251,10 +278,11 @@ def invite(request,user_id,send_by_team,userprofile_id):
         team1 = Team.objects.filter(captain_id=user_id)
         if team1:  #邀请的成员是队长，返回错误界面
             context['type'] = '无法邀请'
-            context['message'] = '您邀请的此成员是队长,您无法邀请'
+            context['statu'] = 1
+            context['error'] = '您邀请的此成员是队长,您无法邀请'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/invite.html',context)
         else:
             tm = team[0]
             if tm.peo_num<5:
@@ -283,10 +311,11 @@ def invite(request,user_id,send_by_team,userprofile_id):
                     team_reqe2 = TeamRequest.objects.filter(userprofile_id=userprofile_id,team=team[0],tag=True)
                     if team_reqe2:  #数据库中已经存在此条请求记录
                         context['type'] = '已发送入队邀请'
-                        context['message'] = '您已经发送过此条入队请求,无法再次邀请,请前往个人中心查看'
+                        context['statu'] = 1
+                        context['error'] = '您已经发送过此条入队请求,无法再次邀请,请前往个人中心查看'
                         referer = request.META.get('HTTP_REFERER')
                         context["redirect_to"] = referer
-                        return render(request,'account/error.html',context)
+                        return render(request,'account/invite.html',context)
                     else:
                         te = team[0]
                         userprofile = UserProfile.objects.filter(user_id = user_id)
@@ -305,20 +334,24 @@ def invite(request,user_id,send_by_team,userprofile_id):
                         context["userprofile_name"] = up.user.username
             else:
                 context['type'] = '人数超限'
-                context['message'] = '您的队伍成员已达五人,无法继续邀请成员'
+                context['statu'] = 1
+                context['error'] = '您的队伍成员已达五人,无法继续邀请成员'
                 referer = request.META.get('HTTP_REFERER')
                 context["redirect_to"] = referer
-                return render(request,'account/error.html',context)
+                return render(request,'account/invite.html',context)
     else:
         context['type'] = '无权限'
-        context['message'] = '您不是队长,您没有邀请权限'
+        context['statu'] = 1
+        context['error'] = '您不是队长,您没有邀请权限'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/invite.html',context)
     return render(request,'account/invite.html',context)
+
 
 def req_deal(request):
     context = {}
+    context['statu'] = 0
     if(request.user.is_authenticated()):   #如果登录
         user = request.user
         userprofile = UserProfile.objects.filter(user=user)
@@ -353,30 +386,34 @@ def req_deal(request):
                 context["ap"] = ap
         else:
             context['type'] = '未报名参赛'
-            context['message'] = '登录本网站,报名参赛后才能查看此页面'
+            context['statu'] = 1
+            context['error'] = '登录本网站,报名参赛后才能查看此页面'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/req_deal.html',context)
     else:
         context['type'] = '未登录'
-        context['message'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
+        context['statu'] = 1
+        context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/req_deal.html',context)
     return render(request,'account/req_deal.html',context)
 
 def agree(request,team_id,userprofile_id,team_req_pk):  
     ##写入数据库的响应最好加些后端判断，前端的简单判断不行------后期要做----------
     context = {}
+    context['statu'] = 0
     team = Team.objects.filter(id=team_id)
     te = team[0]
     uc = UserCompetition.objects.filter(userprofile_id = userprofile_id)
     if uc:
         context['type'] = '已经加入队伍'
-        context['message'] = '您或您邀请的人已经加入队伍,可以到个人中心查看,请不要重复操作'
+        context['statu'] = 2
+        context['error'] = '您或您邀请的人已经加入队伍,可以到个人中心查看,请不要重复操作'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/req_deal.html',context)
     if te.peo_num<5: #看看队伍人数是否超过人数5人 
         usercompetition = UserCompetition()
         usercompetition.team_id = team_id
@@ -401,13 +438,15 @@ def agree(request,team_id,userprofile_id,team_req_pk):
         return HttpResponseRedirect(url)
     else:
         context['type'] = '人数超限'
+        context['statu'] = 2
         context['message'] = '该队伍已达最大人数5人,您无法继续加入或邀请人加入'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/req_deal.html',context)
 
 def person_center(request):
     context = {}
+    context['statu'] = 0
     if(request.user.is_authenticated()):   #如果登录
         user = request.user
         useprof = UserProfile.objects.filter(user=user)  #
@@ -464,14 +503,16 @@ def person_center(request):
         context["user"] = user
     else:
         context['type'] = '未登录'
-        context['message'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
+        context['statu'] = 1
+        context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/person_center.html',context)
     return render(request,'account/person_center.html',context)
 
 def confirm(request,tag):
     context = {}
+    context['statu'] = 0
     if request.method == 'POST':
         get_name = request.user.username
         get_password = request.POST.get('password')
@@ -495,40 +536,45 @@ def confirm(request,tag):
                 return HttpResponseRedirect(url)
         else:
             context['type'] = '密码错误'
-            context['message'] = '请返回后重新输入密码验证'
+            context['statu'] = 1
+            context['error'] = '请返回后重新输入密码验证'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/confirm.html',context)
     user = request.user
     context["user"] = user
     return render(request,'account/confirm.html',context)
 
 def alter1_submit(request):     ##验证完信息修改后不保存修改也不点击放弃修改,直接退出,confirm将会置True,账号将失去修改保护
     context = {}
+    context['statu'] = 0
     conf = Confirm.objects.filter(user=request.user)
     if not conf:
         context['type'] = '非正常访问'
-        context['message'] = '您在个人中心点击修改,密码验证后您才有权修改'
+        context['statu'] = 1
+        context['error'] = '您在个人中心点击修改,密码验证后您才有权修改'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/alter1_submit.html',context)
     else:
         con = conf[0]
         if con.confirm_or_not==False:
             context['type'] = '非正常访问'
-            context['message'] = '您在个人中心点击修改,密码验证后您才有权修改'
+            context['statu'] = 1
+            context['error'] = '您在个人中心点击修改,密码验证后您才有权修改'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/alter1_submit.html',context)
     if request.method == 'POST':
         name = request.POST.get('Username').strip()
         usr = User.objects.filter(username=name)
         if usr and usr[0]!= request.user:
             context['type'] = '此用户名已存在'
-            context['message'] = '请返回后另选用户名修改并保存'
+            context['statu'] = 1
+            context['error'] = '请返回后另选用户名修改并保存'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/alter1_submit.html',context)
         password = request.POST.get('password')
         email = request.POST.get('email')
         u = User.objects.get(username__exact=request.user.username)
@@ -547,21 +593,24 @@ def alter1_submit(request):     ##验证完信息修改后不保存修改也不�
 
 def alter2_submit(request):
     context = {}
+    context['statu'] = 0
     conf = Confirm.objects.filter(user=request.user)
     if not conf:
         context['type'] = '非正常访问'
-        context['message'] = '您在个人中心点击修改,密码验证后您才有权修改'
+        context['statu'] = 1
+        context['error'] = '您在个人中心点击修改,密码验证后您才有权修改'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/alter2_submit.html',context)
     else:
         con = conf[0]
         if con.confirm_or_not==False:
             context['type'] = '非正常访问'
-            context['message'] = '您在个人中心点击修改,密码验证后您才有权修改'
+            context['statu'] = 1
+            context['error'] = '您在个人中心点击修改,密码验证后您才有权修改'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/alter2_submit.html',context)
     if request.method == 'POST':
         name = request.POST.get('name').strip()
         school = request.POST.get('school').strip()
@@ -597,6 +646,7 @@ def captain_trans(request):
 
 def del_ordisteam(request):
     context = {}
+    context['statu'] = 0
     user = request.user
     if(request.user.is_authenticated()):
         userprofile = UserProfile.objects.filter(user=request.user) #如果存在，则是一个对象的列表
@@ -619,16 +669,18 @@ def del_ordisteam(request):
                 context["is_captain"] = False
         else:
             context['type'] = '未报名参赛'
-            context['message'] = '登录本网站,报名参赛后并组队后才能进入本页面'
+            context['statu'] = 1
+            context['error'] = '登录本网站,报名参赛后并组队后才能进入本页面'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/error.html',context)
+            return render(request,'account/del_ordisteam.html',context)
     else:
         context['type'] = '未登录'
-        context['message'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
+        context['statu'] = 1
+        context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/error.html',context)
+        return render(request,'account/del_ordisteam.html',context)
     return render(request,'account/del_ordisteam.html',context)
 
 def dis_enter_team(request,team_id,tag):
