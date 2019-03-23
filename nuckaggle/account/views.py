@@ -183,6 +183,9 @@ def join_team(request):
             context['error'] = '登录本网站,报名参赛后才能加入队伍'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
+            teams = Team.objects.all()
+            context["send_by_team"] = 0
+            context["teams"] = teams
             return render(request,'account/join_team.html',context)
     else:
         context['type'] = '未登录'
@@ -190,6 +193,9 @@ def join_team(request):
         context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
+        teams = Team.objects.all()
+        context["send_by_team"] = 0
+        context["teams"] = teams
         return render(request,'account/join_team.html',context)
     return render(request,'account/join_team.html',context)
 
@@ -208,7 +214,10 @@ def join_req(request,team_pk,send_by_team):
         context['error'] = '您已经加入队伍,无法再申请加入队伍,请前往个人中心查看'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/join_req.html',context)
+        teams = Team.objects.all()
+        context["send_by_team"] = 0
+        context["teams"] = teams
+        return render(request,'account/join_team.html',context)
 
     team = Team.objects.filter(pk=team_pk)
     te = team[0]
@@ -220,14 +229,20 @@ def join_req(request,team_pk,send_by_team):
         context['error'] = '您已经发送过入队请求,无法再申请加入队伍,请前往个人中心查看'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/join_req.html',context)
+        teams = Team.objects.all()
+        context["send_by_team"] = 0
+        context["teams"] = teams
+        return render(request,'account/join_team.html',context)
     if te.peo_num==5:
         context['type'] = '人数超限'
         context['statu'] = 1
         context['error'] = '您申请加入的队伍的队伍成员已达五人,无法再申请加入队伍'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/join_req.html',context)
+        teams = Team.objects.all()
+        context["send_by_team"] = 0
+        context["teams"] = teams
+        return render(request,'account/join_team.html',context)
     ##判断在申请加入同时,队伍方是否也在邀请你
     team_reqe1 = TeamRequest.objects.filter(userprofile=up,team=te,tag=True)
     if team_reqe1:  #对方也在邀请你
@@ -270,7 +285,13 @@ def invite(request,user_id,send_by_team,userprofile_id):
         context['error'] = '您未登录,请登录后再执行此操作（若您是队长）'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/invite.html',context)
+        competitors = UserProfile.objects.all()
+        context["competitors"] = competitors
+        context["send_by_team"] = 0
+
+        return render(request,'account/enter_com.html',context)
+        url = r'/account/invite'
+
     ##判断此用户是否是队长
     team = Team.objects.filter(captain=request.user)
     if team:  #是队长
@@ -282,7 +303,11 @@ def invite(request,user_id,send_by_team,userprofile_id):
             context['error'] = '您邀请的此成员是队长,您无法邀请'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/invite.html',context)
+            competitors = UserProfile.objects.all()
+            context["competitors"] = competitors
+            context["send_by_team"] = 0
+            return render(request,'account/enter_com.html',context)
+
         else:
             tm = team[0]
             if tm.peo_num<5:
@@ -315,7 +340,10 @@ def invite(request,user_id,send_by_team,userprofile_id):
                         context['error'] = '您已经发送过此条入队请求,无法再次邀请,请前往个人中心查看'
                         referer = request.META.get('HTTP_REFERER')
                         context["redirect_to"] = referer
-                        return render(request,'account/invite.html',context)
+                        competitors = UserProfile.objects.all()
+                        context["competitors"] = competitors
+                        context["send_by_team"] = 0
+                        return render(request,'account/enter_com.html',context)
                     else:
                         te = team[0]
                         userprofile = UserProfile.objects.filter(user_id = user_id)
@@ -338,14 +366,20 @@ def invite(request,user_id,send_by_team,userprofile_id):
                 context['error'] = '您的队伍成员已达五人,无法继续邀请成员'
                 referer = request.META.get('HTTP_REFERER')
                 context["redirect_to"] = referer
-                return render(request,'account/invite.html',context)
+                competitors = UserProfile.objects.all()
+                context["competitors"] = competitors
+                context["send_by_team"] = 0
+                return render(request,'account/enter_com.html',context)
     else:
         context['type'] = '无权限'
         context['statu'] = 1
         context['error'] = '您不是队长,您没有邀请权限'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/invite.html',context)
+        competitors = UserProfile.objects.all()
+        context["competitors"] = competitors
+        context["send_by_team"] = 0
+        return render(request,'account/enter_com.html',context)
     return render(request,'account/invite.html',context)
 
 
@@ -409,11 +443,11 @@ def agree(request,team_id,userprofile_id,team_req_pk):
     uc = UserCompetition.objects.filter(userprofile_id = userprofile_id)
     if uc:
         context['type'] = '已经加入队伍'
-        context['statu'] = 2
+        context['statu'] = 1
         context['error'] = '您或您邀请的人已经加入队伍,可以到个人中心查看,请不要重复操作'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/req_deal.html',context)
+        return render(request,'account/enter_com.html',context)
     if te.peo_num<5: #看看队伍人数是否超过人数5人 
         usercompetition = UserCompetition()
         usercompetition.team_id = team_id
@@ -439,10 +473,10 @@ def agree(request,team_id,userprofile_id,team_req_pk):
     else:
         context['type'] = '人数超限'
         context['statu'] = 2
-        context['message'] = '该队伍已达最大人数5人,您无法继续加入或邀请人加入'
+        context['error'] = '该队伍已达最大人数5人,您无法继续加入或邀请人加入'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/req_deal.html',context)
+        return render(request,'account/join_team.html',context)
 
 def person_center(request):
     context = {}
