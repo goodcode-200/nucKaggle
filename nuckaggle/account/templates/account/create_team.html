@@ -17,11 +17,12 @@
             <input type='submit' value='创建队伍'>
 		</form>
 	</div>
+<script type="text/javascript" src="/static/js/alert.js"></script>
 <script>
         a= {{ statu }};
         if (a==1)
         {
-            alert('\n\n     {{ error }}\n\n');
+            window.alert('\n\n     {{ error }}\n\n');
         }
 </script>
 {% endblock %}

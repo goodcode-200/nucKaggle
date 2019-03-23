@@ -23,11 +23,12 @@
 
 {% block team_act %}
 active
+<script type="text/javascript" src="/static/js/alert.js"></script>
 <script>
         a={{ statu }};
         if (a==1)
         {
-            alert('\n\n     {{ error }}\n\n');
+            window.alert('\n\n     {{ error }}\n\n');
         }
 </script>
 

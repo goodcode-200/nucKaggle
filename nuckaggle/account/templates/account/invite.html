@@ -10,11 +10,12 @@
 	</div>
 	<h2>您已成功向 &nbsp&nbsp 参赛成员：{{userprofile_name}} &nbsp&nbsp 发送了入队请求 </h2>
 	<h2>请耐心等待成员同意</h2>
+<script type="text/javascript" src="/static/js/alert.js"></script>
 <script>
         a={{ statu }};
         if (a==1)
         {
-            alert('\n\n     {{ error }}\n\n');
+            window.alert('\n\n     {{ error }}\n\n');
         }
 </script>
 

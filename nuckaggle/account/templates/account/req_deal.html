@@ -63,15 +63,16 @@
 			</ul>
 		</div>
 	{% endif %}
+<script type="text/javascript" src="/static/js/alert.js"></script>
 <script>
         a={{ statu }};
         if (a==1)
         {
-            alert('\n\n{{ error }}\n\n');
+            window.alert('\n\n{{ error }}\n\n');
         }
         if (a==2)
 		{
-		    alert('\n\n{{ error}}\n\n');
+		    window.alert('\n\n{{ error}}\n\n');
 		}
     </script>
 {% endblock %}
