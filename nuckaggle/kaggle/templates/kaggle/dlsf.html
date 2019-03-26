@@ -5,19 +5,24 @@
 {% endblock %}
 
 {% block content %}
-<div>
-<h1>赛题：<a href="{% url 'race_detail' comquestion.id %}">（{{comquestion.title}}）</a></h1>
-</div>
+<div style="margin:20px 240px 20px 240px; border: 1px solid #AFEEEE; padding:20px; padding: 30px; width: 70%; height: 90%" align="center">
+		<span style="font-weight: bold; font-size: 40px;">赛题：<a href="{% url 'race_detail' comquestion.id %}">（{{comquestion.title}}）</a></span>
+		<table>
+		<tr>
+		   <td><h2>对应源文件：</h2></td>
 
-<div>
-	<h2>对应源文件：</h2>
-	<ul>
-		{% for i in source_list %}
-		<li>{{i.file_called_name}}<a href="{% url 'dl_action' i.id %}"><button>下载</button></a></li>
-		{% empty %}
-		----管理员暂未发布源文件，敬请期待----
-		{% endfor %}
-	</ul>
+		</tr>
+		<tr>
+		   <td><ul>
+				{% for i in source_list %}
+				<li>{{i.file_called_name}}<a href="{% url 'dl_action' i.id %}"><button>下载</button></a></li>
+				{% empty %}
+				----管理员暂未发布源文件，敬请期待----
+				{% endfor %}
+			</ul> </td>
+		</tr>
+		</table>
+	
 </div>
 {% endblock %}
 

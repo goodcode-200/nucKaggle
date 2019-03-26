@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head> 
-		<title>中北大学数据挖掘比赛</title>
+		<title>中北大学大数据挖掘比赛</title>
 		<link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all" />
 		<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 		<link href='http://fonts.useso.com/css?family=Open+Sans:400,300,600,700,800' rel='stylesheet' type='text/css'>
@@ -11,7 +11,7 @@
 		<!-- //js -->
 		<!-- for-mobile-apps -->
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="keywords" content="Galaxy Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
 		Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
@@ -33,25 +33,26 @@
 	
 <body>
 <!-- header -->
-	<div class="header">
-	<div class="container">
-		<div class="header-part">
+	<div class="header" >
+	<div class="container" style=" width: 90%;">
+		<div class="header-part" >
 			<div class="head-logo">
-				<a href="{% url 'home' %}"><img src="/static/images/logo.jpg" alt=" "></a>
+				<a href="{% url 'home' %}"><span style="color: #08122d; font-size:70px; font-weight: bold;" >BIG DATA</span></a>
 			</div>
-			<div class="top-nav">
+			<div class="top-nav" style=" position:absolute; margin-left: 490px; margin-top: 20px; font-family: 黑体;">
 				<span class="menu"><img src="/static/images/menu.png" alt="" /></span>
 					<ul class="nav1">
-						<li><a href="admin">超管通道</a></li>
-						<li><a href="{% url 'about' %}">关于</a></li>
-						<li><a href="{% url 'enter_com' %}">报名参赛</a></li>
-						<li><a href="{% url 'team' %}">队伍</a></li>
+						<li><a href="admin" style="font-size:22px; ">超管通道</a></li>
+						<li><a href="{% url 'about' %}" style="font-size:22px;">关于</a></li>
+						<li><a href="{% url 'enter_com' %}" style="font-size:22px;">报名参赛</a></li>
+						<li><a href="{% url 'team' %}" style="font-size:22px;">队伍</a></li>
+						<li><a href="{% url 'person_center' %}" style="font-size:22px;">个人中心</a></li>
 						{% if username %}
-						<li><p><a href="{% url 'person_center' %}">{{username}}/个人中心</a></p></li>
-						<li><a href="{% url 'logout' %}">登出</a></li>
+						<li><p><a href="{% url 'person_center' %}" style="font-size:22px;">{{username}}/个人中心</a></p></li>
+						<li><a href="{% url 'logout' %}" style="font-size:22px;">登出</a></li>
 						{% else %}
-						<li><a href="account/login" class="login">登录</a></li>
-						<li><a href="account/register" class="sign up">注册</a></li>
+						<li><a href="account/login" class="login" style="font-size:22px;">登录</a></li>
+						<li><a href="account/register" class="sign up" style="font-size:22px;">注册</a></li>
 						{% endif %}
 					</ul>
 					<script> 
@@ -69,21 +70,18 @@
 	</div>
 <!-- //header -->
 <!-- banner -->
-	<div class="banner">
+	<div class="banner" >
 	<div class="container">
-		<div class="banner-info">
-			<h2>NUC KAGGLE</h2>
-			<h3 style="color:blue">中北大学数据挖掘比赛</h3>
-			<p><button><a href="{% url 'kaggle_home' %}">进入比赛页面</a></button></p>
-			<div class="more">
-				<a href="{% url 'person_center' %}">进入你的中心</a>
-			</div>
+		<div class="banner-info" style="position: relative;">
+		   
+			<p><button style="background:#C0C0C0; width: 200px; border-bottom:#CCCCCC 1px solid; border-right: #CCCCCC 2px solid; border-top: none; border-left:none; height: 40px; position: absolute;  left:480px; top: 270px; font-family: 黑体;"><a href="{% url 'kaggle_home' %}">进入比赛页面</a></button></p>
+			
 		</div>
 	</div>
 	</div>
 <!-- //banner -->
 
-<div>
+<div style="margin:0px; padding:30px; background: url(../static/images/total_home.jpg);">
 	<h2>广告页面</h2>
 	<p>广告,顾名思义,就是广而告之,即向社会广大公众告知某件事物。广告就其含义来说,有广义和狭义之分。广义广告是指不以营利为目的的广告,如政府公告,政党、宗教、教育、文化、市政、社会团体等方面的启事、声明等。狭义广告是指以营利为目的的广告,通常指的是商业广告,或称经济广告，它是工商企业为推销商品或提供服务，以付费方式,通过广告媒体向消费者或用户传播商品或服务信息的手段。商品广告就是这样的经济广告。</p>
 	<hr>

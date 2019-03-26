@@ -6,16 +6,44 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>{% block title %}{% endblock %}</title>
         <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
+        
         <script type=""text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}">
+        </script>
+        <script type="text/javascript">
+            window.onload=init;
+            function init() {
+                window.setInterval("start2()",2000);
+            }
+
+            var i=2;
+            function start2() {
+                var imgobj=document.getElementById("rol");
+                imgobj.src="../../../static/images/rol_"+i+".jpg";
+                i++;
+                if(i>3) i=1;
+            }
+        </script>
+        <script type="text/javascript">
+            window.onload=init;
+            function init() {
+                var j=1;
+                var obj=document.getElementById("res");
+                obj.innerHTML=j;
+                obj.style.font-size:"30px";
+                obj.style.font-weight:"bold";
+                obj.style.color:"#4682B4";
+                j++;
+            }
+            
         </script>
         {% block head_extends %}
         {% endblock %}
     </head>
 	<body style="font-size: 20px;margin-top: 75px;">
-	<div class='navbar navbar-default navbar-fixed-top' role='navigation'>
-            <div class='container-fluid'>
+	<div class='navbar navbar-default navbar-fixed-top' role='navigation' align="center">
+            <div class='container-fluid' align="center">
                 <div class="navbar-header">
-                    <a class='navbar-brand' href="{% url 'home' %}">中北大学数据挖掘比赛</a>
+                    <a class='navbar-brand' href="{% url 'home' %}">中北大学数据比赛</a>
                     <button class='navbar-toggle collapse' data-toggle="collapse" data-target='#navbar-collapse'>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
