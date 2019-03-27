@@ -41,6 +41,13 @@ def register(request):
             return render(request,'account/error.html',context)
         password = request.POST.get('password')
         email = request.POST.get('email')
+        u2 = User.objects.filter(email = email)
+        if u2:
+            context['type'] = '注册'
+            context['message'] = '该邮箱已被注册,如您确定此邮箱是您的，请向赛事举办方申诉'
+            referer = request.META.get('HTTP_REFERER')
+            context["redirect_to"] = referer
+            return render(request,'account/error.html',context)
         user = User.objects.create_user(name, email, password)
         user.save()
         url = r'/account/login'
