@@ -1,6 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from .forms import IdentifyForm
+from .forms import IdentifyForm,ResetForm
 from .utils import send_forget_email
 from django.contrib.auth.models import User
 from .models import EmailVerifyRecord
@@ -42,3 +42,20 @@ def reset_password(request,email,active_code):
 			email=i.email
 			return render(request,'user_ex/pass_reset.html',{'email':email})
 	return HttpResponseRedirect('/')
+
+def modify(request):
+	reset_form=ResetForm(request.POST)
+	if reset_form.is_valid():
+		pwd1=request.POST.get('newpwd1','')
+		pwd2=request.POST.get('newpwd2','')
+		email=request.POST.get('email','')
+		if pwd1!=pwd2:
+			return render(request,'user_ex/pass_reset.html',{'msg':'密码不一致！'})
+		else:
+			user=User.objects.get(email=email)
+			user.set_password(pwd2)
+			user.save()
+			return render(request,'user_ex/reset_success.html')
+	else:
+		email=request.POST.get('email','')
+		return render(request,'user_ex/pass_reset.html',{'msg':reset_form.errors})
