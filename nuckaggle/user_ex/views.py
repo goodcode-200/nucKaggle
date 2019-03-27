@@ -50,7 +50,7 @@ def modify(request):
 		pwd2=request.POST.get('newpwd2','')
 		email=request.POST.get('email','')
 		if pwd1!=pwd2:
-			return render(request,'user_ex/pass_reset.html',{'msg':'密码不一致！'})
+			return render(request,'user_ex/pass_reset.html',{'msg':'密码不一致！','statu':1,'error':"密码不合规，此页面失效，请重新使用邮箱链接"})
 		else:
 			user=User.objects.get(email=email)
 			user.set_password(pwd2)
@@ -58,4 +58,4 @@ def modify(request):
 			return render(request,'user_ex/reset_success.html')
 	else:
 		email=request.POST.get('email','')
-		return render(request,'user_ex/pass_reset.html',{'msg':reset_form.errors})
+		return render(request,'user_ex/pass_reset.html',{'msg':reset_form.errors,'statu':1,'error':"密码不合规，此页面失效，请重新使用邮箱链接"})
