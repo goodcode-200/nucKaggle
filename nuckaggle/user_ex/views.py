@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .forms import IdentifyForm
+from .utils import send_forget_email
 
 # Create your views here.
 def home(request):
@@ -11,15 +12,15 @@ def identify(request):
 	if request.method == 'POST':
 		form = IdentifyForm(request.POST)
 		if form.is_valid():
-			print("33333333333333")
 			email=request.POST.get('email','')
-			send_register_email(email,'forget')
-			return render(request,'user_ex/send_success.html')
+			send_forget_email(email)
+			return render(request,'user_ex/send_successful.html')
 		else:
-			print("22222222222")
 			context["identify_from"] = identify_from
+			context["statu"] = 1
+			context["error"] = "验证码错误" 
 			return render(request,'user_ex/identify.html',context)
 	else:
-		print("11111111111111111111")
 		context["identify_from"] = identify_from
+		context["statu"] = 0
 		return render(request,'user_ex/identify.html',context)
