@@ -5,47 +5,42 @@
 {% endblock %}
 
 {% block head_extends %}
-<style>
-#cmd_list{
-	list-style-type: none;
-}
-#cmd_list li{
-	width:120px;
-	height:80px;
-	margin:3px;
-	background:red;
-	display:inline-block;
-}
-</style>
 {% endblock %}
 
 {% block content %}
-	<div>
-		<ul id="cmd_list">
-		<li><button><a href="{% url 'create_team' %}">创建队伍</a></button></li>
-		<li><button><a href="{% url 'join_team' %}">加入队伍</a></button></li>
-		<li><button><a href="{% url 'req_deal' %}">请求处理</a></button></li>
-		<li><button><a href="{% url 'del_ordisteam' %}">队伍的删除和退出</a></button></li>
-		<li><button><a href="{% url 'captain_trans' %}">队长转让</a></button></li>
-		</ul>
-	</div>
-	<div>
-		<h3>队伍列表</h3>
-		<ul>
+
+	
+	  <div class="col-md-3">
+	  <ul class="list-group">
+		  <li  class="list-group-item"><a href="{% url 'create_team' %}"
+		  	class="list-group-item">创建队伍</a></li>
+		  <li  class="list-group-item"><a href="{% url 'join_team' %}" class="list-group-item">加入队伍</a></li>
+		  <li  class="list-group-item"><a href="{% url 'req_deal' %}" class="list-group-item">请求处理</a></li>
+		  <li  class="list-group-item"><a href="{% url 'del_ordisteam' %}" class="list-group-item">队伍的删除和退出</a></li>
+		  <li  class="list-group-item"><a href="{% url 'captain_trans' %}" class="list-group-item">队长转让</a></li>
+      </ul>
+      </div>
+	  <div class="col-md-8">
+		<table class="table table-hover ">
+			<tr style="background: #1903014d;">
+				<td>队伍号</td>
+				<td>队名</td>
+				<td>队长</td>
+				<td>提交次数</td>
+				<td>最高分</td>
+			</tr>
 			{% for team in teams %}
-			<li>
-			<div>
-			队伍号：{{team.id}}<br>
-			队名：{{team.team_name}}<br>
-			队长：{{team.captain}}<br>
-			提交次数：{{team.sub_num}}<br>
-			最高分：{{team.max_score}}
-			</div>
-			<br>
-			</li>
+			<tr>
+				<td>{{team.id}}</td>
+				<td>{{team.team_name}}</td>
+				<td>{{team.captain}}</td>
+				<td>{{team.sub_num}}</td>
+				<td>{{team.max_score}}</td>
+			</tr>
 			{% endfor %}
-		</ul>
-	</div>
+		</table>
+       </div>
+
 {% endblock %}
 
 {% block team_act %}
