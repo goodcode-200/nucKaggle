@@ -4,6 +4,7 @@ from .forms import IdentifyForm,ResetForm
 from .utils import send_forget_email
 from django.contrib.auth.models import User
 from .models import EmailVerifyRecord
+from django.utils import timezone
 
 # Create your views here.
 def home(request):
@@ -35,10 +36,19 @@ def identify(request):
 		context["statu"] = 0
 		return render(request,'user_ex/identify.html',context)
 
-def reset_password(request,email,active_code):
+def reset_password(request,email,active_code): 
+	context = {}
 	record=EmailVerifyRecord.objects.filter(email = email,code = active_code)
 	if record:
 		for i in record:
+			create = i.valid_time
+			td = timezone.now() - create
+			if td.seconds//60 > 2:
+				context['type'] = '链接超时'
+				context['message'] = '此链接已经超时失效，请重新获取'
+				referer = request.META.get('HTTP_REFERER')
+				context["redirect_to"] = referer
+				return render(request,'account/error.html',context)
 			email=i.email
 			return render(request,'user_ex/pass_reset.html',{'email':email})
 	return HttpResponseRedirect('/')
