@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'kaggle',
     'account',
+    'user_ex',
     'django_apscheduler',
+    'captcha',
 ]
 
 MIDDLEWARE_CLASSES = [
