@@ -1,7 +1,9 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import IdentifyForm
 from .utils import send_forget_email
 from django.contrib.auth.models import User
+from .models import EmailVerifyRecord
 
 # Create your views here.
 def home(request):
@@ -33,4 +35,10 @@ def identify(request):
 		context["statu"] = 0
 		return render(request,'user_ex/identify.html',context)
 
-def reset_password(request):
+def reset_password(request,email,active_code):
+	record=EmailVerifyRecord.objects.filter(email = email,code = active_code)
+	if record:
+		for i in record:
+			email=i.email
+			return render(request,'user_ex/pass_reset.html',{'email':email})
+	return HttpResponseRedirect('/')
