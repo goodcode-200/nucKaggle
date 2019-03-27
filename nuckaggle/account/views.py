@@ -102,7 +102,7 @@ def create_team(request):
                 context['error'] = '登录本网站,报名参赛后才能创建队伍'
                 referer = request.META.get('HTTP_REFERER')
                 context["redirect_to"] = referer
-                return render(request,'account/create_team.html',context)
+                return render(request,'account/team.html',context)
         else:
             context['type'] = '未登录'
             context['statu'] = 1
@@ -110,7 +110,7 @@ def create_team(request):
             context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/create_team.html',context)
+            return render(request,'account/team.html',context)
     return render(request,'account/create_team.html')
 
 def enter_com(request):
@@ -126,6 +126,9 @@ def enter_com(request):
                 context['message'] = '您已经创建过参赛信息，如需修改请到个人中心'
                 referer = request.META.get('HTTP_REFERER')
                 context["redirect_to"] = referer
+                competitors = UserProfile.objects.all()
+                context["competitors"] = competitors
+                context["send_by_team"] = 1
                 return render(request,'account/enter_com.html',context)
             name = request.POST.get('name').strip()
             school = request.POST.get('school').strip()
@@ -148,11 +151,15 @@ def enter_com(request):
             return HttpResponseRedirect(url)
         else:
             context['type'] = '未登录'
+
             context['statu'] = 1
             context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
             context['message'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
+            competitors = UserProfile.objects.all()
+            context["competitors"] = competitors
+            context["send_by_team"] = 1
             return render(request,'account/enter_com.html',context)
     competitors = UserProfile.objects.all()
     context["competitors"] = competitors
@@ -186,7 +193,7 @@ def join_team(request):
             teams = Team.objects.all()
             context["send_by_team"] = 0
             context["teams"] = teams
-            return render(request,'account/join_team.html',context)
+            return render(request,'account/team.html',context)
     else:
         context['type'] = '未登录'
         context['statu'] = 1
@@ -196,7 +203,7 @@ def join_team(request):
         teams = Team.objects.all()
         context["send_by_team"] = 0
         context["teams"] = teams
-        return render(request,'account/join_team.html',context)
+        return render(request,'account/team.html',context)
     return render(request,'account/join_team.html',context)
 
 
@@ -424,14 +431,20 @@ def req_deal(request):
             context['error'] = '登录本网站,报名参赛后才能查看此页面'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/req_deal.html',context)
+            teams = Team.objects.all()
+            context["send_by_team"] = 0
+            context["teams"] = teams
+            return render(request,'account/team.html',context)
     else:
         context['type'] = '未登录'
         context['statu'] = 1
         context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/req_deal.html',context)
+        teams = Team.objects.all()
+        context["send_by_team"] = 0
+        context["teams"] = teams
+        return render(request,'account/team.html',context)
     return render(request,'account/req_deal.html',context)
 
 def agree(request,team_id,userprofile_id,team_req_pk):  
@@ -541,7 +554,9 @@ def person_center(request):
         context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/person_center.html',context)
+
+        return render(request,'index.html',context)
+
     return render(request,'account/person_center.html',context)
 
 def confirm(request,tag):
@@ -707,14 +722,20 @@ def del_ordisteam(request):
             context['error'] = '登录本网站,报名参赛后并组队后才能进入本页面'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/del_ordisteam.html',context)
+            teams = Team.objects.all()
+            context["send_by_team"] = 0
+            context["teams"] = teams
+            return render(request,'account/team.html',context)
     else:
         context['type'] = '未登录'
         context['statu'] = 1
         context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/del_ordisteam.html',context)
+        teams = Team.objects.all()
+        context["send_by_team"] = 0
+        context["teams"] = teams
+        return render(request,'account/team.html',context)
     return render(request,'account/del_ordisteam.html',context)
 
 def dis_enter_team(request,team_id,tag):

@@ -51,8 +51,8 @@
 						<li><p><a href="{% url 'person_center' %}">{{username}}/个人中心</a></p></li>
 						<li><a href="{% url 'logout' %}">登出</a></li>
 						{% else %}
-						<li><a href="account/login" class="login">登录</a></li>
-						<li><a href="account/register" class="sign up">注册</a></li>
+						<li><a href="{% url 'login' %}" class="login">登录</a></li>
+						<li><a href="{% url 'register' %}" class="sign up">注册</a></li>
 						{% endif %}
 					</ul>
 					<script> 

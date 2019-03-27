@@ -92,6 +92,7 @@ def upload_file(request,cq_id):
 				te.save()
 				context["team"] = te
 				context["comquestion"] = comquestion
+
 				return render(request,"kaggle/successful.html",context)
 			else:
 				context['type'] = '文件类型错误'
@@ -99,6 +100,10 @@ def upload_file(request,cq_id):
 				context['error'] = '请选择正确类型（*.csv）的文件后再提交'
 				referer = request.META.get('HTTP_REFERER')
 				context["redirect_to"] = referer
+				comquestion = ComQuestion.objects.get(pk=cq_id)
+				context["comquestion"] = comquestion
+				form = UploadFileForm()
+				context["form"] = form
 				return render(request,'kaggle/upload_file.html',context)
 		else:
 			context['type'] = '未选择文件'
@@ -106,6 +111,10 @@ def upload_file(request,cq_id):
 			context['error'] = '请选择文件后再提交'
 			referer = request.META.get('HTTP_REFERER')
 			context["redirect_to"] = referer
+			comquestion = ComQuestion.objects.get(pk=cq_id)
+			context["comquestion"] = comquestion
+			form = UploadFileForm()
+			context["form"] = form
 			return render(request,'kaggle/upload_file.html',context)
 	else:
 		if not team:
@@ -114,6 +123,10 @@ def upload_file(request,cq_id):
 			context['error'] = '您并非队长，无权提交结果文件'
 			referer = request.META.get('HTTP_REFERER')
 			context["redirect_to"] = referer
+			comquestion = ComQuestion.objects.get(pk=cq_id)
+			context["comquestion"] = comquestion
+			form = UploadFileForm()
+			context["form"] = form
 			return render(request,'kaggle/upload_file.html',context)
 		form = UploadFileForm()
 		context["form"] = form
