@@ -19,8 +19,11 @@ def identify(request):
 			email=request.POST.get('email','')
 			us = User.objects.filter(email = email)
 			if us:
-				send_forget_email(email)
-				return render(request,'user_ex/send_successful.html')
+				is_send = send_forget_email(email)
+				if is_send:
+					return render(request,'user_ex/send_successful.html')
+				else:
+					return render(request,'user_ex/send_fail.html')
 			else:
 				context["identify_from"] = identify_from
 				context["statu"] = 1
