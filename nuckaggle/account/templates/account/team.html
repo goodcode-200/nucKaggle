@@ -46,6 +46,14 @@
 			{% endfor %}
 		</ul>
 	</div>
+<script type="text/javascript" src="/static/js/alert.js"></script>
+<script>
+        a={{ statu }};
+        if (a==1)
+        {
+            window.alert('\n\n     {{ error }}\n\n');
+        }
+</script>
 {% endblock %}
 
 {% block team_act %}

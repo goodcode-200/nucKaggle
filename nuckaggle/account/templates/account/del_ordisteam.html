@@ -1,11 +1,19 @@
 {% extends 'bar.html' %}
 
+<script type="text/javascript" src="/static/js/alert.js"></script>
+<script>
+        a={{ statu }};
+        if (a==1)
+        {
+            window.alert('\n\n     {{ error }}\n\n');
+        }
+</script>
 {% block title %}
 队伍删除或成员退出
 {% endblock %}
 
 {% block content %}
-	{% if has_team %}
+
 		{% if is_captain %}
 		<h1>您是队长</h1>
 		<p>您的队伍是：{{team.team_name}}</p>
@@ -15,11 +23,13 @@
 		<p>您加入的队伍是：{{usercompetition.team.team_name}}</p>
 		<button><a href="{% url 'dis_enter_team' usercompetition.team.id 2 %}">退出队伍</a></button>
 		{% endif %}
-	{% else %}
-		<h1>您还没有队伍,请返回队伍页面创建或加入队伍</h1>
-	{% endif%}
+
+
 {% endblock %}
 
 {% block team_act %}
 active
+
+
 {% endblock %}
+
