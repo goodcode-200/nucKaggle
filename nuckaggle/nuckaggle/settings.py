@@ -39,7 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'kaggle',
     'account',
+    'user_ex',
     'django_apscheduler',
+    'captcha',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -133,3 +135,10 @@ STATICFILES_DIRS = [
 #比赛所用csv文件地址
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'kaggle','media')
+
+EMAIL_HOST='smtp.sina.com'
+EMAIL_PORT=25
+EMAIL_HOST_USER='nuckaggle@sina.com' 
+EMAIL_HOST_PASSWORD='text5695256'
+EMAIL_USE_TLS=True
+EMAIL_FROM='nuckaggle@sina.com' 
