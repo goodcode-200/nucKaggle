@@ -103,7 +103,6 @@ def create_team(request):
                 uc.userprofile = userprofile[0]
                 uc.team = team
                 uc.save()
-
                 url = r'/account/team'
                 return HttpResponseRedirect(url)
             else:
