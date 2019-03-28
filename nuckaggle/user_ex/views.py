@@ -40,17 +40,17 @@ def reset_password(request,email,active_code):
 	context = {}
 	record=EmailVerifyRecord.objects.filter(email = email,code = active_code)
 	if record:
-		for i in record:
-			create = i.valid_time
-			td = timezone.now() - create
-			if td.seconds//60 > 2:
-				context['type'] = '链接超时'
-				context['message'] = '此链接已经超时失效，请重新获取'
-				referer = request.META.get('HTTP_REFERER')
-				context["redirect_to"] = referer
-				return render(request,'account/error.html',context)
-			email=i.email
-			return render(request,'user_ex/pass_reset.html',{'email':email})
+		i = record[len(record)-1] #虽然概率极低，有多个的话，取最新的那个（最可能有效）
+		create = i.valid_time
+		td = timezone.now() - create
+		if td.seconds//60 > 9:  #链接10分钟内有效
+			context['type'] = '链接超时'
+			context['message'] = '此链接已经超时失效，请重新获取'
+			referer = request.META.get('HTTP_REFERER')
+			context["redirect_to"] = referer
+			return render(request,'account/error.html',context)
+		email=i.email
+		return render(request,'user_ex/pass_reset.html',{'email':email})
 	return HttpResponseRedirect('/')
 
 def modify(request):
