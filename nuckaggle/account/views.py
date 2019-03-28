@@ -185,30 +185,21 @@ def join_team(request):
                 context["send_by_team"] = 0
                 context["teams"] = teams
             else:
-                context['type'] = '队长已加入队伍'
                 context['statu'] = 1
-                context['error'] = '您已经是队长,请在报名参赛页面邀请队员加入队伍'
-                referer = request.META.get('HTTP_REFERER')
-                context["redirect_to"] = referer
-                return render(request,'account/join_team.html',context)
+                context['error'] = '(队长已经加入队伍)您已经是队长,请在报名参赛页面邀请队员加入队伍'
+                teams = Team.objects.all()
+                context["teams"] = teams
+                return render(request,'account/team.html',context)
         else:
-            context['type'] = '未报名参赛'
             context['statu'] = 1
-            context['error'] = '登录本网站,报名参赛后才能加入队伍'
-            referer = request.META.get('HTTP_REFERER')
-            context["redirect_to"] = referer
+            context['error'] = '(未报名参赛)登录本网站,报名参赛后才能加入队伍'
             teams = Team.objects.all()
-            context["send_by_team"] = 0
             context["teams"] = teams
             return render(request,'account/team.html',context)
     else:
-        context['type'] = '未登录'
         context['statu'] = 1
-        context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
-        referer = request.META.get('HTTP_REFERER')
-        context["redirect_to"] = referer
+        context['error'] = '(未登录)请在主页按照网站注册信息登录或注册成为网站用户后登录'
         teams = Team.objects.all()
-        context["send_by_team"] = 0
         context["teams"] = teams
         return render(request,'account/team.html',context)
     return render(request,'account/join_team.html',context)
