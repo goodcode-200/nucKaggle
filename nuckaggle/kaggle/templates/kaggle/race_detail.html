@@ -7,20 +7,38 @@
 {% block content %}
 <div class='container'>
     <div class='row'>
-        <div class='col-xs-10 col-xs-offset-1'>
-            <h3>{{comquestion.title}}</h3>
-            <hr>
-            <p style="text-indent: 2em;">{{comquestion.content|safe}}</p>
+        <div class='col-xs-10 col-xs-offset-1' style="border: 1px solid #AFEEEE; padding:20px; padding: 30px;" >
+        
+            <table >
+                <tr bgcolor="#F0F8FF" align="center">
+                    <td colspan="2"><h3>{{comquestion.title}}</h3></td>
+                </tr>
+                 <tr  >
+                    <td colspan="2">&nbsp</td>
+                </tr>
+                <tr>
+                    <td colspan="2"><p style="text-indent: 2em; word-spacing: 0.5em; font-family: 宋体;">{{comquestion.content|safe}}</p></td>
+                </tr>
+                 <tr  >
+                    <td colspan="2">&nbsp</td>
+                </tr>
 
-            <div style='margin-top: 1em'>
-                <button><a href="{% url 'dlsf' comquestion.id%}">下载原始数据</a></button>
-                <button><a href="{% url 'upload_file' comquestion.id %}">上传你处理过的文件</a></button>
-            </div>
-            
-            <div style='margin-top: 1em'>
-                <p>
+               <tr align="center">
+                    <td><button style="background: #F0F8FF; width: 200px; border-bottom:#f0f0f0 1px solid; border-right: #f0f0f0 2px solid; border-top: none; border-left:none; height: 40px;"><a href="{% url 'dlsf' comquestion.id%}">下载原始数据</a></button></td>
+                    <td>
+                <button style="background: #F0F8FF; width: 200px; border-bottom:#f0f0f0 1px solid; border-right: #f0f0f0 2px solid; border-top: none; border-left:none; height: 40px;"><a href="{% url 'upload_file' comquestion.id %}">上传你处理过的文件</a></button></td>
+               </tr>
+                <tr  >
+                    <td colspan="2" height="10px">&nbsp</td>
+                </tr>
+                <tr  >
+                    <td colspan="2"><hr></td>
+                </tr>
+                 <tr  >
+                    <td colspan="2">
+                         <p>
                     {% if previous_comquestion %}
-                        上一赛题：<a href="{% url 'race_detail' previous_comquestion.pk %}">{{previous_comquestion.title}}</a><br>
+                        上一赛题：<a style="color: #6495ED   ;" href="{% url 'race_detail' previous_comquestion.pk %}">{{previous_comquestion.title}}</a><br>
                     {% else %}
                         上一赛题：没有了<br>
                     {% endif %}
@@ -31,35 +49,42 @@
                         下一赛题：没有了
                     {% endif %}
                 </p>
-            </div>
-
-            <div>
-                <h2>队伍提交历史</h2>
-                <div>
-                    {% if has_team %}
-                        <h4>队伍名称：{{team.team_name}}</h4>
-                        <ul>
-                        {% for i in submitfile %}
-                            <li>
-                                <ul>
-                                    <li>提交时间：{{i.submit_time}}</li>
-                                    <li>是否由系统计算过得分：{{i.status}}</li>
-                                    <li>提交得分：{{i.score}}</li>
-                                    <li>系统核查分数时留下信息：{{i.message}}</li>
-                                </ul>
-                            </li>
-                            <br>
-                        {% empty %}
-                            <p>--您的队伍暂无对该题目的提交信息--</p>
-                        {% endfor %}
-                        </ul>
-                    {% else %}
-                        <p>没有和您关联的队伍信息,所以没有队伍的提交历史，或您未登录</p>
-                    {% endif %}
-                </div>
+                    </td>
+                </tr>           
+            </table>
+            <hr>
+            
+            <div align="center"> 
+                <span style="font-family:黑体; font-size: 30px;">队伍提交历史</span><br><br>
+                {% if has_team %}
+                
+                    <span>队伍名称：{{team.team_name}}</span><br>
+              
+                 {% for i in submitfile %}
+                    <ul style="list-style: none;">
+                        <li style="list-style: none;">提交时间：{{i.submit_time}}</li>
+                        <li style="list-style: none;">是否由系统计算过得分：{{i.status}}</li>
+                        <li style="list-style: none;">提交得分：{{i.score}}</li>
+                        <li style="list-style: none;">系统核查分数时留下信息：{{i.message}}</li>
+                    </ul><br>
+                    {% empty %}
+                        <p>--您的队伍暂无对该题目的提交信息--</p>
+                    {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>没有和您关联的队伍信息,所以没有队伍的提交历史，或您未登录</p>
+                {% endif %}
+              
             </div>
         </div>
+
     </div>
+    <br>
+         <span style="margin:20px 300px 20px 300px;  font-size: 15px; font-family: 黑体; color: gray;">
+                    © 2019-2020 大数据网络安全实验室版权所有
+                    &nbsp;|&nbsp;
+                    京ICP备17053197号-1
+                </span><br><br>
 </div>
 {% endblock %}
 
