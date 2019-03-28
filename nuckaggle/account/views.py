@@ -94,7 +94,11 @@ def create_team(request):
                 team.team_name = team_name
                 team.captain = request.user
                 team.save()
-
+                usco = UserCompetition.objects.filter(userprofile = userprofile[0])
+                if usco:
+                    context['statu'] = 1
+                    context['error'] = '您已经加入队伍，若要创建请退出原队伍'
+                    return render(request,'account/create_team.html',context)
                 uc = UserCompetition()
                 uc.userprofile = userprofile[0]
                 uc.team = team
