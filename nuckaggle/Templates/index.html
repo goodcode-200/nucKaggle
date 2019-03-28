@@ -43,11 +43,10 @@
 			<div class="top-nav" style=" position:absolute; margin-left: 490px; margin-top: 20px; font-family: 黑体;">
 				<span class="menu"><img src="/static/images/menu.png" alt="" /></span>
 					<ul class="nav1">
-						<li><a href="admin" style="font-size:22px; ">超管通道</a></li>
+						<li><a href="/admin" style="font-size:22px; ">超管通道</a></li>
 						<li><a href="{% url 'about' %}" style="font-size:22px;">关于</a></li>
 						<li><a href="{% url 'enter_com' %}" style="font-size:22px;">报名参赛</a></li>
 						<li><a href="{% url 'team' %}" style="font-size:22px;">队伍</a></li>
-						<li><a href="{% url 'person_center' %}" style="font-size:22px;">个人中心</a></li>
 						{% if username %}
 						<li><p><a href="{% url 'person_center' %}" style="font-size:22px;">{{username}}/个人中心</a></p></li>
 						<li><a href="{% url 'logout' %}" style="font-size:22px;">登出</a></li>
