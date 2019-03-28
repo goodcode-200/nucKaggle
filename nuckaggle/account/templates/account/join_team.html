@@ -17,6 +17,7 @@
 			队名：{{team.team_name}}<br>
 			队长：{{team.captain}}<br>
 			<a href="{% url 'join_req' team.pk send_by_team %}"><botton>发出加入申请</botton></a>
+
 			<br>
 			<br>
 			</li>
@@ -24,6 +25,14 @@
 			{% endfor %}
 		</ul>
 	</div>
+<script type="text/javascript" src="/static/js/alert.js"></script>
+<script>
+        a={{ statu }};
+        if (a==1)
+        {
+            window.alert('\n\n     {{ error }}\n\n');
+        }
+</script>
 {% endblock %}
 
 {% block team_act %}active{% endblock %}

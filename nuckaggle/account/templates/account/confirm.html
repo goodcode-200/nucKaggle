@@ -14,5 +14,13 @@
 			</form>
 			<button><a href="{% url 'person_center' %}">放弃修改</a></button>
 		</div>
+<script type="text/javascript" src="/static/js/alert.js"></script>
+<script>
+        a={{ statu }};
+        if (a==1)
+        {
+            window.alert('\n\n     {{ error }}\n\n');
+        }
+</script>
 	</body>
 </html>
