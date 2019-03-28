@@ -31,7 +31,7 @@
 			</ul>
 		</div>
 		<div>
-			<h5>入队申请</h5>
+			<h5>入队申请(请求加入我的队伍)</h5>
 			<ul>
 			{% for i in ap %}
 			<li>{{i.userprofile.user.username}}&nbsp&nbsp&nbsp&nbsp<span><a href="{% url 'agree' i.team_id i.userprofile_id i.pk %}">同意加入</a></span></li>
