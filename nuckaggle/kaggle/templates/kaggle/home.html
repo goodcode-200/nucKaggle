@@ -5,12 +5,43 @@
 {% endblock %}
 
 {% block content %}
+    <img id="rol" class="home" src="../../../static/images/rol_2.jpg" width="1600px" height= "500px">
+        </img>
+        <div align="center" style="padding-top: 30px; margin:0px; background: url(../../../static/images/total_home.jpg); opacity: 0.87;"> 
+          <span style=" font-size: 50px; font-weight: bold; color: #333333; align: center;">本届赛事</span>
+             <hr width="85%" color="black" size="2px" />
+             <table width="85%"  bordercolor="#f0f0f0" border="2" cellpadding="20">
+            <tr bgcolor="#B0E0E6" >
+            <td height="30px">&nbsp</td>
+            </tr> 
 	{% for i in questions %}
-	<h2><a href="{% url 'race_detail' i.pk %}">{{i.title}}</a></h2>
-	<p>{{i.content|safe|striptags|truncatechars:120}}</p>
+<tr bgcolor="#F0FFFF">
+            <td height="60px"><span style="font-size: 30px; font-weight: bold; color: #4682B4"><a href="{% url 'race_detail' i.pk %}">&nbsp&nbsp&nbsp{{i.title}}</a></span></td>
+            </tr>
+             <tr bgcolor="white">
+            <td height="80px">&nbsp&nbsp&nbsp{{i.content|safe|striptags|truncatechars:120}}
+        
+            </td>
+            </tr>
+	
+    
 	{% empty %}
 	---比赛方暂未发布比赛，敬请期待---
+	---如果有比赛---
+	
+
 	{% endfor %}
+         <tr>
+         <td>&nbsp</td>
+         </tr>
+         </table>
+         <span style="font-size: 15px; font-family: 黑体; color: gray;">
+                    © 2019-2020 大数据网络安全实验室版权所有
+                    &nbsp;|&nbsp;
+                    京ICP备17053197号-1
+                </span><br><br>
+    </div>
+
 {% endblock %}
 
 {% block kaggle_home_act %}active{% endblock %}

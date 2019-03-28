@@ -24,4 +24,5 @@ urlpatterns = [
     url(r'^$',views.home,name='home'),
     url(r'^account/',include('account.urls')),
     url(r'^kaggle/',include('kaggle.urls')),
+    
 ]
