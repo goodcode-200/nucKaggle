@@ -109,7 +109,7 @@ def create_team(request):
                 context['error'] = '登录本网站,报名参赛后才能创建队伍'
                 referer = request.META.get('HTTP_REFERER')
                 context["redirect_to"] = referer
-                return render(request,'account/team.html',context)
+                return render(request,'account/create_team.html',context)
         else:
             context['type'] = '未登录'
             context['statu'] = 1
@@ -117,7 +117,7 @@ def create_team(request):
             context['error'] = '请在主页按照网站注册信息登录或注册成为网站用户后登录'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
-            return render(request,'account/team.html',context)
+            return render(request,'account/create_team.html',context)
     return render(request,'account/create_team.html')
 
 def enter_com(request):
