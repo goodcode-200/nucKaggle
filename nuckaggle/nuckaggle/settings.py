@@ -137,7 +137,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'kaggle','media')
 
 EMAIL_HOST='smtp.sina.com'
-EMAIL_PORT=25
+EMAIL_PORT=587
 EMAIL_HOST_USER='nuckaggle@sina.com' 
 EMAIL_HOST_PASSWORD='text5695256'
 EMAIL_USE_TLS=True
