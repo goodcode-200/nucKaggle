@@ -1,13 +1,28 @@
 {% extends 'bar.html' %}
-
+{% load staticfiles %}
 {% block title %}
 报名比赛
 {% endblock %}
 
+{% block head_extends %}
+<style>
+		    
+
+		    body{text-align: center;
+                 background-color: #87CEFA;
+                 background-image: url("{% static 'images/timg.jpg' %}");
+		    	 background-repeat:no-repeat;
+	             background-size:100% 100%;
+	             background-attachment:fixed;
+	            }
+		</style>
+{% endblock %}
+
 {% block content %}
 	<div>
-			<h1>报名比赛</h1>
+			<h1 style="color:blue">报名比赛</h1>
 		</div>
+
 		<div>
 			<form action="{% url 'enter_com' %}" method="POST">
                 {% csrf_token %}
@@ -19,17 +34,39 @@
                 <input type='text' name='student_id'><br><br>
                 <span>联系电话：</span>
                 <input type='text' name='phone'><br><br>
-                <span>性别：</span>
+                <span1 class="xy">性别：</span1>
+                <style>
+                	span{
+                		margin-left：30px
+                	}
+                </style>
                 <select id="id_sex" name="sex">
-					<option value="" selected="selected">---------</option>
-					<option value="man">男</option>
-					<option value="woman">女</option>
+				<option value="" selected="selected">---------</option>
+				<option value="man">男</option>
+			    <option value="woman">女</option>
 				</select><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+               
                 <input type='submit' value='提交参赛信息'>
+                
+               
 			</form>
+			<style>
+
+			span{
+            display: inline-block;
+            width: 100px;
+            text-align: right;
+}           
+            
+
+            }
+            
+            
+
+			 </style>
 		</div>
 		<div>
 			<h3>参赛者列表</h3>
@@ -46,17 +83,6 @@
 				</ul>
 			</div>
 		</div>
-<script type="text/javascript" src="/static/js/alert.js"></script>
-<script>
-        a={{ statu }};
-        if (a==1)
-        {
-            window.alert('\n\n     {{ error }}\n\n');
-        }
-</script>
 {% endblock %}
 
 {% block enter_com_act %}active{% endblock %}
-
-
-
