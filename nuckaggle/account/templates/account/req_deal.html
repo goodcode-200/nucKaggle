@@ -26,7 +26,7 @@
 			{% for i in peo_invite %}
 			<li>{{i.userprofile.user.username}}</li>
 			{% empty %}
-			<h6>----暂无----</h6>
+			<h6><----暂无----</h6>
 			{% endfor %}
 			</ul>
 		</div>
@@ -36,31 +36,49 @@
 			{% for i in ap %}
 			<li>{{i.userprofile.user.username}}&nbsp&nbsp&nbsp&nbsp<span><a href="{% url 'agree' i.team_id i.userprofile_id i.pk %}">同意加入</a></span></li>
 			{% empty %}
-			<h6>----暂无----</h6>
+			<h6><----暂无----</h6>
 			{% endfor %}
 			</ul>
 		</div>
 	{% else %}
-		<h1>您是{{status}}</h1>
-		<div>
-			<h5>向您发出的邀请</h5>
-			<ul>
-			{% for i in invite %}
-			<li>{{i.team.team_name}}&nbsp&nbsp&nbsp&nbsp<span><a href="{% url 'agree' i.team_id i.userprofile_id i.pk %}">同意加入队伍</a></span></li>
-			{% empty %}
-			<h6>----暂无----</h6>
-			{% endfor %}
-			</ul>
+	    <div class="col-md-12" style="text-align: center;">
+	    	<h1 style="margin-bottom: 50px;">您是{{status}}</h1>
+	    </div>
+		<div class="col-md-6" style="text-align: center;">
+			<table class="table table-hover" >
+			  <div style="text-align: center;margin-bottom: 20px;">
+			  	<span >向您发出的邀请</span>
+			  </div>
+              
+              {% for i in invite %}
+              <tr>
+              	 <td>{{i.team.team_name}}</td>
+              	 <td><a href="{% url 'agree' i.team_id i.userprofile_id i.pk %}">同意加入队伍</a></td>
+              </tr>
+              {% empty %}
+			  <tr>
+              	<--暂无-->
+              </tr>
+              {% endfor %}
+            </table>
 		</div>
-		<div>
-			<h5>入队申请(队伍名)</h5>
-			<ul>
-			{% for i in ap %}
-			<li>{{i.team.team_name}}</li>
-			{% empty %}
-			<h6>----暂无----</h6>
-			{% endfor %}
-			</ul>
+		<div class="col-md-1"></div>
+		<div class="col-md-5">
+		<table class="table table-hover" >
+		  <div style="text-align: center;margin-bottom: 20px;">
+		  	<span>入队申请(队伍名)</span>
+		  </div>
+          
+          {% for i in ap %}
+          <tr>
+          	 <td>{{i.team.team_name}}</td>
+          </tr>
+          {% empty %}
+		  <tr>
+          	--暂无--
+          </tr>
+          {% endfor %}
+        </table>
 		</div>
 	{% endif %}
 <script type="text/javascript" src="/static/js/alert.js"></script>

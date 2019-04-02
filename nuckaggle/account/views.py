@@ -457,11 +457,12 @@ def agree(request,team_id,userprofile_id,team_req_pk):
     uc = UserCompetition.objects.filter(userprofile_id = userprofile_id)
     if uc:
         context['type'] = '已经加入队伍'
-        context['statu'] = 1
-        context['error'] = '您或您邀请的人已经加入队伍,可以到个人中心查看,请不要重复操作'
+        #context['statu'] = 1
+        #context['error'] = '您或您邀请的人已经加入队伍,可以到个人中心查看,请不要重复操作'
+        context['message'] = '您或您邀请的人已经加入队伍,可以到个人中心查看,请不要重复操作'
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
-        return render(request,'account/enter_com.html',context)
+        return render(request,'account/error.html',context)
     if te.peo_num<5: #看看队伍人数是否超过人数5人 
         usercompetition = UserCompetition()
         usercompetition.team_id = team_id

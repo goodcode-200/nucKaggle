@@ -4,15 +4,17 @@
 		<title>身份验证</title>
 	</head>
 	<body>
-		<h2>身份验证</h2>
-		<div style="display:table">
-			<p style="text-align:center">您的昵称是({{user.username}}),请提供您的密码：</p>
-			<form action="" method="post"> 
-				<input type="password" name="password">
-				{% csrf_token %}
-				<input type="submit" value="验证">
-			</form>
-			<button><a href="{% url 'person_center' %}">放弃修改</a></button>
+		<div style="text-align: center;">
+			<div style="display:table;margin-left: 35%;margin-right: 35%;">
+				<h2>身份验证</h2>
+				<p >您的昵称是({{user.username}}),请提供您的密码：</p>
+				<form action="" method="post"> 
+					<input type="password" name="password">
+					{% csrf_token %}
+					<input type="submit" value="验证" style="">
+				</form>
+				<div style="margin-top: 20px;"><a href="{% url 'person_center' %}">放弃修改</a></div>
+			</div>
 		</div>
 <script type="text/javascript" src="/static/js/alert.js"></script>
 <script>

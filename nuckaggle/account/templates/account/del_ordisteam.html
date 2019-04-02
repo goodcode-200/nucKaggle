@@ -15,22 +15,32 @@
 {% block content %}
 	{% if has_team %}
 		{% if is_captain %}
-		<h1>您是队长</h1>
+		<div style="text-align: center;">
+        	<h2>您是队长</h2>
+        </div>
 		<p>您的队伍是：{{team.team_name}}</p>
 		<button><a href="{% url 'dis_enter_team' team.id 1 %}">删除队伍</a></button>
 		{% else %}
-		<h1>您加入了队伍但非队长</h1>
-		<p>您加入的队伍是：{{usercompetition.team.team_name}}</p>
-		<button><a href="{% url 'dis_enter_team' usercompetition.team.id 2 %}">退出队伍</a></button>
+		<div style="text-align: center;margin-bottom: 40px;">
+        	<h2>您加入队伍但不是队长</h2>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-4" style="text-align: center;">
+        	<p>您加入的队伍是：{{usercompetition.team.team_name}}</p>
+        </div>
+		<div class="col-md-4"  style="text-align: center;">
+			<a href="{% url 'dis_enter_team' usercompetition.team.id 2 %}" class="btn btn-success">退出队伍</a>
+		</div>
+		<div class="col-md-2"></div>
 		{% endif %}
 	{% else %}
-		<h1>您还没有队伍，请返回队伍页面创建或加入队伍</h1>
+	<div style="text-align: center;">
+        	<h2>您还没有队伍,请返回队伍页面创建或加入队伍</h2>
+    </div>
 	{% endif %}
 {% endblock %}
 
 {% block team_act %}
 active
-
-
 {% endblock %}
 

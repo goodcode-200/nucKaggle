@@ -1,36 +1,32 @@
 {% extends 'bar.html' %}
-
 {% block title %}
 个人中心
 {% endblock %}
 
 {% block content %}
-	<h2>本站注册信息：</h2>
-	<div>
-		<ul>
-			<li>昵称：{{user.username}}</li>
-			<li>邮箱：{{user.email}}</li>
-		</ul>
-		<button><a href="{% url 'confirm' 1 %}">修改</a></button>
-	</div>
-	
-	<h2>报名参赛信息：</h2>
+	<div class="col-md-3"></div>
+	<div class="col-md-6">
+		<h3>本站注册信息：</h3>
+			<span><i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;&nbsp;&nbsp;昵称：{{user.username}}</span><br>
+			<span><i class="glyphicon glyphicon-envelope"></i>&nbsp;&nbsp;&nbsp;&nbsp;邮箱：{{user.email}}</span>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="{% url 'confirm' 1 %}" class="btn btn-success">修改</a>
+	<h3>报名参赛信息：</h3>
 	<div>
 		{% if has_enter %}
-		<ul>
-			<li>姓名：{{userprofile.name}}</li>
-			<li>性别：{{userprofile.sex}}</li>
-			<li>学校：{{userprofile.college}}</li>
-			<li>学号：{{userprofile.student_id}}</li>
-			<li>联系电话：{{userprofile.phone}}</li>
-		</ul>
-		<button><a href="{% url 'confirm' 2 %}">修改</a></button>
+			<span>姓名：{{userprofile.name}}</span><br>
+			<span>性别：{{userprofile.sex}}</span><br>
+			<span>学校：{{userprofile.college}}</span><br>
+			<span>学号：{{userprofile.student_id}}</span><br>
+			<span>联系电话：{{userprofile.phone}}</span>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a href="{% url 'confirm' 2 %}" class="btn btn-success">修改</a>
 		{% else %}
 		<h5>未报名参赛</h5>
 		{% endif %}
 	</div>
 
-	<h2>队伍：</h2>
+	<h3>队伍：</h3>
 	<div>
 		{% if has_team %}
 		<ul>
@@ -56,7 +52,7 @@
 		{% endif %}
 	</div>
 
-	<h2>请求：</h2>
+	<h3>请求：</h3>
 	<div>
 		{% if has_request %}
 			<h5>队伍发出：</h5>
@@ -92,18 +88,20 @@
 			<h5>暂没有和您相关的队伍请求</h5>
 			{% endif %}
 		{% endif %}
-		<button><a href="{% url 'req_deal' %}">请求处理</a></button>
+		<a href="{% url 'req_deal' %}" class="btn btn-success">请求处理</a>
 	</div>
 	<br>
 	<br>
-<script type="text/javascript" src="/static/js/alert.js"></script>
-<script>
-        a={{ statu }};
-        if (a==1)
-        {
-            window.alert('\n\n     {{ error }}\n\n');
-        }
-</script>
+	</div>
+	<div class="col-md-3"></div>
+	<script type="text/javascript" src="/static/js/alert.js"></script>
+	<script>
+	        a={{ statu }};
+	        if (a==1)
+	        {
+	            window.alert('\n\n     {{ error }}\n\n');
+	        }
+	</script>
 {% endblock %}
 
 {% block per_center_act %}active{% endblock %}
