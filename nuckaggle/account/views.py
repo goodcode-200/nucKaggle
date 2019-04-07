@@ -46,6 +46,11 @@ def register(request):
             context["redirect_to"] = referer
             return render(request,'account/register.html',context)
         password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        if (password != confirm_password):
+            context['statu'] = 1
+            context['error'] = '两次输入密码不一致'
+            return render(request, 'account/register.html', context)
         email = request.POST.get('email')
         user = User.objects.create_user(name, email, password)
         user.save()
