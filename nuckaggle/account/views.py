@@ -73,8 +73,17 @@ def create_team(request):
             userprofile = UserProfile.objects.filter(user=request.user) #如果存在，则是一个对象的列表
             if userprofile:
                 team_name = request.POST.get('队伍名').strip()
+                if (team_name==''):
+                    context['statu'] = 1
+                    context['error'] = '队伍名不能为空'
+                    return render(request, 'account/create_team.html', context)
+                if (team_name!=''.join(team_name.split())):
+                    context['statu'] = 1
+                    context['error'] = '队伍名不能含有空格'
+                    return render(request, 'account/create_team.html', context)
                 i = Team.objects.filter(team_name=team_name)
                 j = Team.objects.filter(captain=request.user)
+
                 if (i or j):
                     context['type'] = '创建队伍'
                     context['message'] = '该队伍名字已被使用或您已创建过队伍,请更改队名或查找队伍'
