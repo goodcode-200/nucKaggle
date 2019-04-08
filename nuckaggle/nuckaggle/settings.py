@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 
 import os
 
+from configparser import ConfigParser
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -136,9 +138,24 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'kaggle','media')
 
+#用来发邮件的配置信息
 EMAIL_HOST='smtp.sina.com'
 EMAIL_PORT=587
 EMAIL_HOST_USER='nuckaggle@sina.com' 
 EMAIL_HOST_PASSWORD='text5695256'
 EMAIL_USE_TLS=True
 EMAIL_FROM='nuckaggle@sina.com' 
+
+#邮箱用配置文件配置实验成功，为了项目合作本地项目调试方便，暂不启用
+'''
+config_file = os.path.join(BASE_DIR,'nuckaggle','test.conf')
+config = ConfigParser()
+config.read(config_file, encoding='UTF-8')
+# 邮箱设定
+EMAIL_HOST = config['mail']['email_host']
+EMAIL_PORT = config['mail']['email_port']
+EMAIL_HOST_USER = config['mail']['email_host_user']
+EMAIL_HOST_PASSWORD = config['mail']['email_host_password']
+EMAIL_USE_TLS = config['mail']['email_use_tls']
+EMAIL_FROM = config['mail']['email_from']  # 你的用来发信息的邮件账号
+'''
