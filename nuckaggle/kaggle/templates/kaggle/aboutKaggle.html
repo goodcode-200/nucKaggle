@@ -9,11 +9,26 @@ document.getElementById(top).style.display="none";
 }
 </script>
 		<link href="{% static 'css/about.css' %}" rel="stylesheet" />
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
+        <script type=""text/javascript" src="{% static 'jquery-1.12.4.min.js' %}">
+        </script>
+        <script type=""text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}">
+        </script>
+		<style>
+		    body{text-align: center;
+		    	 background-color:#66b1d8;
+		         background-image: url("{% static 'images/kaggle_about.jpg' %}");
+		    	 background-repeat:no-repeat;
+		         background-size:100% 100%;
+		         background-attachment:fixed;
+		        }
+		</style>
 	</head>
 	<body>
-	  <div class=bg-box></div>
+	  <!-- <div class=bg-box></div> -->
 	  <div class="return">
-		<a class="naxx" href="{% url 'home' %}"><img src="../static/images/return1.jpg"></a></div>
+		<a class="naxx" href="{% url 'home' %}">返回首页<span class="glyphicon glyphicon-home"></span></a></div>
+		<br />
 		<div>
 			<div class="top">
 				<h2>竞赛简介</h2>

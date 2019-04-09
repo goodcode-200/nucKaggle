@@ -2,30 +2,25 @@
   margin:0;
   padding:0;
 }
-.bg-box{background:url('../images/bg5.jpg');
-       width:100%;
-       height:145%;
-       position:absolute;
-       z-index:-1;
-}
-
 .return{
-	font-size:30px;
+	font-size:25px;
 	color:blue;
 	border:2px;
+	float:left;
+	position:fixed;
+	background-color:#9ec59f;
 }
-.return img{
-	height:40px;
-	width:40px;
-	padding-top:10px;
+.top{
+	margin-top: 7em;
 }
 .top h2{
 	font-size:40px;
 	text-align:center;
 }
 .top p{
-	margin-left: 220px;
-	margin-right:220px;
+	text-align:left;
+	margin-left: 10%;
+	margin-right:10%;
 	line-height:28px;
 	letter-spacing:3px;
 	font-weight: 400;
@@ -35,8 +30,9 @@
 	text-align:center;
 }
 .meddile p{
-	margin-left: 220px;
-	margin-right:220px;
+	text-align:left;
+	margin-left: 10%;
+	margin-right:10%;
 	line-height:28px;
 	letter-spacing:3px;
 	font-weight: 400;
