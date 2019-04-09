@@ -1,23 +1,45 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
 	<head>
-		<title></title>
-		<link href="../static/css/h2.css">
+		<title>关于竞赛</title>
+		<script>
+function turnoff(top){
+document.getElementById(top).style.display="none";
+}
+</script>
+		<link href="{% static 'css/about.css' %}" rel="stylesheet" />
+		<link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
+        <script type=""text/javascript" src="{% static 'jquery-1.12.4.min.js' %}">
+        </script>
+        <script type=""text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}">
+        </script>
+		<style>
+		    body{text-align: center;
+		    	 background-color:#66b1d8;
+		         background-image: url("{% static 'images/kaggle_about.jpg' %}");
+		    	 background-repeat:no-repeat;
+		         background-size:100% 100%;
+		         background-attachment:fixed;
+		        }
+		</style>
 	</head>
 	<body>
-		<a href="{% url 'home' %}">返回主页</a>
+	  <!-- <div class=bg-box></div> -->
+	  <div class="return">
+		<a class="naxx" href="{% url 'home' %}">返回首页<span class="glyphicon glyphicon-home"></span></a></div>
+		<br />
 		<div>
-			<div>
+			<div class="top">
 				<h2>竞赛简介</h2>
-				<p>为了推广和宣传数据挖掘，吸引更多相关人才投入更多精力，增加各学校之间的交流，给优秀学生一个展现自我的平台，且山西省目前依然缺乏数据挖掘相关方面的比赛。</p>
-				<p>数据挖掘类比赛，涉及到数学，计算机技术，数值分析，和大数据应用等方面，是对报名学生综合知识的有力检验。有利于筛选出在相关方面的能力较为优秀的的学生。对该类竞赛和学校的宣传方面起到了一定的作用。</p>
-				<p>参赛对象为：中北大学以及山西省高等院校全体本科生</p>
-				<p>参赛地点：线上赛（初赛和复赛）：线上做题提交答案，初赛不限地点，复赛为中北大学指定地点
-				决赛答辩：中北大学科艺苑或者可选的大教室（11、9号楼等）
+				<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;为了推广和宣传数据挖掘，吸引更多相关人才投入更多精力，增加各学校之间的交流，给优秀学生一个展现自我的平台，且山西省目前依然缺乏数据挖掘相关方面的比赛。数据挖掘类比赛，涉及到数学，计算机技术，数值分析，和大数据应用等方面，是对报名学生综合知识的有力检验。有利于筛选出在相关方面的能力较为优秀的的学生。对该类竞赛和学校的宣传方面起到了一定的作用。</p>
+				<p><b>参赛对象</b>：中北大学以及山西省高等院校全体本科生</p>
+				<p><b>参赛地点</b>：线上赛（初赛和复赛）：线上做题提交答案，初赛不限地点，复赛为中北大学指定地点</p>
+				<p><b>决赛答辩</b>：中北大学科艺苑或者可选的大教室（11、9号楼等）
 				</p>
 			</div>
 			<hr/>
-			<div>
+			<div class="meddile">
 				<h2>参赛流程</h2>
 				<p>1.进入中北大学数据挖掘比赛主页，点击注册链接，填写信息成为本网站注册用户</p>
 				<p>2.报名比赛：点击报名比赛链接，填写真实姓名以及学校学号等详细信息，提交后即完成了报名</p>
@@ -25,9 +47,27 @@
 				<p>4.进入比赛页面，选择比赛进入查看题目需求，并下载源文件，在本地进行处理后形成结果文件，在该比赛页面进行
 				提交即可（一个队伍只有队长可以提交结果文件），系统会保存队伍提交的结果文件，并在每天的特定时间评阅所有参赛队伍
 				的结果文件，给出分数，并根据分数进行排序，给出比赛结果的榜单</p>
-				<h2>特别注意：</h2>
-				<p>请使用谷歌浏览器访问并使用本网站</p>
 			</div>
 		</div>
+		<div id="abc">
+		<div class="m-layer z-show"><table><tbody><tr><td>
+    <article class="lywrap">
+	    <header class="lytt"><h2 class="u-tt">提示</h2><span class="lyclose"><a href="#" onclick="turnoff('abc')">x</a></span></header>
+	    <section class="lyct">
+	        <p>特别注意：</p>
+            <p>请使用谷歌浏览器访问并使用本网站</p>
+	    </section>
+	    <footer class="lybt">
+	        <div class="lyother">
+	          
+	        </div>
+	        <div class="lybtns">
+	            <button type="button" class="u-btn"><a href="#" onclick="turnoff('abc')">确定</a></button>
+	           
+	        </div>
+	    </footer>
+    </article></td></tr></tbody></table>
+</div>
+</div>
 	</body>
 </html>
