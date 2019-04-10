@@ -8,7 +8,28 @@
         <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
         <script type=""text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}">
         </script>
-        
+
+        <style type="text/css">
+            ul,li{
+                padding: 0;
+                margin:0;
+
+            }
+            .clear{
+                clear: both;
+            }
+            .duiwu{
+                margin-top: 12px;
+                margin-left: 19px;
+                text-align: left;
+            }
+            ul,li{
+                margin:0;
+                padding: 0;
+
+                list-style:none; 
+            }
+        </style>
         {% block head_extends %}
         {% endblock %}
     </head>
@@ -16,7 +37,7 @@
 	<div class='navbar navbar-default navbar-fixed-top' role='navigation'>
             <div class='container-fluid'>
                 <div class="navbar-header">
-                    <a class='navbar-brand' href="{% url 'home' %}">中北大学数据比赛</a>
+                    <a class='navbar-brand' href="{% url 'home' %}">中北数据比赛</a>
                     <button class='navbar-toggle collapse' data-toggle="collapse" data-target='#navbar-collapse'>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -28,12 +49,12 @@
                         <li>
                             <a href="{% url 'home' %}">首页</a></li>
                         <li class="{% block enter_com_act %}{% endblock %}"><a href="{% url 'enter_com' %}">报名参赛</a></li>
-						<li class="{% block team_act %}{% endblock %}"><a href="{% url 'team' %}">队伍</a></li>
+						<li class="{% block team_act %} {% endblock %}"><a href="{% url 'team' %}">队伍</a></li>
 						{% if request.user.username %}
 						<li class="{% block per_center_act %}{% endblock %}"><a href="{% url 'person_center' %}">{{request.user.username}}/个人中心</a></li>
 						<li><a href="{% url 'logout' %}">登出</a></li>
 						{% else %}
-						<li><a href="{% url 'login' %}" class="login">驻长春</a></li>
+						<li><a href="{% url 'login' %}" class="login">登录</a></li>
 						<li><a href="{% url 'register' %}" class="sign up">注册</a></li>
 						{% endif %}
                         {% block bar_extends %}{% endblock %}

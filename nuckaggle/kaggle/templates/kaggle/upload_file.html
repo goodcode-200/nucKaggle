@@ -17,7 +17,14 @@
 		   <input  type="submit" value="上传"/>
 	       </form>
 	      
-
+			<script type="text/javascript" src="/static/js/alert.js"></script>
+			<script>
+			        a={{ statu }};
+			        if (a==1)
+			        {
+			            window.alert('\n\n     {{ error }}\n\n');
+			        }
+			</script>
 	       </div>
 		   {% endblock %}
 {% block kaggle_home_act %}active{% endblock %}

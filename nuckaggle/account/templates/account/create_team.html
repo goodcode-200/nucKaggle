@@ -5,21 +5,45 @@
 {% endblock %}
 
 {% block content %}
-	<div>
-		<h1>队伍创建</h1>
-		<p>登录网站并报名参赛后,本页面将创建以本人为队长的队伍</p>
-	</div>
-	<div>
-		<form action="{% url 'create_team' %}" method="POST">
-            {% csrf_token %}
-            <span>队伍名：</span>
-            <input type='text' name='队伍名'><br>
-            <input type='submit' value='创建队伍'>
-		</form>
-	</div>
+	     
+	    <div style="padding: 5px; width: 70%; height: 200px; border:solid 1px #f0f0f0; position: absolute; top: 200px; left: 240px;"> 
+	        <form action="{% url 'create_team' %}" method="POST">
+	        {% csrf_token %}
+				<table style="width: 100%; text-align: center;">
+ 					<tr style="background:#4682B4;">
+						<td height="60px" colspan="2"><a href="{% url 'join_team' %}" %}"
+		  					><span style="color:white; font-family: 微软雅黑; font-size: 30px; font-weight: bold;">创建队伍</span></a></td>
+ 					</tr>
+ 					<tr>
+ 					   <td>&nbsp;</td>
+ 					   <td>&nbsp;</td>
+
+ 					</tr>
+ 					<tr>
+ 					   <td>&nbsp;</td>
+ 					   <td>&nbsp;</td>
+
+ 					</tr>
+ 					<tr>
+						<td><input type="text" class="form-control"  placeholder="请输入队伍名" name="队伍名" style="margin-left: 80px;"></td>
+						<td><button type="submit" style="border:none; background: #778899; border-radius: 8px; width: 170px; height: 30px;"><span style="font-size: 17px; color: white;">创建队伍</span></button>
+						</td>
+ 					</tr>
+				</table>
+			</form>	
+		<div>
+		
+	
+<script type="text/javascript" src="/static/js/alert.js"></script>
+<script>
+        a= {{ statu }};
+        if (a==1)
+        {
+            window.alert('\n\n     {{ error }}\n\n');
+        }
+</script>
 {% endblock %}
 
 {% block team_act %}active{% endblock %}
-
 
 
