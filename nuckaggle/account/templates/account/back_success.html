@@ -5,9 +5,19 @@ successful
 {% endblock %}
 
 {% block content %}
-	<h1>Successful</h1>
-	<h3>参赛成员：{{userprofile_name}}</h3><br>
-	<p>成功退出队伍或(队长成功删除队伍)</p>
+    <table style="width: 100%; text-align: center; border:solid 1px #f0f0f0; border-bottom:solid 2px #f0f0f0; border-right:solid 2px #f0f0f0; font-family: 黑体;">					
+		<tr style="background:#4682B4;">
+		<td height="60px" colspan="2"><span style="color:white; font-family: 微软雅黑; font-size: 30px; font-weight: bold;">Successful</span></td>
+		</tr>		 					
+		<tr style="background:#DCDCDC; height: 40px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
+		<td >参赛成员：</td>
+		<td>{{userprofile_name}}</td>
+		</tr>
+	    <tr style="background:#DCDCDC; height: 40px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
+	    	<td colspan="2">成功退出队伍或(队长成功删除队伍)</td>
+	    </tr>
+    </table>
+
 {% endblock %}
 
 {% block team_act %}active{% endblock %}

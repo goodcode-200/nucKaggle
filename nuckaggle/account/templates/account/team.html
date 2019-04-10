@@ -7,22 +7,111 @@
 {% block head_extends %}
 {% endblock %}
 
-{% block content %}
+{% block content %}  
+    <div style=" background: url(../../../static/images/total_home.jpg); opacity: 0.95; width: 100%;" >
+	  <div style="width: 100%; height: 500px; overflow: hidden; text-align: center; background: url(../../../static/images/banner.jpg) center/cover;" >
+      <div style="margin-left: 39%; margin-top: 300px; width: 100%;">
+	  <a href="{% url 'enter_com' %}"><span style="font-size: 32px; font-weight: bold; font-family: 黑体; color: white; display: block; float: left; margin-right: 2%;">点</span>
+	  <span style="font-size: 32px; font-weight: bold; font-family: 黑体; color: white; display: block; float: left; margin-right: 2%;">击</span>
+	  <span style="font-size: 32px; font-weight: bold; font-family: 黑体; color: white; display: block; float: left; margin-right: 2%;">报</span>
+	  <span style="font-size: 32px; font-weight: bold; font-family: 黑体; color: white; display: block; float: left; margin-right: 2%;">名</span>
+	  <span style="font-size: 32px; font-weight: bold; font-family: 黑体; color: white; display: block; float: left; margin-right: 2%;">比</span>
+	  <span style="font-size: 32px; font-weight: bold; font-family: 黑体; color: white; display: block; float: left; margin-right: 2%;">赛</span>
+	  </a>
+	  </div>
+	  </div>
+	  <div class="clear"></div>
+	  <div style="width: 100%; height: 500px;">
 
-	
-	  <div class="col-md-3">
-	  <ul class="list-group">
-		  <li  class="list-group-item"><a href="{% url 'create_team' %}"
-		  	class="list-group-item">创建队伍</a></li>
-		  <li  class="list-group-item"><a href="{% url 'join_team' %}" class="list-group-item">加入队伍</a></li>
-		  <li  class="list-group-item"><a href="{% url 'req_deal' %}" class="list-group-item">请求处理</a></li>
-		  <li  class="list-group-item"><a href="{% url 'del_ordisteam' %}" class="list-group-item">队伍的删除和退出</a></li>
-		  <li  class="list-group-item"><a href="{% url 'captain_trans' %}" class="list-group-item">队长转让</a></li>
-      </ul>
-      </div>
-	  <div class="col-md-8">
-		<table class="table table-hover ">
-			<tr style="background: #1903014d;">
+            <div style=" width: 100%;text-align:center; padding-top: 70px; font-size: 32px; color: #4f4f4f;">参赛流程</div>
+			
+			<div style="padding :5px; width: 14%; height: 20px; background: #EEEEEE; float: left;  margin-left:12%; margin-top: 70px;">
+				<table style="width: 100%; text-align: center;">
+ 					<tr style="background: #4682B4;">
+						<td height="45px"><a href="{% url 'create_team' %}" style="text-decoration: none;" 
+		  					><span style="color:white; font-family: 微软雅黑; font-weight: bold;">创建队伍</span></a></td>
+ 					</tr>
+ 					<tr>
+						<td><span style="font-size: 15px; color: #4f4f4f;">
+						<ul>
+						<li class="duiwu">所有参赛人员需组建一支自己的队伍方可参加比赛</li>
+						<li class="duiwu">只需填写队伍名即可</li>
+						</ul>
+						</span></td>
+ 					</tr>
+				</table>
+			</div>
+			<div style="padding: 5px; width: 14%; height: 20px; background: #EEEEEE; float: left;  margin-left:2%; margin-top: 70px;"> 
+				<table style="width: 100%; text-align: center;">
+ 					<tr style="background:#4682B4;">
+						<td height="45px"><a href="{% url 'join_team' %}" style="text-decoration: none;" 
+		  					><span style="color:white; font-family: 微软雅黑; font-weight: bold;">加入队伍</span></a></td>
+ 					</tr>
+ 					<tr>
+						<td><span style="font-size: 15px; color: #4f4f4f;">
+						<ul>
+						<li class="duiwu">如果您还没有自己的队伍，可以选择加入一支队伍</li>
+						<li class="duiwu">一个好的队伍能更好的帮助你完成比赛喔</li>
+						</ul>
+						</span></td>
+ 					</tr>
+				</table>
+			</div>
+			<div style="padding:5px; width: 14%; height: 20px; background: #EEEEEE; float: left;  margin-left:2%; margin-top: 70px;"> 
+				<table style="width: 100%; text-align: center;">
+ 					<tr style="background: #4682B4;">
+						<td height="45px"><a href="{% url 'req_deal' %}" style="text-decoration: none;" 
+		  					><span style="color:white; font-family: 微软雅黑; font-weight: bold;">请求处理</span></a></td>
+ 					</tr>
+ 					<tr>
+						<td><span style="font-size: 15px; color: #4f4f4f;">
+						<ul>
+						<li class="duiwu">点击查看队伍信息</li>
+						<li class="duiwu">查看是否有申请入队消息</li>
+						</ul>
+						</span></td>
+ 					</tr>
+				</table>
+			</div>
+			<div style="padding: 5px; width: 14%; height: 20px; background: #EEEEEE; float: left;  margin-left:2%; margin-top: 70px;"> 
+				<table style="width: 100%; text-align: center;">
+ 					<tr style="background: #4682B4;">
+						<td height="45px"><a href="{% url 'del_ordisteam' %}" style="text-decoration: none;" 
+		  					><span style="color:white; font-family: 微软雅黑; font-weight: bold;">队伍的删除和退出</span></a></td>
+ 					</tr>
+ 					<tr>
+						<td><span style="font-size: 15px; color: #4f4f4f;">
+						<ul>
+						<li class="duiwu">如果您有一支队伍，可以选择删除它，或者退出</li>
+						
+						</ul>
+						</span></td>
+ 					</tr>
+				</table>
+			</div>
+			<div style="padding: 5px; width: 14%; height: 20px; background: #EEEEEE; float: left;  margin-left:2%; margin-top: 70px;"> 
+				<table style="width: 100%; text-align: center;">
+ 					<tr style="background: #4682B4;">
+						<td height="45px"><a href="{% url 'captain_trans' %}" style="text-decoration: none;" 
+		  					><span style="color:white; font-family: 微软雅黑; font-weight: bold;">队长转让</span></a></td>
+ 					</tr>
+ 					<tr>
+						<td><span style="font-size: 15px; color: #2f2f2f;">
+						<ul>
+						<li class="duiwu">如果您是队长，可以选择队长转让</li>
+				
+						</ul>
+						</span></td>
+ 					</tr>
+				</table>
+			</div>
+	  </div>
+	  
+	  <div style="width: 100%;text-align:center; padding-top: 14px; margin-bottom: 70px; font-size: 32px; color: #4f4f4f;">队伍报名信息</div>
+      
+	  <div style="width: 100%; ">
+		<table class="table table-hover" style="width: 78%; margin:auto; background: white; text-align: center;">
+			<tr style="background:#4682B4; color: white;">
 				<td>队伍号</td>
 				<td>队名</td>
 				<td>队长</td>
@@ -40,6 +129,17 @@
 			{% endfor %}
 		</table>
        </div>
+       
+       <div style="width: 100%; text-align: center;">
+       <br>
+			<span style="margin:2% 300px 2% 300px; margin:auto; font-size: 15px; font-family: 黑体; color: gray;">
+			                    © 219-2 大数据网络安全实验室版权所有
+			                    &nbsp;|&nbsp;
+			                    京ICP备17053197号-1
+			                </span><br><br>
+       </div>
+        
+    </div>
 <script type="text/javascript" src="/static/js/alert.js"></script>
 <script>
         a={{ statu }};
