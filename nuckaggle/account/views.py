@@ -309,7 +309,7 @@ def invite(request,user_id,send_by_team,userprofile_id):
         context["redirect_to"] = referer
         competitors = UserProfile.objects.all()
         context["competitors"] = competitors
-        context["send_by_team"] = 0
+        context["send_by_team"] = 1
 
         return render(request,'account/enter_com.html',context)
         url = r'/account/invite'
@@ -327,7 +327,7 @@ def invite(request,user_id,send_by_team,userprofile_id):
             context["redirect_to"] = referer
             competitors = UserProfile.objects.all()
             context["competitors"] = competitors
-            context["send_by_team"] = 0
+            context["send_by_team"] = 1
             return render(request,'account/enter_com.html',context)
 
         else:
@@ -364,7 +364,7 @@ def invite(request,user_id,send_by_team,userprofile_id):
                         context["redirect_to"] = referer
                         competitors = UserProfile.objects.all()
                         context["competitors"] = competitors
-                        context["send_by_team"] = 0
+                        context["send_by_team"] = 1
                         return render(request,'account/enter_com.html',context)
                     else:
                         te = team[0]
@@ -390,7 +390,7 @@ def invite(request,user_id,send_by_team,userprofile_id):
                 context["redirect_to"] = referer
                 competitors = UserProfile.objects.all()
                 context["competitors"] = competitors
-                context["send_by_team"] = 0
+                context["send_by_team"] = 1
                 return render(request,'account/enter_com.html',context)
     else:
         context['type'] = '无权限'
@@ -400,7 +400,7 @@ def invite(request,user_id,send_by_team,userprofile_id):
         context["redirect_to"] = referer
         competitors = UserProfile.objects.all()
         context["competitors"] = competitors
-        context["send_by_team"] = 0
+        context["send_by_team"] = 1
         return render(request,'account/enter_com.html',context)
     return render(request,'account/invite.html',context)
 
@@ -447,7 +447,6 @@ def req_deal(request):
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
             teams = Team.objects.all()
-            context["send_by_team"] = 0
             context["teams"] = teams
             return render(request,'account/team.html',context)
     else:
@@ -457,7 +456,6 @@ def req_deal(request):
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
         teams = Team.objects.all()
-        context["send_by_team"] = 0
         context["teams"] = teams
         return render(request,'account/team.html',context)
     return render(request,'account/req_deal.html',context)
@@ -739,7 +737,6 @@ def del_ordisteam(request):
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
             teams = Team.objects.all()
-            context["send_by_team"] = 0
             context["teams"] = teams
             return render(request,'account/team.html',context)
     else:
@@ -749,7 +746,6 @@ def del_ordisteam(request):
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
         teams = Team.objects.all()
-        context["send_by_team"] = 0
         context["teams"] = teams
         return render(request,'account/team.html',context)
     return render(request,'account/del_ordisteam.html',context)
