@@ -55,7 +55,7 @@ def register(request):
         u2 = User.objects.filter(email = email)
         if u2:
             context['type'] = '注册'
-            context['message'] = '该邮箱已被注册,如您确定此邮箱是您的，请向赛事举办方申诉'
+            context['message'] = '该邮箱已被注册,如您确定此邮箱是您的,请在登录页面点击忘记密码'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
             return render(request,'account/error.html',context)
