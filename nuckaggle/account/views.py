@@ -610,7 +610,7 @@ def confirm(request,tag):
     context["user"] = user
     return render(request,'account/confirm.html',context)
 
-def alter1_submit(request):     ##验证完信息修改后不保存修改也不点击放弃修改,直接退出,confirm将会置True,账号将失去修改保护
+def alter1_submit(request): 
     context = {}
     context['statu'] = 0
     conf = Confirm.objects.filter(user=request.user)
@@ -631,17 +631,30 @@ def alter1_submit(request):     ##验证完信息修改后不保存修改也不�
             context["redirect_to"] = referer
             return render(request,'account/alter1_submit.html',context)
     if request.method == 'POST':
+        confirm_pass = request.POST.get("confirm_pass")
+        uuuser = authenticate(username=request.user.username, password=confirm_pass)
+        if uuuser is None:  ##初始密码输入错误
+            context['statu'] = 1
+            context['error'] = '输入原始密码错误，您无权对该用户信息进行修改'
+            return render(request,'account/alter1_submit.html',context)
         name = request.POST.get('Username').strip()
         usr = User.objects.filter(username=name)
         if usr and usr[0]!= request.user:
-            context['type'] = '此用户名已存在'
             context['statu'] = 1
-            context['error'] = '请返回后另选用户名修改并保存'
-            referer = request.META.get('HTTP_REFERER')
-            context["redirect_to"] = referer
+            context['error'] = '此用户名已存在,请返回后另选用户名修改并保存'
             return render(request,'account/alter1_submit.html',context)
         password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        if (password != confirm_password):
+            context['statu'] = 1
+            context['error'] = '两次输入密码不一致'
+            return render(request, 'account/alter1_submit.html', context)
         email = request.POST.get('email')
+        u2 = User.objects.filter(email = email)
+        if u2 and u2[0]!= request.user:
+            context["statu"] = 1
+            context["error"] = "该邮箱已被注册,如您确定此邮箱是您的，请在登录页面点击忘记密码找回邮箱"
+            return render(request,'account/alter1_submit.html',context)
         u = User.objects.get(username__exact=request.user.username)
         u.set_password(password)
         u.username = name
