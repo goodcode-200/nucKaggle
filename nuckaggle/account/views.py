@@ -576,7 +576,7 @@ def confirm(request,tag):
         else:
             context['type'] = '密码错误'
             context['statu'] = 1
-            context['error'] = '请返回后重新输入密码验证'
+            context['error'] = '请重新输入密码验证或放弃修改'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
             return render(request,'account/confirm.html',context)
@@ -584,38 +584,53 @@ def confirm(request,tag):
     context["user"] = user
     return render(request,'account/confirm.html',context)
 
-def alter1_submit(request):     ##验证完信息修改后不保存修改也不点击放弃修改,直接退出,confirm将会置True,账号将失去修改保护
+def alter1_submit(request): 
     context = {}
     context['statu'] = 0
     conf = Confirm.objects.filter(user=request.user)
     if not conf:
-        context['type'] = '非正常访问'
         context['statu'] = 1
-        context['error'] = '您在个人中心点击修改,密码验证后您才有权修改'
-        referer = request.META.get('HTTP_REFERER')
-        context["redirect_to"] = referer
-        return render(request,'account/alter1_submit.html',context)
+        context['error'] = '在个人中心点击修改,密码验证身份后您才有权修改'
+        return render(request,'account/confirm.html',context)
     else:
         con = conf[0]
         if con.confirm_or_not==False:
-            context['type'] = '非正常访问'
             context['statu'] = 1
-            context['error'] = '您在个人中心点击修改,密码验证后您才有权修改'
-            referer = request.META.get('HTTP_REFERER')
-            context["redirect_to"] = referer
-            return render(request,'account/alter1_submit.html',context)
+            context['error'] = '在个人中心点击修改,密码验证身份后您才有权修改'
+            return render(request,'account/confirm.html',context)
     if request.method == 'POST':
+        confirm_pass = request.POST.get("confirm_pass")
+        uuuser = authenticate(username=request.user.username, password=confirm_pass)
+        if uuuser is None:  ##初始密码输入错误
+            context['statu'] = 1
+            context['error'] = '输入原始密码错误，您无权对该用户信息进行修改'
+            user = request.user
+            context["user"] = user
+            return render(request,'account/alter1_submit.html',context)
         name = request.POST.get('Username').strip()
         usr = User.objects.filter(username=name)
         if usr and usr[0]!= request.user:
-            context['type'] = '此用户名已存在'
             context['statu'] = 1
-            context['error'] = '请返回后另选用户名修改并保存'
-            referer = request.META.get('HTTP_REFERER')
-            context["redirect_to"] = referer
+            context['error'] = '此用户名已存在,请返回后另选用户名修改并保存'
+            user = request.user
+            context["user"] = user
             return render(request,'account/alter1_submit.html',context)
         password = request.POST.get('password')
+        confirm_password = request.POST.get('confirm_password')
+        if (password != confirm_password):
+            context['statu'] = 1
+            context['error'] = '两次输入密码不一致'
+            user = request.user
+            context["user"] = user
+            return render(request, 'account/alter1_submit.html', context)
         email = request.POST.get('email')
+        u2 = User.objects.filter(email = email)
+        if u2 and u2[0]!= request.user:
+            context["statu"] = 1
+            context["error"] = "该邮箱已被注册,如您确定此邮箱是您的，请在登录页面点击忘记密码找回邮箱"
+            user = request.user
+            context["user"] = user
+            return render(request,'account/alter1_submit.html',context)
         u = User.objects.get(username__exact=request.user.username)
         u.set_password(password)
         u.username = name
@@ -635,27 +650,29 @@ def alter2_submit(request):
     context['statu'] = 0
     conf = Confirm.objects.filter(user=request.user)
     if not conf:
-        context['type'] = '非正常访问'
         context['statu'] = 1
-        context['error'] = '您在个人中心点击修改,密码验证后您才有权修改'
-        referer = request.META.get('HTTP_REFERER')
-        context["redirect_to"] = referer
-        return render(request,'account/alter2_submit.html',context)
+        context['error'] = '在个人中心点击修改,密码验证身份后您才有权修改'
+        return render(request,'account/confirm.html',context)
     else:
         con = conf[0]
         if con.confirm_or_not==False:
-            context['type'] = '非正常访问'
             context['statu'] = 1
-            context['error'] = '您在个人中心点击修改,密码验证后您才有权修改'
-            referer = request.META.get('HTTP_REFERER')
-            context["redirect_to"] = referer
-            return render(request,'account/alter2_submit.html',context)
+            context['error'] = '在个人中心点击修改,密码验证身份后您才有权修改'
+            return render(request,'account/confirm.html',context)
     if request.method == 'POST':
+        confirm_pass = request.POST.get("confirm_pass")
+        uuuser = authenticate(username=request.user.username, password=confirm_pass)
+        if uuuser is None:  ##初始密码输入错误
+            context['statu'] = 1
+            context['error'] = '输入原始密码错误，您无权对该用户信息进行修改'
+            userprofile = UserProfile.objects.get(user = request.user)
+            context["userprofile"] = userprofile
+            return render(request,'account/alter2_submit.html',context)
         name = request.POST.get('name').strip()
         school = request.POST.get('school').strip()
         student_id = request.POST.get('student_id').strip()
         phone = request.POST.get('phone').strip()
-        sex = request.POST.get('sex').strip()     ###好像只有phone是不可能重复的，留个疑问？？？？
+        sex = request.POST.get('sex').strip()
         up = UserProfile.objects.get(user_id = request.user.id)
         up.student_id = student_id
         up.name = name

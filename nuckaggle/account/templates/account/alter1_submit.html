@@ -16,32 +16,31 @@
 		<!-- //web font -->
 	</head>
 	<body>
-		<h2 style="font-size: 400%">注册信息修改：</h2>
-		<h4 style="font-size: 200%">原信息</h4>
-		用户名：{{user.username}}<br>
-		邮箱：{{user.email}}<br>
-		密码：---隐藏---<br><br>
-		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		<button><a href="{% url 'give_up_alter' %}"><p style="text-align: center;font-size: 300%">放弃修改</p></a>
-		</button>
-		<br>
-		<br>
 		<div data-vide-bg="/static/video/awesome">
 		<div class="main-w3layouts center-container">
-			<h1>Welcome to Register</h1>
+			<h1>用户注册信息变更</h1>
+				<div style="text-align: center;">
+				<h4>原信息</h4>
+				用户名：{{user.username}}<br>
+				邮箱：{{user.email}}<br>
+				密码：---隐藏---<br><br>
+				</div>
 			<div class="main-agileinfo">
 				<div class="agileits-top"> 
 					<form action="" method="post"> 
 						<i class="fa fa-user-o" aria-hidden="true"></i>
+						<input class="text" type="password" name="confirm_pass" placeholder="请输入原密码" required="">
 						<input class="text" type="text" name="Username" placeholder="用户呢称" required="">
+						<p style="color:red">请确定邮箱填写正确</p>
+						<p style="color:red">拥有邮箱就拥有您的绝对权限</p>
 						<input class="text email" type="email" name="email" placeholder="Email" required="">
 						<input class="text" type="password" name="password" placeholder="Password" required="">
 						{% csrf_token %}
-						<input class="text w3lpass" type="password" name="password" placeholder="Confirm Password" required="">
+						<input class="text w3lpass" type="password" name="confirm_password" placeholder="Confirm Password" required="">
 						<input type="submit" value="确认修改">
 					</form>
+					<button><a href="{% url 'give_up_alter' %}"><p style="text-align: center;font-size:150%;color:red;">放弃修改</p></a>
+					</button>
 				</div>	 
 			</div>	
 			<!-- copyright -->

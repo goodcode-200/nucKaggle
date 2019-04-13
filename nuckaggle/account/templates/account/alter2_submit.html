@@ -1,47 +1,71 @@
 <!DOCTYPE html>
 <html>
 	<head>
-	<title>参赛信息修改</title>
+		<title>参赛信息修改</title>
+		<style>
+			div{
+				padding: 0;
+	            margin:0;
+			}
+			div{
+				float:left;
+				margin-left:20%;
+			}
+			body{
+				background-color: #87CEEB;
+			}
+		</style>
 	</head>
 	<body>
-	<h2>原信息：</h2>
-	<div>
-	<p>姓名：{{userprofile.name}}</p>
-	<p>学校：{{userprofile.college}}</p>
-	<p>学号：{{userprofile.student_id}}</p>
-	<p>联系电话：{{userprofile.phone}}</p>
-	<p>性别：{{userprofile.sex}}</p>
-	</div>
-	<h2>参赛信息修改：</h2>
-	<form action="" method="POST">
-        {% csrf_token %}
-        <span>姓名：</span>
-        <input type='text' name='name'><br><br>
-        <span>学校：</span>
-        <input type='text' name='school'><br><br>
-        <span>学号：</span>
-        <input type='text' name='student_id'><br><br>
-        <span>联系电话：</span>
-        <input type='text' name='phone'><br><br>
-        <span>性别：</span>
-        <select id="id_sex" name="sex">
-			<option value="" selected="selected">---------</option>
-			<option value="man">男</option>
-			<option value="woman">女</option>
-		</select><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-		&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-        <input type='submit' value='保存修改'>
-	</form>
-	<button><a href="{% url 'give_up_alter' %}">放弃修改</a></button>
-	<script type="text/javascript" src="/static/js/alert.js"></script>
-	<script>
-        a={{ statu }};
-        if (a==1)
-        {
-            window.alert('\n\n     {{ error }}\n\n');
-        }
-</script>
+		
+		<div>
+			<h2>原信息：</h2>
+			<p>姓名：{{userprofile.name}}</p>
+			<p>学校：{{userprofile.college}}</p>
+			<p>学号：{{userprofile.student_id}}</p>
+			<p>联系电话：{{userprofile.phone}}</p>
+			<p>性别：
+			{% if userprofile.sex == 'man' %}
+			男
+			{% else %}
+			女
+			{% endif %}
+			</p>
+		</div>
+		<div>
+			<h2>参赛信息修改：</h2>
+			<form action="" method="POST">
+		        {% csrf_token %}
+		        <span>用户密码(身份验证)：</span>
+		        <input type='password' name='confirm_pass' required=""><br /><br />
+		        <span>姓名：</span>
+		        <input type='text' name='name' required=""><br><br>
+		        <span>学校：</span>
+		        <input type='text' name='school' required=""><br><br>
+		        <span>学号：</span>
+		        <input type='text' name='student_id' required=""><br><br>
+		        <span>联系电话：</span>
+		        <input type='text' name='phone' required=""><br><br>
+		        <span>性别：</span>
+		        <select id="id_sex" name="sex" required="">
+					<option value="" selected="selected">---------</option>
+					<option value="man">男</option>
+					<option value="woman">女</option>
+				</select><br>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+				&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+		        <input type='submit' value='保存修改'>
+			</form>
+			<button><a href="{% url 'give_up_alter' %}">放弃修改</a></button>
+		</div>
+		<script type="text/javascript" src="/static/js/alert.js"></script>
+		<script>
+	        a={{ statu }};
+	        if (a==1)
+	        {
+	            window.alert('\n\n     {{ error }}\n\n');
+	        }
+		</script>
 	</body>
 </html>

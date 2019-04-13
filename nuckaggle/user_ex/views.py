@@ -53,7 +53,8 @@ def reset_password(request,email,active_code):
 			context["redirect_to"] = referer
 			return render(request,'account/error.html',context)
 		email=i.email
-		return render(request,'user_ex/pass_reset.html',{'email':email})
+		user = User.objects.get(email = email)
+		return render(request,'user_ex/pass_reset.html',{'email':email,'username':user.username})
 	return HttpResponseRedirect('/')
 
 def modify(request):
