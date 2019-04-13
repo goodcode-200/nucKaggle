@@ -136,71 +136,71 @@
 				<table style="width: 100%; text-align: center; border:solid 1px #f0f0f0; border-bottom:solid 2px #f0f0f0; border-right:solid 2px #f0f0f0; font-family: 黑体;">
  					
  					
- 					{% if has_request %}
- 					<tr style="background:#4682B4;">
-						<td height="60px" colspan="2"><span style="color:white; font-family: 微软雅黑; font-size: 30px; font-weight: bold;">请求</span></a></td>
- 					</tr>
- 					<tr style="background:#DCDCDC; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
-						<td style=" width: 33%;">队伍发出：</td>
-						<td style="width: 33%;">
+				{% if is_captain %}
+				<tr style="background:#4682B4;">
+					<td height="60px" colspan="2"><span style="color:white; font-family: 微软雅黑; font-size: 30px; font-weight: bold;">请求（您是队长）</span></a></td>
+						</tr>
+					<tr style="background:#F5F5F5; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
+						<td >队伍发出：</td>
+						<td >
 							{% for i in team_invite %}
 							<ul>
-								<li>队长({{i.team.captain.username}})代表队伍({{i.team.team_name}})向您发出了入队请求,待同意</li>
+								<li>您代表队伍({{i.team.team_name}})向参赛人员({{i.userprofile.user.username}})发送了入队请求，待同意</li>
 								{% empty %}
-								<p>----暂无----</p>
-							</ul>
+								<p>----暂无----</p>					
 							{% endfor %}
+							</ul>
 						</td>
- 					</tr>
-				    <tr style="background:#F5F5F5; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
+					</tr>
+					<tr style="background:#F5F5F5; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
 						<td >参赛人员入队请求：</td>
 						<td >
 							{% for i in person_apply %}
 							<ul>
-								<li>您向队伍({{i.team.team_name}})发送了入队请求,待该队队长同意</li>
+								<li>参赛人员({{i.userprofile.user.username}})向您所在队伍({{i.team.team_name}})发送了入队请求,待您同意</li>
 								{% empty %}
 								<p>----暂无----</p>
 							{% endfor %}
 							</ul>
 						</td>
 					</tr>
-					{% else %}
-						{% if is_captain %}
-						<tr style="background:#4682B4;">
-						<td height="60px" colspan="2"><span style="color:white; font-family: 微软雅黑; font-size: 30px; font-weight: bold;">请求（您是队长）</span></a></td>
- 						</tr>
-						<tr style="background:#F5F5F5; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
-							<td >队伍发出：</td>
-							<td >
+				{% else %}
+					{% if has_request %}
+					<tr style="background:#4682B4;">
+						<td height="60px" colspan="2"><span style="color:white; font-family: 微软雅黑; font-size: 30px; font-weight: bold;">请求</span></a></td>
+	 					</tr>
+	 					<tr style="background:#DCDCDC; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
+							<td style=" width: 33%;">队伍发出：</td>
+							<td style="width: 33%;">
 								{% for i in team_invite %}
 								<ul>
-									<li>您代表队伍({{i.team.team_name}})向参赛人员({{i.userprofile.user.username}})发送了入队请求，待同意</li>
+									<li>队长({{i.team.captain.username}})代表队伍({{i.team.team_name}})向您发出了入队请求,待同意</li>
 									{% empty %}
-									<p>----暂无----</p>					
-								{% endfor %}
+									<p>----暂无----</p>
 								</ul>
+								{% endfor %}
 							</td>
-						</tr>
-						<tr style="background:#F5F5F5; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
+	 					</tr>
+					    <tr style="background:#F5F5F5; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
 							<td >参赛人员入队请求：</td>
 							<td >
 								{% for i in person_apply %}
 								<ul>
-									<li>参赛人员({{i.userprofile.user.username}})向您所在队伍({{i.team.team_name}})发送了入队请求,待您同意</li>
+									<li>您向队伍({{i.team.team_name}})发送了入队请求,待该队队长同意</li>
 									{% empty %}
 									<p>----暂无----</p>
 								{% endfor %}
 								</ul>
 							</td>
 						</tr>
-						{% else %}
-						<tr style="background:#4682B4;">
-							<td height="60px" colspan="2"><span style="color:white; font-family: 微软雅黑; font-size: 30px; font-weight: bold;">请求</span></a></td>
-	 					</tr>
-	 					<tr style="background:#F5F5F5; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
-							<td colspan="2">暂没有和您相关的队伍请求</td>
-						</tr>
-						{% endif %}
+					{% else %}
+					<tr style="background:#4682B4;">
+						<td height="60px" colspan="2"><span style="color:white; font-family: 微软雅黑; font-size: 30px; font-weight: bold;">请求</span></a></td>
+ 					</tr>
+ 					<tr style="background:#F5F5F5; height: 45px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
+						<td colspan="2">暂没有和您相关的队伍请求</td>
+					</tr>
+					{% endif %}
 				{% endif %}
 				<tr style="background:#F5F5F5; height: 55px; font-size: 21px; color: #696969; border:1px solid #DCDCDC">
 						<td colspan="2">

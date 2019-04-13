@@ -317,12 +317,12 @@ def invite(request,user_id,send_by_team,userprofile_id):
     ##判断此用户是否是队长
     team = Team.objects.filter(captain=request.user)
     if team:  #是队长
-        #判断所邀请的参赛者是否是队长
-        team1 = Team.objects.filter(captain_id=user_id)
-        if team1:  #邀请的成员是队长，返回错误界面
-            context['type'] = '无法邀请'
+        #判断所邀请的参赛者是否是队长或已经加入队伍
+        userp = UserProfile.objects.get(user_id = user_id)
+        userc = UserCompetition.objects.filter(userprofile = userp)
+        if userc:  #邀请的成员是队长，返回错误界面
             context['statu'] = 1
-            context['error'] = '您邀请的此成员是队长,您无法邀请'
+            context['error'] = '您邀请的此成员是队长或已经加入队伍,您无法邀请'
             referer = request.META.get('HTTP_REFERER')
             context["redirect_to"] = referer
             competitors = UserProfile.objects.all()
