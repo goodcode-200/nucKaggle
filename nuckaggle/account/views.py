@@ -434,7 +434,7 @@ def agree(request,team_req_pk):
         referer = request.META.get('HTTP_REFERER')
         context["redirect_to"] = referer
         return render(request,'account/error.html',context)
-    else if(team_req.tag==False and user!=team.captain):
+    elif(team_req.tag==False and user!=team.captain):
         context['type'] = '无权限'
         context['message'] = '您无同意此请求的权限'
         referer = request.META.get('HTTP_REFERER')
