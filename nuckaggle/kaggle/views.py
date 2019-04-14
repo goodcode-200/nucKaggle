@@ -119,15 +119,10 @@ def upload_file(request,cq_id):
 	else:
 		if not team:
 			context['type'] = '无提交权限'
-			context['statu'] = 1
-			context['error'] = '您并非队长，无权提交结果文件'
+			context['message'] = '您并非队长，无权提交结果文件'
 			referer = request.META.get('HTTP_REFERER')
 			context["redirect_to"] = referer
-			comquestion = ComQuestion.objects.get(pk=cq_id)
-			context["comquestion"] = comquestion
-			form = UploadFileForm()
-			context["form"] = form
-			return render(request,'kaggle/upload_file.html',context)
+			return render(request,'account/error.html',context)
 		form = UploadFileForm()
 		context["form"] = form
 		comquestion = ComQuestion.objects.get(pk=cq_id)
