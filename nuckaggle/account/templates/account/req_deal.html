@@ -52,7 +52,7 @@
 						<td>
 							<ul>
 								{% for i in ap %}
-								<li>{{i.userprofile.user.username}}&nbsp&nbsp&nbsp&nbsp<span><a href="{% url 'agree' i.team_id i.userprofile_id i.pk %}">同意加入</a></span></li>
+								<li>{{i.userprofile.user.username}}&nbsp&nbsp&nbsp&nbsp<span><a href="{% url 'agree' i.pk %}">同意加入</a></span></li>
 								{% empty %}
 								<----暂无----
 								{% endfor %}
