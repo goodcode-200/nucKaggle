@@ -20,21 +20,19 @@ def home(request):
 	context = {}
 	context['statu'] = 0
 	if not (request.user.is_authenticated()):
-		context['type'] = '未登录'
 		context['statu'] = 1
-		context['error'] = '登录并报名参赛后方能进入比赛页面'
-		referer = request.META.get('HTTP_REFERER')
-		context["redirect_to"] = referer
+		context['error'] = '(未登录)登录并报名参赛后方能进入比赛页面'
+		username = None
+		context["username"] = username
 		return render(request,'index.html',context)
 	user = request.user
 	userprofile = UserProfile.objects.filter(user=user)
 	if not userprofile:
-		context['type'] = '未报名参赛'
 		context['statu'] = 1
-		context['error'] = '登录并报名参赛后方能进入比赛页面'
-		referer = request.META.get('HTTP_REFERER')
-		context["redirect_to"] = referer
-		return render(request,'index.html.html',context)
+		context['error'] = '(未报名参赛)登录并报名参赛后方能进入比赛页面'
+		username = request.user.username
+		context["username"] = username
+		return render(request,'index.html',context)
 	cq = ComQuestion.objects.all()
 	context["questions"] = cq
 	return render(request,'kaggle/home.html',context)
@@ -131,6 +129,16 @@ def upload_file(request,cq_id):
 
 def dlsf(request,cq_id):
 	context = {}
+	try:
+		user = request.user
+		up = UserProfile.objects.get(user=user)
+		uc = UserCompetition.objects.get(userprofile=up)
+	except:
+		context['type'] = '无下载数据集权限'
+		context['message'] = '注册，报名比赛，组队后的队伍成员登录后才有下载数据集权限'
+		referer = request.META.get('HTTP_REFERER')
+		context["redirect_to"] = referer
+		return render(request,'account/error.html',context)
 	sf = SourceFile.objects.filter(comquestion_id = cq_id)
 	comquestion = ComQuestion.objects.get(pk = cq_id)
 	context["source_list"] = sf
@@ -138,6 +146,17 @@ def dlsf(request,cq_id):
 	return render(request,'kaggle/dlsf.html',context)
 
 def dl_action(request,sour_id):
+	context = {}
+	try:
+		user = request.user
+		up = UserProfile.objects.get(user=user)
+		uc = UserCompetition.objects.get(userprofile=up)
+	except:
+		context['type'] = '无下载数据集权限'
+		context['message'] = '注册，报名比赛，组队后的队伍成员登录后才有下载数据集权限'
+		referer = request.META.get('HTTP_REFERER')
+		context["redirect_to"] = referer
+		return render(request,'account/error.html',context)
 	sf = SourceFile.objects.get(pk = sour_id)
 	file = sf.sourcefile
 	file_name = sf.file_called_name
