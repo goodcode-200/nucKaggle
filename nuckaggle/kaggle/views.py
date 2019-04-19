@@ -13,6 +13,7 @@ from django_apscheduler.jobstores import DjangoJobStore, register_events, regist
 import csv
 from datetime import datetime
 from nuckaggle.settings import MEDIA_ROOT
+from .utils import judge_what_schedule
 
 
 # Create your views here.
@@ -35,6 +36,7 @@ def home(request):
 		return render(request,'index.html',context)
 	cq = ComQuestion.objects.all()
 	context["questions"] = cq
+	context["schedule"] = judge_what_schedule() 
 	return render(request,'kaggle/home.html',context)
 
 def race_detail(request,cq_id):
@@ -63,6 +65,8 @@ def race_detail(request,cq_id):
 		if i.id < int(cq_id):
 			context["previous_comquestion"] = i
 			break
+	schedule = judge_what_schedule()
+	context["schedule"] = schedule
 	context["comquestion"] = cq
 	context["has_team"] = has_team
 	return render(request,'kaggle/race_detail.html',context)
@@ -81,10 +85,12 @@ def upload_file(request,cq_id):
 			if exte=="csv":   #只接受*.csv文件的上传，否则就页面拦截
 				te = team[0]
 				comquestion = ComQuestion.objects.get(pk=cq_id)
+				schedule = judge_what_schedule()  #获得当前的赛程
 				sf = SubmitFile()
 				sf.team = te
 				sf.comquestion = comquestion
 				sf.submitfile = request.FILES["file"]
+				sf.schedule = schedule             #增加上赛题的赛程信息
 				sf.save()
 				te.sub_num += 1  #提交次数加一
 				te.save()
@@ -125,6 +131,7 @@ def upload_file(request,cq_id):
 		context["form"] = form
 		comquestion = ComQuestion.objects.get(pk=cq_id)
 		context["comquestion"] = comquestion
+		context["schedule"] = judge_what_schedule()
 	return render(request, 'kaggle/upload_file.html',context)
 
 def dlsf(request,cq_id):
@@ -139,10 +146,12 @@ def dlsf(request,cq_id):
 		referer = request.META.get('HTTP_REFERER')
 		context["redirect_to"] = referer
 		return render(request,'account/error.html',context)
-	sf = SourceFile.objects.filter(comquestion_id = cq_id)
+	schedule = judge_what_schedule()     #判断出当前的赛程
+	sf = SourceFile.objects.filter(comquestion_id = cq_id,schedule = schedule)
 	comquestion = ComQuestion.objects.get(pk = cq_id)
 	context["source_list"] = sf
 	context["comquestion"] = comquestion
+	context["schedule"] = schedule
 	return render(request,'kaggle/dlsf.html',context)
 
 def dl_action(request,sour_id):

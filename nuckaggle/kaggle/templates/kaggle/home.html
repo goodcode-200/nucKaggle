@@ -17,7 +17,8 @@
              <table width="85%"  bordercolor="#f0f0f0" border="2" cellpadding="20">
             <tr bgcolor="#B0E0E6" >
             <td height="30px">&nbsp</td>
-            </tr> 
+            </tr>
+        <h2 align="center">当前赛程-->{{schedule}}</h2> 
 	{% for i in questions %}
 <tr bgcolor="#F0FFFF">
             <td height="60px"><span style="font-size: 30px; font-weight: bold; color: #4682B4"><a href="{% url 'race_detail' i.pk %}">&nbsp&nbsp&nbsp{{i.title}}</a></span></td>

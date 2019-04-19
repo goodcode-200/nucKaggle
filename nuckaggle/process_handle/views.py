@@ -6,10 +6,7 @@ from .models import Schedule,TeamScore
 # Create your views here.
 
 
-#td = timezone.now() - create
-#if td.seconds//60 > 9:  #链接10分钟内有效
-
-def score_list(request,schedule_pk):
+def score_list(request,schedule_pk):   #榜单
 	context = {}
 	if (schedule_pk!='start%'):
 		sd = Schedule.objects.get(pk = schedule_pk)

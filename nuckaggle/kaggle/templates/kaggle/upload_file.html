@@ -9,6 +9,7 @@
 <div style="margin:20px 240px 20px 240px; border: 1px solid #AFEEEE; padding:20px; padding: 30px; width: 70%; height: 90%" >
 		<span align="center" style="font-weight: bold; font-size: 40px;">提交对应赛题<a href="{% url 'race_detail' comquestion.id %}">{{comquestion.title}}</a></span>
 		<p align="center">
+			<h2>提交对应赛程-->{{schedule}}</h2>
 		   <h4>请严格按照源文件sample_submission.csv的格式提交</h4>
 		</p>
 			<form action="" enctype="multipart/form-data" method="post">
