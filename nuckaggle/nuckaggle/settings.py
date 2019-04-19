@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'kaggle',
     'account',
     'user_ex',
+    'process_handle',
     'django_apscheduler',
     'captcha',
 ]

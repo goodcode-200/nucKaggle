@@ -1,0 +1,41 @@
+{% extends 'kaggle/team_list.html' %}
+
+{% block title %}
+      {% if schedule %}
+            {{schedule}}榜
+      {% else %}
+            赛事榜单
+      {% endif %}
+{% endblock %}
+
+{% block table %}
+<table width="85%"  bordercolor="#f0f0f0" border="2" align="center">
+            {% for i in team_score %}  
+                  <tr style="align:center;">
+                  <td height="90px" colspan="4" align="center"><font size="26px" face="黑体" >
+                  {{schedule}}榜</font></td>
+                  </tr> 
+                     <tr bgcolor="#B0E0E6" >
+                  <td height="25px" align="center"><span style="font-size: 30px; font-family: 黑体; font-weight: bold;" >名次</span></td>
+                  <td height="25px" align="center"><span style="font-size: 30px; font-family: 黑体; font-weight: bold;" >队伍ID</span></td>
+                  <td height="25px" align="center"><span style="font-size: 30px; font-family: 黑体; font-weight: bold;" >队伍名称</span></td>
+                  <td height="25px" align="center"><span style="font-size: 30px; font-family: 黑体; font-weight: bold;" >队伍分数</span></td>
+                  </tr>
+  
+                      <tr bgcolor="#F0FFFF">
+                  <td height="40px" align="center" ><span style="font-size: 22px; font-weight: bold; color: #4682B4">{{forloop.counter}}</span></td>
+                  <td height="60px" align="center"><span style="font-size: 22px; font-weight: bold; color: #4682B4">{{i.team.id}}</span></td>
+                  <td height="60px" align="center"><span style="font-size: 22px; font-weight: bold; color: #4682B4">{{i.team.team_name}}</span></td>
+                  
+
+                  <td height="60px" align="center"><span style="font-size: 22px; font-weight: bold; color: #4682B4">{{i.max_sum_score}}</span></td>
+                  </tr>
+            {% empty %}
+                  <h2 align="center">
+                  <font size="26px" face="黑体" >
+                  {{schedule}}榜
+                  </font></h2>
+                  <p align="center">---》》》》》》此赛程下未产生比赛成绩《《《《《《---</p>
+            {% endfor %}
+         </table>
+{% endblock %}

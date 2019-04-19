@@ -8,7 +8,7 @@ from process_handle.models import Schedule
 #题目
 class ComQuestion(models.Model):
 	title = models.CharField("题目标题",max_length=25)
-	content = models.TextField("题目内容",max_length=1500)
+	content = models.TextField("题目内容",max_length=5000)
 	def __str__(self):
 		return str(self.title)
 	class Meta:
@@ -44,5 +44,15 @@ class StdAnswer(models.Model):  #标准答案的文件
 	comquestion = models.OneToOneField(ComQuestion)
 	class Meta:
 		verbose_name_plural = '某赛程赛题用于核验分数的正确答案'
+
+class ScoreComq(models.Model):   #对应一个赛程中的一个题目的某个队伍的最高分
+	schedule = models.ForeignKey(Schedule)
+	comquestion = models.ForeignKey(ComQuestion)
+	team = models.ForeignKey(Team)
+	max_score = models.FloatField("最高分数",default=0)
+	last_score = models.FloatField("最新分数",default=0)
+	ma_sc_dat = models.DateTimeField("最高分时间",default=timezone.now)
+	class Meta:
+		verbose_name_plural = '对应一个赛程中的一个题目的某个队伍的最高分'
 
 

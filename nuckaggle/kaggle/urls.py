@@ -12,5 +12,4 @@ urlpatterns = [
     url(r'^media/source/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT},name="media"), 
     url(r'^dlaction/(\d+)/$', dl_action, name='dl_action'),
     url(r'^about',about,name='about'),
-    url(r'^teamlist',team_list,name = "team_list"),
 ]
