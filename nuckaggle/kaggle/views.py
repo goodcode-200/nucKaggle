@@ -195,7 +195,6 @@ try:
 	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
 	def test_job():
 		schedule = judge_what_schedule()    #获得当前时间是属于那个赛程
-		print(schedule)
 		submit_list = SubmitFile.objects.filter(status = False,schedule=schedule)  #--------当前赛程的提交
 		for i  in submit_list:
 			cq = i.comquestion
