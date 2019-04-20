@@ -21,3 +21,7 @@ def judge_what_schedule():   #判断当前时间是处于什么比赛进程
 	for i in sc_list:
 		if (i.start-timezone.now()).days<0 and (timezone.now()-i.end).days<0:
 			return i    #返回了当前的赛程
+	if not sc_list:
+		return "赛程未定"
+	else:
+		return "赛程未开始或已经结束"
