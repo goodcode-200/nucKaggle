@@ -54,6 +54,7 @@ def race_detail(request,cq_id):
 			team = uc.team
 			submitfile = SubmitFile.objects.filter(team = team,comquestion_id = cq_id)
 			context["team"] = team
+			context["scorecomq_list"] = ScoreComq.objects.all()
 			context["submitfile"] = submitfile
 	cq = ComQuestion.objects.get(pk=cq_id)
 	cq_list = ComQuestion.objects.all()
