@@ -60,8 +60,7 @@
                     <span>队伍名称：{{team.team_name}}</span><br />
                     <span>最高分：</span><br />
                     {% for c in scorecomq_list %}
-                        <p>{{c.schedule}}最高分:{{c.max_score}}</p>
-                        <p>时间：{{c.ma_sc_dat}}</p>
+                        <p>{{c.schedule}}最高分:{{c.max_score}}&nbsp&nbsp({{c.ma_sc_dat}})</p>
                     {% empty %}
                         <-------  暂无该题目的最高分信息  ------->
                     {% endfor %}

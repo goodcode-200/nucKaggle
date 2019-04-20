@@ -41,7 +41,7 @@ class SourceFile(models.Model):
 class StdAnswer(models.Model):  #标准答案的文件
 	schedule = models.ForeignKey(Schedule)
 	stdanswer = models.FileField(upload_to="stdAnswer/",default="stdAnswer/default.png")
-	comquestion = models.OneToOneField(ComQuestion)
+	comquestion = models.ForeignKey(ComQuestion)
 	class Meta:
 		verbose_name_plural = '某赛程赛题用于核验分数的正确答案'
 

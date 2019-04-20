@@ -54,8 +54,8 @@ def race_detail(request,cq_id):
 			team = uc.team
 			submitfile = SubmitFile.objects.filter(team = team,comquestion_id = cq_id)
 			context["team"] = team
-			context["scorecomq_list"] = ScoreComq.objects.all()
 			context["submitfile"] = submitfile
+			context["scorecomq_list"] = ScoreComq.objects.filter(team = team,comquestion_id=cq_id)
 	cq = ComQuestion.objects.get(pk=cq_id)
 	cq_list = ComQuestion.objects.all()
 	for i in cq_list:
@@ -190,15 +190,16 @@ try:
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	# 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
 	# ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-	#@register_job(scheduler,'interval',seconds=60)
+	@register_job(scheduler,'interval',seconds=120)
 	#设计为每天的23:30：10执行提交文件的核查分数操作
-	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
+	#@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
 	def test_job():
 		schedule = judge_what_schedule()    #获得当前时间是属于那个赛程
+		print(schedule)
 		submit_list = SubmitFile.objects.filter(status = False,schedule=schedule)  #--------当前赛程的提交
 		for i  in submit_list:
 			cq = i.comquestion
-			stdanswer = StdAnswer.objects.filter(comquestion = cq,shedule=schedule)  #--------当前赛程的该题标准答案
+			stdanswer = StdAnswer.objects.filter(comquestion = cq,schedule=schedule)  #--------当前赛程的该题标准答案
 			if(stdanswer):  #如果提交的文件对应有标准答案，一般是有的
 				stda = stdanswer[0]
 				sf = i.submitfile
