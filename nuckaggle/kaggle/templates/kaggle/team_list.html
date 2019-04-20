@@ -1,41 +1,19 @@
 {% extends 'kaggle/bar.html' %}
 
 {% block title %}
-赛事榜单
 {% endblock %}
 
 {% block content %}
     <div style="background:url(../../../static/images/total_home.jpg); opacity: 0.87; margin-top: -30px;">
     <img src="../../../static/images/race.jpg" width="1345px" height="540px" style="margin: 0px 120px 40px 120px;" />
-     <table width="85%"  bordercolor="#f0f0f0" border="2" align="center">
-            <tr>
-            <td height="90px" colspan="4" align="center"><font size="26px" face="黑体" >赛事榜单</font></td>
-            </tr> 
-	         <tr bgcolor="#B0E0E6" >
-            <td height="25px" align="center"><span style="font-size: 30px; font-family: 黑体; font-weight: bold;" >名次</span></td>
-            <td height="25px" align="center"><span style="font-size: 30px; font-family: 黑体; font-weight: bold;" >队伍ID</span></td>
-            <td height="25px" align="center"><span style="font-size: 30px; font-family: 黑体; font-weight: bold;" >队伍名称</span></td>
-            <td height="25px" align="center"><span style="font-size: 30px; font-family: 黑体; font-weight: bold;" >队伍分数</span></td>
-            </tr>
-
-		{% for i in team_list %}    
-			
-		    <tr bgcolor="#F0FFFF">
-            <td height="40px" align="center" ><span style="font-size: 22px; font-weight: bold; color: #4682B4">{{forloop.counter}}</span></td>
-            <td height="60px" align="center"><span style="font-size: 22px; font-weight: bold; color: #4682B4">{{i.id}}</span></td>
-            <td height="60px" align="center"><span style="font-size: 22px; font-weight: bold; color: #4682B4">{{i.team_name}}</span></td>
-            
-
-            <td height="60px" align="center"><span style="font-size: 22px; font-weight: bold; color: #4682B4">{{i.max_score}}</span></td>
-            </tr>
-           
-		{% empty %}
-	       
-		   
-           
-		{% endfor %}
-         </table>
-         </div>
+    {% for i in schedule_list %}
+    <a href="{% url 'score_list' i.pk %}"><button>{{i}}榜</button></a>
+    {% empty %}
+    <p style="text-align: center;"><---赛程未确定,暂无任何榜单---></p>
+    {% endfor %}
+     {% block table %}
+     {% endblock %}
+    </div>
 {% endblock %}
 
 {% block team_list_act %}active{% endblock %}

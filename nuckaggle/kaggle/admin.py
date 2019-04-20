@@ -8,16 +8,16 @@ class ComQuestionAdmin(admin.ModelAdmin):
 
 @admin.register(SubmitFile)
 class SubmitFileAdmin(admin.ModelAdmin):
-	list_display = ('id','team','comquestion','score','submit_time','status')
+	list_display = ('id','schedule','team','comquestion','score','submit_time','status')
 
 @admin.register(SourceFile)
 class SourceFileAdmin(admin.ModelAdmin):
-	list_display = ('id','comquestion','file_called_name')
+	list_display = ('id','schedule','comquestion','file_called_name')
 
 @admin.register(StdAnswer)
 class StdAnswerAdmin(admin.ModelAdmin):
-	list_display = ('id','stdanswer','comquestion')
+	list_display = ('id','schedule','stdanswer','comquestion')
 
 @admin.register(ScoreComq)
 class ScoreComqAdmin(admin.ModelAdmin):
-	list_display = ('id','comquestion','team','max_score','last_score','ma_sc_dat')
+	list_display = ('id','schedule','comquestion','team','max_score','last_score','ma_sc_dat')

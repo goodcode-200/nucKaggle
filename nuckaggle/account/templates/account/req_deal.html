@@ -84,7 +84,7 @@
 						      {% for i in invite %}
 				              <tr style="height: 40px;">
 				              	 <td>{{i.team.team_name}}</td>
-				              	 <td><a href="{% url 'agree' i.team_id i.userprofile_id i.pk %}">同意加入队伍</a></td>
+				              	 <td><a href="{% url 'agree' i.pk %}">同意加入队伍</a></td>
 				              </tr>
 				              {% empty %}
 							  <tr>

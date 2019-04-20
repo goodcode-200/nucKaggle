@@ -25,5 +25,6 @@ urlpatterns = [
     url(r'^account/',include('account.urls')),
     url(r'^kaggle/',include('kaggle.urls')),
     url(r'^user_ex/',include('user_ex.urls')),
+    url(r'^processhandle/',include('process_handle.urls')),
     url(r'^captcha/',include('captcha.urls')),
 ]

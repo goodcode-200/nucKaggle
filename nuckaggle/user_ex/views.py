@@ -45,8 +45,8 @@ def reset_password(request,email,active_code):
 	if record:
 		i = record[len(record)-1] #虽然概率极低，有多个的话，取最新的那个（最可能有效）
 		create = i.valid_time
-		td = timezone.now() - create
-		if td.seconds//60 > 9:  #链接10分钟内有效
+		td = timezone.now() - create   #执行这个步骤时now一定比create晚
+		if td.seconds//60 > 9  and  td.days < 1:  #链接10分钟内有效
 			context['type'] = '链接超时'
 			context['message'] = '此链接已经超时失效，请重新获取'
 			referer = request.META.get('HTTP_REFERER')

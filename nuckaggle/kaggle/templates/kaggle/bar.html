@@ -55,7 +55,7 @@
                         <li class="{% block kaggle_home_act %}{% endblock %}">
                             <a href="{% url 'kaggle_home' %}">比赛</a></li>
                         <li class="{% block team_list_act %}{% endblock %}">
-                            <a href="{% url 'team_list' %}">榜单</a></li>
+                            <a href="{% url 'score_list' 'start%' %}">榜单</a></li>
 						<li><a href="{% url 'person_center' %}">{{request.user.username}}/个人中心</a></li>
                         {% block bar_extends %}{% endblock %}
                     </ul>

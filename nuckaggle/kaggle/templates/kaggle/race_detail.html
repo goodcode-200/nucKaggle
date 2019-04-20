@@ -11,7 +11,7 @@
         
             <table >
                 <tr bgcolor="#F0F8FF" align="center">
-                    <td colspan="2"><h3>{{comquestion.title}}</h3></td>
+                    <td colspan="2"><h3>{{comquestion.title}}({{schedule}})</h3></td><tr />
                 </tr>
                  <tr  >
                     <td colspan="2">&nbsp</td>
@@ -54,19 +54,27 @@
             </table>
             <hr>
             
-            <div align="center"> 
-                <span style="font-family:黑体; font-size: 30px;">队伍提交历史</span><br><br>
+            <div align="center">
                 {% if has_team %}
                 
-                    <span>队伍名称：{{team.team_name}}</span><br>
-              
-                 {% for i in submitfile %}
-                    <ul style="list-style: none;">
-                        <li style="list-style: none;">提交时间：{{i.submit_time}}</li>
-                        <li style="list-style: none;">是否由系统计算过得分：{{i.status}}</li>
-                        <li style="list-style: none;">提交得分：{{i.score}}</li>
-                        <li style="list-style: none;">系统核查分数时留下信息：{{i.message}}</li>
-                    </ul><br>
+                    <span>队伍名称：{{team.team_name}}</span><br />
+                    <span>最高分：</span><br />
+                    {% for c in scorecomq_list %}
+                        <p>{{c.schedule}}最高分:{{c.max_score}}&nbsp&nbsp({{c.ma_sc_dat}})</p>
+                    {% empty %}
+                        <-------  暂无该题目的最高分信息  ------->
+                    {% endfor %}
+                    <br />
+                    <br />
+                    <span style="font-family:黑体; font-size: 30px;">队伍提交历史</span><br />
+                    {% for i in submitfile %}
+                        <ul style="list-style: none;">
+                            <li style="list-style: none;">提交时间：{{i.submit_time}}</li>
+                            <li style="list-style: none;">对应赛程：{{schedule}}</li>
+                            <li style="list-style: none;">是否由系统计算过得分：{{i.status}}</li>
+                            <li style="list-style: none;">提交得分：{{i.score}}</li>
+                            <li style="list-style: none;">系统核查分数时留下信息：{{i.message}}</li>
+                        </ul><br />
                     {% empty %}
                         <p>--您的队伍暂无对该题目的提交信息--</p>
                     {% endfor %}

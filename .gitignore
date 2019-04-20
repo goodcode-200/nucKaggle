@@ -5,7 +5,7 @@
 *.pyc 
  
 #忽略迁移文件,可再生
-*/migrations/*.py
+*/migrations/0*.py
 
 #编辑器产生的文件
 .idea/

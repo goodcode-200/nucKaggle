@@ -1,5 +1,7 @@
-from account.models import Team
-from .models import ComQuestion,SubmitFile
+#from account.models import Team
+#from .models import ComQuestion,SubmitFile
+from process_handle.models import Schedule
+from django.utils import timezone
 
 #create your utils
 '''
@@ -14,3 +16,12 @@ def handle_uploaded_file(f,cq_id,team_id):
 		for chunk in f.chunks():
 			destination.write(chunk)
 '''
+def judge_what_schedule():   #判断当前时间是处于什么比赛进程   
+	sc_list = Schedule.objects.all()
+	for i in sc_list:
+		if (i.start-timezone.now()).days<0 and (timezone.now()-i.end).days<0:
+			return i    #返回了当前的赛程
+	if not sc_list:
+		return "赛程未定"
+	else:
+		return "赛程未开始或已经结束"

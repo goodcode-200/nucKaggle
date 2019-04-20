@@ -6,7 +6,8 @@
 
 {% block content %}
 <div style="margin:20px 240px 20px 240px; border: 1px solid #AFEEEE; padding:20px; padding: 30px; width: 70%; height: 90%" align="center">
-		<span style="font-weight: bold; font-size: 40px;">赛题：<a href="{% url 'race_detail' comquestion.id %}">（{{comquestion.title}}）</a></span>
+		<span style="font-weight: bold; font-size: 40px;">赛题：<a href="{% url 'race_detail' comquestion.id %}">（{{comquestion.title}}）</a></span><br />
+		<span style="font-weight: bold; font-size: 30px;">当前赛程：{{schedule}}</span>
 		<table>
 		<tr>
 		   <td><h2>对应源文件：</h2></td>
