@@ -14,6 +14,7 @@ import csv
 from datetime import datetime
 from nuckaggle.settings import MEDIA_ROOT
 from .utils import judge_what_schedule
+from process_handle.models import TeamScore
 
 
 # Create your views here.
@@ -192,10 +193,11 @@ try:
 	#设计为每天的23:30：10执行提交文件的核查分数操作
 	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
 	def test_job():
-		submit_list = SubmitFile.objects.filter(status = False)
+		schedule = judge_what_schedule()    #获得当前时间是属于那个赛程
+		submit_list = SubmitFile.objects.filter(status = False,schedule=schedule)  #--------当前赛程的提交
 		for i  in submit_list:
 			cq = i.comquestion
-			stdanswer = StdAnswer.objects.filter(comquestion = cq)
+			stdanswer = StdAnswer.objects.filter(comquestion = cq,shedule=schedule)  #--------当前赛程的该题标准答案
 			if(stdanswer):  #如果提交的文件对应有标准答案，一般是有的
 				stda = stdanswer[0]
 				sf = i.submitfile
@@ -217,29 +219,38 @@ try:
 				csv2.close()
 				i.score = (num/len(list_dict_reader1))*10
 				i.status = True
-				i.save()
-				scorecom = ScoreComq.objects.filter(comquestion_id = i.comquestion_id,team_id = i.team_id)
+				i.save()   #计算出了一个文件的得分
+				#找到当前赛程的题目计数的表
+				scorecom = ScoreComq.objects.filter(comquestion_id = i.comquestion_id,team_id = i.team_id,schedule_id=i.schedule_id)
 				if scorecom:
 					sc = scorecom[0]
 				else:
 					sc = ScoreComq()
 					sc.comquestion_id = i.comquestion_id
 					sc.team_id = i.team_id
+					sc.schedule_id = i.schedule_id
 				sc.last_score = i.score
 				if(i.score > sc.max_score):
 					sc.max_score = i.score
 					sc.ma_sc_dat =datetime.now()
 				sc.save()
-		team = Team.objects.all()
+		team = Team.objects.all()  #计算出该赛程一个队伍获得的最高分
 		if team:
-			for i in team:
+			for i in team:  #对应一个队伍
 				sum = 0
-				sc = ScoreComq.objects.filter(team = i)
+				sc = ScoreComq.objects.filter(team = i,schedule = schedule)
 				if sc:
 					for j in sc:
 						sum += j.max_score
-				i.max_score = sum
-				i.save()
+				tescore = TeamScore.objects.filter(team = i,schedule = schedule)
+				if tescore:
+					teso = tescore[0]
+				else:
+					teso = TeamScore()
+					teso.team = i
+					teso.schedule = schedule
+				teso.max_sum_score = sum	
+				teso.save()
 	# 监控任务
 	register_events(scheduler)
 	# 调度器开始

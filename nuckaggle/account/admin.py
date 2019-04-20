@@ -9,7 +9,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
-	list_display = ('id','team_name','captain','peo_num','sub_num','max_score')  
+	list_display = ('id','team_name','captain','peo_num','sub_num')  
 
 @admin.register(UserCompetition)
 class UserCompetitionAdmin(admin.ModelAdmin):
