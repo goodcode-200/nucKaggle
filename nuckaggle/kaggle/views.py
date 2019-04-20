@@ -190,9 +190,9 @@ try:
 	scheduler.add_jobstore(DjangoJobStore(), "default")
 	# 'cron'方式循环，周一到周五，每天9:30:10执行,id为工作ID作为标记
 	# ('scheduler',"interval", seconds=1)  #用interval方式循环，每一秒执行一次
-	@register_job(scheduler,'interval',seconds=120)
+	#@register_job(scheduler,'interval',seconds=120)
 	#设计为每天的23:30：10执行提交文件的核查分数操作
-	#@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
+	@register_job(scheduler, 'cron', day_of_week='mon-sun', hour='23', minute='30', second='10',id='task_time')
 	def test_job():
 		schedule = judge_what_schedule()    #获得当前时间是属于那个赛程
 		print(schedule)
