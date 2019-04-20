@@ -154,12 +154,18 @@ def enter_com(request):
                 context["competitors"] = competitors
                 context["send_by_team"] = 1
                 return render(request,'account/enter_com.html',context)
-            name = request.POST.get('name').strip()
-            school = request.POST.get('school').strip()
-            student_id = request.POST.get('student_id').strip()
-            phone = request.POST.get('phone').strip()
-            sex = request.POST.get('sex').strip()     ###好像只有phone是不可能重复的，留个疑问？？？？
-
+            name = request.POST.get('name').replace(" ","")
+            school = request.POST.get('school').replace(" ","")
+            student_id = request.POST.get('student_id').replace(" ","")
+            phone = request.POST.get('phone').replace(" ","")
+            sex = request.POST.get('sex')     ###好像只有phone是不可能重复的，留个疑问？？？？
+            if ((not name) or (not school) or (not student_id) or (not phone) or (not sex)): #若有一个为空
+                context["statu"] = 1
+                context["error"] = "表单选项不允许为空"
+                competitors = UserProfile.objects.all()
+                context["competitors"] = competitors
+                context["send_by_team"] = 1
+                return render(request,'account/enter_com.html',context)
             up = UserProfile()
             up.student_id = student_id
             up.name = name
